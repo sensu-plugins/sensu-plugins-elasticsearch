@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch/badges/gpa.svg)](https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch)
 [![Test Coverage](https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch/badges/coverage.svg)](https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch)
 [![Dependency Status](https://gemnasium.com/sensu-plugins/sensu-plugins-elasticsearch.svg)](https://gemnasium.com/sensu-plugins/sensu-plugins-elasticsearch)
-
+## Functionality
 ## Functionality
 
 ## Files
@@ -43,7 +43,7 @@ Using the Sensu **sensu_gem** LWRP
 ```
 sensu_gem 'sensu-plugins-elasticsearch' do
   options('--prerelease')
-  version '0.0.1.alpha.4'
+  version '0.0.1.alpha.1'
 end
 ```
 
@@ -51,14 +51,8 @@ Using the Chef **gem_package** resource
 ```
 gem_package 'sensu-plugins-elasticsearch' do
   options('--prerelease')
-  version '0.0.1.alpha.4'
+  version '0.0.1.alpha.1'
 end
 ```
 
 ## Notes
-
-[1]:[https://travis-ci.org/sensu-plugins/sensu-plugins-elasticsearch]
-[2]:[http://badge.fury.io/rb/sensu-plugins-elasticsearch]
-[3]:[https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch]
-[4]:[https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch]
-[5]:[https://gemnasium.com/sensu-plugins/sensu-plugins-elasticsearch]
