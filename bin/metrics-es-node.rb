@@ -29,7 +29,6 @@
 #   for details.
 #
 
-
 require 'sensu-plugin/metric/cli'
 require 'rest-client'
 require 'json'
