@@ -15,6 +15,8 @@
 #
 # DEPENDENCIES:
 #   gem: sensu-plugin
+#   gem: rest-client
+#   gem: json
 #
 # USAGE:
 #   #YELLOW
@@ -27,11 +29,14 @@
 #   for details.
 #
 
-require 'rubygems' if RUBY_VERSION < '1.9.0'
+
 require 'sensu-plugin/metric/cli'
 require 'rest-client'
 require 'json'
 
+#
+# ES Node Metrics
+#
 class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
   option :scheme,
          description: 'Metric naming scheme, text to prepend to queue_name.metric',

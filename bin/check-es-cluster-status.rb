@@ -15,6 +15,7 @@
 # DEPENDENCIES:
 #   gem: sensu-plugin
 #   gem: rest-client
+#   gem: json
 #
 # USAGE:
 #   #YELLOW
@@ -27,11 +28,13 @@
 #   for details.
 #
 
-require 'rubygems' if RUBY_VERSION < '1.9.0'
 require 'sensu-plugin/check/cli'
 require 'rest-client'
 require 'json'
 
+#
+# ES Cluster Status
+#
 class ESClusterStatus < Sensu::Plugin::Check::CLI
   option :host,
          description: 'Elasticsearch host',

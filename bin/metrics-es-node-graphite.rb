@@ -36,12 +36,14 @@
 #   for details.
 #
 
-require 'rubygems' if RUBY_VERSION < '1.9.0'
 require 'sensu-plugin/metric/cli'
 require 'rest-client'
 require 'json'
 
-class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
+#
+# ES Node Graphite Metrics
+#
+class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
   option :scheme,
          description: 'Metric naming scheme, text to prepend to queue_name.metric',
          short: '-s SCHEME',

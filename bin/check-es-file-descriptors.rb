@@ -27,12 +27,14 @@
 #   for details.
 #
 
-require 'rubygems' if RUBY_VERSION < '1.9.0'
 require 'sensu-plugin/check/cli'
 require 'rest-client'
 require 'json'
 
-class ESClusterStatus < Sensu::Plugin::Check::CLI
+#
+# ES File Descriptiors
+#
+class ESFileDescriptors < Sensu::Plugin::Check::CLI
   option :host,
          description: 'Elasticsearch host',
          short: '-h HOST',
