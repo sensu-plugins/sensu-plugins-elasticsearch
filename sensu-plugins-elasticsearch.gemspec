@@ -3,7 +3,6 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'date'
 
-
 if RUBY_VERSION < '2.0.0'
   require 'sensu-plugins-elasticsearch'
 else
@@ -13,28 +12,31 @@ end
 pvt_key = '~/.ssh/gem-private_key.pem'
 
 Gem::Specification.new do |s|
-  s.name                   = 'sensu-plugins-elasticsearch'
-  s.version                = SensuPluginsElasticsearch::VERSION
-  s.authors                = ["Yieldbot, Inc. and contributors"]
-  s.email                  = '<sensu-users@googlegroups.com>'
-  s.homepage               = 'https://github.com/sensu-plugins/sensu-plugins-elasticsearch'
-  s.summary                = 'Sensu Plugins Elasticsearch checks'
-  s.description            = 'Sensu Plugins Elasticsearch checks'
-  s.license                = 'MIT'
+  s.authors                = ['Yieldbot, Inc. and contributors']
+  s.cert_chain             = ['certs/sensu-plugins.pem']
   s.date                   = Date.today.to_s
-  s.files                  = Dir.glob('{bin,lib}/**/*') + %w(LICENSE README.md CHANGELOG.md)
+  s.description            = 'Sensu plugins for elasticsearch'
+  s.email                  = '<sensu-users@googlegroups.com>'
   s.executables            = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  s.test_files             = s.files.grep(%r{^(test|spec|features)/})
-  s.require_paths          = ["lib"]
-  s.cert_chain             = ["certs/sensu-plugins.pem"]
-  s.signing_key            = File.expand_path(pvt_key) if $PROGRAM_NAME =~ /gem\z/
+  s.files                  = Dir.glob('{bin,lib}/**/*') + %w(LICENSE README.md CHANGELOG.md)
+  s.homepage               = 'https://github.com/sensu-plugins/sensu-plugins-elasticsearch'
+  s.license                = 'MIT'
+  s.metadata               = { 'maintainer'         => '@mattyjones',
+                               'development_status' => 'active',
+                               'production_status'  => 'unstable - testing recommended'
+  }
+  s.name                   = 'sensu-plugins-sensu-plugins-elasticsearch'
   s.platform               = Gem::Platform::RUBY
+  s.require_paths          = ['lib']
   s.required_ruby_version  = '>= 1.9.3'
+  s.signing_key            = File.expand_path(pvt_key) if $PROGRAM_NAME =~ /gem\z/
+  s.summary                = 'Sensu plugins for elasticsearch'
+  s.test_files             = s.files.grep(%r{^(test|spec|features)/})
+  s.version                = SensuPluginsElasticsearch::VERSION
 
   s.add_runtime_dependency 'sensu-plugin', '1.1.0'
-  s.add_runtime_dependency 'json', '1.8.2'
-  s.add_runtime_dependency 'rest-client', '1.8.0'
-
+  s.add_runtime_dependency 'json',         '1.8.2'
+  s.add_runtime_dependency 'rest-client',  '1.8.0'
 
   s.add_development_dependency 'codeclimate-test-reporter'
   s.add_development_dependency 'rubocop',       '0.17.0'
