@@ -195,7 +195,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     node['indices'].each do |type, index|
       index.each do |k, v|
         # #YELLOW
-        unless k =~ /(_time|memory|size$)/ # rubocop:disable IfUnlessModifier
+        unless k =~ /(_time$)/ || v =~ /\d+/ # rubocop:disable IfUnlessModifier
           metrics["indices.#{type}.#{k}"] = v
         end
       end
