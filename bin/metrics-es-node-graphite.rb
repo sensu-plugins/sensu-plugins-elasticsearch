@@ -108,7 +108,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     info['version']['number']
   end
 
-  def run
+  def run # rubocop:disable all
     # invert various stats depending on if some flags are set
     os_stat = !config[:disable_os_stats]
     process_stats = !config[:disable_process_stats]
@@ -192,7 +192,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       metrics['jvm.threads.peak_count']           = node['jvm']['threads']['peak_count']
     end
 
-    node['indices'].each do |type,  index|
+    node['indices'].each do |type, index|
       index.each do |k, v|
         # #YELLOW
         unless k =~ /(_time|memory|size$)/ # rubocop:disable IfUnlessModifier

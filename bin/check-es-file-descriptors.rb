@@ -96,7 +96,7 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
     end
   end
 
-  def run
+  def run # rubocop:disable all
     open = acquire_open_fds
     max = acquire_max_fds
     used_percent = ((open.to_f / max.to_f) * 100).to_i
