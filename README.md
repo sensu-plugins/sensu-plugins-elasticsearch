@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch/badges/gpa.svg)](https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch)
 [![Test Coverage](https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch/badges/coverage.svg)](https://codeclimate.com/github/sensu-plugins/sensu-plugins-elasticsearch)
 [![Dependency Status](https://gemnasium.com/sensu-plugins/sensu-plugins-elasticsearch.svg)](https://gemnasium.com/sensu-plugins/sensu-plugins-elasticsearch)
-## Functionality
+
 ## Functionality
 
 ## Files
@@ -35,7 +35,7 @@ You can also download the key from /certs/ within each repository.
 
 #### Bundler
 
-Add *sensu-plugins-disk-checks* to your Gemfile and run `bundle install` or `bundle update`
+Add *sensu-plugins-elasticsearch* to your Gemfile and run `bundle install` or `bundle update`
 
 #### Chef
 
