@@ -16,7 +16,6 @@
 # DEPENDENCIES:
 #   gem: sensu-plugin
 #   gem: rest-client
-#   gem: json
 #
 # USAGE:
 #   #YELLOW
