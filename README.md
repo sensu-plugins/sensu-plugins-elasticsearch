@@ -11,11 +11,12 @@
 
 ## Files
  * /bin/check-es-cluster-status.rb
- * /bin/check-es-heap.rb
- * /bin/metrics-es-node-graphite.rb
  * /bin/check-es-file-descriptors.rb
+ * /bin/check-es-heap.rb
+ * /bin/check-es-node-status.rb
  * /bin/metrics-es-cluster.rb
  * /bin/metrics-es-node.rb
+ * /bin/metrics-es-node-graphite.rb
 
 ## Usage
 
