@@ -62,7 +62,7 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
          default: 30
 
   def get_es_resource(resource)
-    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}/#{resource}", timeout: config[:timeout])
+    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout])
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     critical 'Connection refused'
@@ -79,7 +79,7 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
 
   def master?
     if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
-      master = get_es_resource('_cluster/state/master_node')['master_node']
+      master = get_es_resource('/_cluster/state/master_node')['master_node']
       local = get_es_resource('/_nodes/_local')
     else
       master = get_es_resource('/_cluster/state?filter_routing_table=true&filter_metadata=true&filter_indices=true')['master_node']

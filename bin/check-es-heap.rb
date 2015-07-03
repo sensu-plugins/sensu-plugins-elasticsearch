@@ -80,7 +80,7 @@ class ESHeap < Sensu::Plugin::Check::CLI
   end
 
   def acquire_es_resource(resource)
-    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}/#{resource}", timeout: config[:timeout])
+    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout])
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
@@ -92,10 +92,10 @@ class ESHeap < Sensu::Plugin::Check::CLI
 
   def acquire_heap_data(return_max = false) # rubocop:disable all
     if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
-      stats = acquire_es_resource('_nodes/_local/stats?jvm=true')
+      stats = acquire_es_resource('/_nodes/_local/stats?jvm=true')
       node = stats['nodes'].keys.first
     else
-      stats = acquire_es_resource('_cluster/nodes/_local/stats?jvm=true')
+      stats = acquire_es_resource('/_cluster/nodes/_local/stats?jvm=true')
       node = stats['nodes'].keys.first
     end
     begin
