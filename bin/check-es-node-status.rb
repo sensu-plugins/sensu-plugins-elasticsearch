@@ -69,7 +69,7 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
   end
 
   def run
-    node_status = get_status
+    node_status = acquire_status
 
     if node_status == 200
       ok "Alive #{(node_status)}"
