@@ -51,7 +51,7 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
          long: '--timeout SECS',
          proc: proc(&:to_i),
          default: 30
-  
+
   def get_es_resource(resource)
     r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout])
     JSON.parse(r.get)
@@ -63,7 +63,7 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
     critical 'Connection reset by peer'
   end
 
-  def get_status
+  def acquire_status
     health = get_es_resource('/')
     health['status'].to_i
   end
@@ -76,7 +76,5 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
     else
       critical "Dead (#{node_status})"
     end
-
   end
-
 end
