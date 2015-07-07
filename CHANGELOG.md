@@ -5,6 +5,20 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## Unreleased][unreleased]
 
+## [0.1.0] - 2015-07-06
+
+### Added
+- `check-es-node-status` node status check
+
+### Fixed
+- uri resource path for `get_es_resource` method
+
+### Changed
+- `get_es_resource` URI path needs to start with `/`
+- clean cruft from Rakefile
+- put deps in alpha order in gemspec
+- update documentation links in README and CONTRIBUTING
+
 ## 0.0.1 - 2015-05-21
 
 ### Added
@@ -18,13 +32,3 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Changed
 - removed cruft from /lib
 
-## [0.1.0] - 2015-07-06
-
-### Added
-- `check-es-node-status` node status check
-
-### Fixed
-- uri resource path for `get_es_resource` method
-
-### Changed
-- `get_es_resource` URI path needs to start with `/`
