@@ -94,7 +94,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
          default: false
 
   def get_es_resource(resource)
-    r = RestClient::Resource.new("http://#{config[:server]}:#{config[:port]}/#{resource}?pretty", timeout: config[:timeout])
+    r = RestClient::Resource.new("http://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout])
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
@@ -139,9 +139,9 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     end
 
     if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
-      stats = get_es_resource("_nodes/_local/stats?#{stats_query_string}")
+      stats = get_es_resource("/_nodes/_local/stats?#{stats_query_string}")
     else
-      stats = get_es_resource("_cluster/nodes/_local/stats?#{stats_query_string}")
+      stats = get_es_resource("/_cluster/nodes/_local/stats?#{stats_query_string}")
     end
 
     timestamp = Time.now.to_i

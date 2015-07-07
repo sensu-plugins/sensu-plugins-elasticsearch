@@ -1,9 +1,9 @@
 #! /usr/bin/env ruby
 #
-#  check-es-cluster-status
+#  check-es-node-status
 #
 # DESCRIPTION:
-#   This plugin checks the ElasticSearch cluster status, using its API.
+#   This plugin checks the ElasticSearch node status, using its API.
 #   Works with ES 0.9x and ES 1.x
 #
 # OUTPUT:
@@ -17,7 +17,7 @@
 #   gem: rest-client
 #
 # USAGE:
-#   #YELLOW
+#   check-es-node-status --help
 #
 # NOTES:
 #
@@ -31,10 +31,7 @@ require 'sensu-plugin/check/cli'
 require 'rest-client'
 require 'json'
 
-#
-# ES Cluster Status
-#
-class ESClusterStatus < Sensu::Plugin::Check::CLI
+class ESNodeStatus < Sensu::Plugin::Check::CLI
   option :host,
          description: 'Elasticsearch host',
          short: '-h HOST',
@@ -47,12 +44,6 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
          long: '--port PORT',
          proc: proc(&:to_i),
          default: 9200
-
-  option :master_only,
-         description: 'Use master Elasticsearch server only',
-         short: '-m',
-         long: '--master-only',
-         default: false
 
   option :timeout,
          description: 'Sets the connection timeout for REST client',
@@ -72,39 +63,18 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
     critical 'Connection reset by peer'
   end
 
-  def acquire_es_version
-    info = get_es_resource('/')
-    info['version']['number']
-  end
-
-  def master?
-    if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
-      master = get_es_resource('/_cluster/state/master_node')['master_node']
-      local = get_es_resource('/_nodes/_local')
-    else
-      master = get_es_resource('/_cluster/state?filter_routing_table=true&filter_metadata=true&filter_indices=true')['master_node']
-      local = get_es_resource('/_cluster/nodes/_local')
-    end
-    local['nodes'].keys.first == master
-  end
-
   def acquire_status
-    health = get_es_resource('/_cluster/health')
-    health['status'].downcase
+    health = get_es_resource('/')
+    health['status'].to_i
   end
 
   def run
-    if !config[:master_only] || master?
-      case acquire_status
-      when 'green'
-        ok 'Cluster is green'
-      when 'yellow'
-        warning 'Cluster is yellow'
-      when 'red'
-        critical 'Cluster is red'
-      end
+    node_status = acquire_status
+
+    if node_status == 200
+      ok "Alive #{(node_status)}"
     else
-      ok 'Not the master'
+      critical "Dead (#{node_status})"
     end
   end
 end
