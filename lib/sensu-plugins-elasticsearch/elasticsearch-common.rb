@@ -109,7 +109,7 @@ module ElasticsearchCommon
             end
         end
         if config[:types] != nil
-            options[:types] = config[:types]
+            options[:type] = config[:types]
         end
         return options
     end
