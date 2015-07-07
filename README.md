@@ -11,16 +11,17 @@
 
 ## Files
  * /bin/check-es-cluster-status.rb
- * /bin/check-es-heap.rb
- * /bin/metrics-es-node-graphite.rb
  * /bin/check-es-file-descriptors.rb
+ * /bin/check-es-heap.rb
+ * /bin/check-es-node-status.rb
  * /bin/metrics-es-cluster.rb
  * /bin/metrics-es-node.rb
+ * /bin/metrics-es-node-graphite.rb
 
 ## Usage
 
 ## Installation
 
-[Installation and Setup](https://github.com/sensu-plugins/documentation/blob/master/user_docs/installation_instructions.md)
+[Installation and Setup](http://sensu-plugins.io/docs/installation_instructions.html)
 
 ## Notes
