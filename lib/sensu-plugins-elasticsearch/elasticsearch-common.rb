@@ -70,11 +70,11 @@ module ElasticsearchCommon
               indices.push(Time.at(step).utc.strftime config[:date_index])
           end
           if !indices.include?(Time.at(curr).utc.strftime config[:date_index])
-              indices += (Time.at(step).utc.strftime config[:date_index])
+              indices.push(Time.at(curr).utc.strftime config[:date_index])
           end
           return indices.join(",")
       end
-      return "_all"
+      return ["_all"]
     end
 
     def build_request_options

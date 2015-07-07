@@ -30,7 +30,7 @@ require 'sensu-plugin/check/cli'
 require 'elasticsearch'
 require 'time'
 
-require 'sensu-plugins-elasticsearch'
+require_relative '../lib/sensu-plugins-elasticsearch/elasticsearch-common.rb'
 
 #
 # ES Heap
@@ -55,7 +55,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
 
   option :hours_previous,
          description: 'Hours before now to check @timestamp against query.',
-         long: '--hours-previous DAYS_PREVIOUS',
+         long: '--hours-previous HOURS_PREVIOUS',
          proc: proc(&:to_i),
          default: 0
 
