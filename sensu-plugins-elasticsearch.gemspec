@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.version                = SensuPluginsElasticsearch::Version::VER_STRING
 
   s.add_runtime_dependency 'rest-client',  '1.8.0'
-  s.add_runtime_dependency 'sensu-plugin', '1.1.0'
+  s.add_runtime_dependency 'sensu-plugin', '1.2.0'
 
   s.add_development_dependency 'bundler',                   '~> 1.7'
   s.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
