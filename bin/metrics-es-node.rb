@@ -31,6 +31,7 @@
 require 'sensu-plugin/metric/cli'
 require 'rest-client'
 require 'json'
+require 'base64'
 
 #
 # ES Node Metrics
@@ -55,9 +56,24 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
          proc: proc(&:to_i),
          default: 9200
 
+  option :user,
+         description: 'Elasticsearch User',
+         short: '-u USER',
+         long: '--user USER'
+
+  option :password,
+         description: 'Elasticsearch Password',
+         short: '-P PASS',
+         long: '--password PASS'
+
   def run # rubocop:disable all
-    ln = RestClient::Resource.new "http://#{config[:host]}:#{config[:port]}/_cluster/nodes/_local", timeout: 30
-    stats = RestClient::Resource.new "http://#{config[:host]}:#{config[:port]}/_cluster/nodes/_local/stats", timeout: 30
+    headers = {}
+    if config[:user] and config[:password]
+      auth = 'Basic ' + Base64.encode64( "#{config[:user]}:#{config[:password]}" ).chomp
+      headers = { 'Authorization' => auth }
+    end
+    ln = RestClient::Resource.new "http://#{config[:host]}:#{config[:port]}/_cluster/nodes/_local", timeout: 30, headers: headers
+    stats = RestClient::Resource.new "http://#{config[:host]}:#{config[:port]}/_cluster/nodes/_local/stats", timeout: 30, headers: headers
     ln = JSON.parse(ln.get)
     stats = JSON.parse(stats.get)
     timestamp = Time.now.to_i

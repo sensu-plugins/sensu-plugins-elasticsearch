@@ -38,6 +38,7 @@
 require 'sensu-plugin/metric/cli'
 require 'rest-client'
 require 'json'
+require 'base64'
 
 #
 # ES Node Graphite Metrics
@@ -93,8 +94,23 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
          boolean: true,
          default: false
 
+  option :user,
+         description: 'Elasticsearch User',
+         short: '-u USER',
+         long: '--user USER'
+
+  option :password,
+         description: 'Elasticsearch Password',
+         short: '-P PASS',
+         long: '--password PASS'
+
   def get_es_resource(resource)
-    r = RestClient::Resource.new("http://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout])
+    headers = {}
+    if config[:user] and config[:password]
+      auth = 'Basic ' + Base64.encode64( "#{config[:user]}:#{config[:password]}" ).chomp
+      headers = { 'Authorization' => auth }
+    end
+    r = RestClient::Resource.new("http://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'

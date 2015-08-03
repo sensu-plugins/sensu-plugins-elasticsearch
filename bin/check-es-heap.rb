@@ -29,6 +29,7 @@
 require 'sensu-plugin/check/cli'
 require 'rest-client'
 require 'json'
+require 'base64'
 
 #
 # ES Heap
@@ -74,13 +75,28 @@ class ESHeap < Sensu::Plugin::Check::CLI
          description: 'Use the WARNING and CRITICAL threshold numbers as percentage indicators of the total heap available',
          default: false
 
+  option :user,
+         description: 'Elasticsearch User',
+         short: '-u USER',
+         long: '--user USER'
+
+  option :password,
+         description: 'Elasticsearch Password',
+         short: '-W PASS',
+         long: '--password PASS'
+
   def acquire_es_version
     info = acquire_es_resource('/')
     info['version']['number']
   end
 
   def acquire_es_resource(resource)
-    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout])
+    headers = {}
+    if config[:user] and config[:password]
+      auth = 'Basic ' + Base64.encode64( "#{config[:user]}:#{config[:password]}" ).chomp
+      headers = { 'Authorization' => auth }
+    end
+    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
