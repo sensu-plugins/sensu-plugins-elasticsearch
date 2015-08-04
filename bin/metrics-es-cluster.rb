@@ -80,8 +80,8 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
 
   def get_es_resource(resource)
     headers = {}
-    if config[:user] and config[:password]
-      auth = 'Basic ' + Base64.encode64( "#{config[:user]}:#{config[:password]}" ).chomp
+    if config[:user] && config[:password]
+      auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
       headers = { 'Authorization' => auth }
     end
     r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)

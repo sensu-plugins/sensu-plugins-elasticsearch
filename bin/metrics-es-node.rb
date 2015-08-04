@@ -68,8 +68,8 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
 
   def run # rubocop:disable all
     headers = {}
-    if config[:user] and config[:password]
-      auth = 'Basic ' + Base64.encode64( "#{config[:user]}:#{config[:password]}" ).chomp
+    if config[:user] && config[:password]
+      auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
       headers = { 'Authorization' => auth }
     end
     ln = RestClient::Resource.new "http://#{config[:host]}:#{config[:port]}/_cluster/nodes/_local", timeout: 30, headers: headers
