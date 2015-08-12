@@ -66,7 +66,7 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
          short: '-P PASS',
          long: '--password PASS'
 
-  def run # rubocop:disable all
+  def run
     headers = {}
     if config[:user] && config[:password]
       auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp

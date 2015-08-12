@@ -106,7 +106,7 @@ class ESHeap < Sensu::Plugin::Check::CLI
     warning 'Elasticsearch API returned invalid JSON'
   end
 
-  def acquire_heap_data(return_max = false) # rubocop:disable all
+  def acquire_heap_data(return_max = false)
     if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
       stats = acquire_es_resource('/_nodes/_local/stats?jvm=true')
       node = stats['nodes'].keys.first
@@ -125,7 +125,7 @@ class ESHeap < Sensu::Plugin::Check::CLI
     end
   end
 
-  def run # rubocop:disable all
+  def run
     if config[:percentage]
       heap_used, heap_max = acquire_heap_data(true)
       heap_used_ratio = ((100 * heap_used) / heap_max).to_i
