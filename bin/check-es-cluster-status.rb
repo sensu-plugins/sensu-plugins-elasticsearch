@@ -62,6 +62,12 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
          proc: proc(&:to_i),
          default: 30
 
+  option :status_timeout,
+         description: 'Sets the time to wait for the cluster status to be green',
+         short: '-T SECS',
+         long: '--status_timeout SECS',
+         proc: proc(&:to_i)
+
   option :user,
          description: 'Elasticsearch User',
          short: '-u USER',
@@ -105,7 +111,11 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
   end
 
   def acquire_status
-    health = get_es_resource('/_cluster/health')
+    if config[:status_timeout]
+      health = get_es_resource("/_cluster/health?wait_for_status=green&timeout=#{config[:status_timeout]}s")
+    else
+      health = get_es_resource('/_cluster/health')
+    end
     health['status'].downcase
   end
 
