@@ -174,7 +174,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
         ok
       end
     end
-rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
+rescue Elasticsearch::Transport::Transport::Errors::NotFound
   if config[:invert]
     if response['count'] < config[:crit]
       critical 'Query count was below critical threshold'

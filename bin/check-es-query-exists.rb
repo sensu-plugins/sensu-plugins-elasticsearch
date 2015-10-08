@@ -156,7 +156,7 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
     def run # rubocop:disable all
       client.exists(build_request_options)
       ok
-  rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
     critical
     end
 end
