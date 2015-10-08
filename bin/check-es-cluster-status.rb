@@ -30,6 +30,7 @@
 require 'sensu-plugin/check/cli'
 require 'rest-client'
 require 'json'
+require 'base64'
 
 #
 # ES Cluster Status
@@ -61,8 +62,29 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
          proc: proc(&:to_i),
          default: 30
 
+  option :status_timeout,
+         description: 'Sets the time to wait for the cluster status to be green',
+         short: '-T SECS',
+         long: '--status_timeout SECS',
+         proc: proc(&:to_i)
+
+  option :user,
+         description: 'Elasticsearch User',
+         short: '-u USER',
+         long: '--user USER'
+
+  option :password,
+         description: 'Elasticsearch Password',
+         short: '-P PASS',
+         long: '--password PASS'
+
   def get_es_resource(resource)
-    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout])
+    headers = {}
+    if config[:user] && config[:password]
+      auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
+      headers = { 'Authorization' => auth }
+    end
+    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     critical 'Connection refused'
@@ -89,7 +111,11 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
   end
 
   def acquire_status
-    health = get_es_resource('/_cluster/health')
+    if config[:status_timeout]
+      health = get_es_resource("/_cluster/health?wait_for_status=green&timeout=#{config[:status_timeout]}s")
+    else
+      health = get_es_resource('/_cluster/health')
+    end
     health['status'].downcase
   end
 

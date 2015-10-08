@@ -29,6 +29,7 @@
 require 'sensu-plugin/check/cli'
 require 'rest-client'
 require 'json'
+require 'base64'
 
 #
 # ES File Descriptiors
@@ -66,8 +67,23 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
          proc: proc(&:to_i),
          default: 80
 
+  option :user,
+         description: 'Elasticsearch User',
+         short: '-u USER',
+         long: '--user USER'
+
+  option :password,
+         description: 'Elasticsearch Password',
+         short: '-P PASS',
+         long: '--password PASS'
+
   def get_es_resource(resource)
-    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout])
+    headers = {}
+    if config[:user] && config[:password]
+      auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
+      headers = { 'Authorization' => auth }
+    end
+    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
@@ -95,7 +111,7 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
     end
   end
 
-  def run # rubocop:disable all
+  def run
     open = acquire_open_fds
     max = acquire_max_fds
     used_percent = ((open.to_f / max.to_f) * 100).to_i

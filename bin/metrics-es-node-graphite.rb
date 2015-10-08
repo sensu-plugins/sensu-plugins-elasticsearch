@@ -38,6 +38,7 @@
 require 'sensu-plugin/metric/cli'
 require 'rest-client'
 require 'json'
+require 'base64'
 
 #
 # ES Node Graphite Metrics
@@ -93,8 +94,23 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
          boolean: true,
          default: false
 
+  option :user,
+         description: 'Elasticsearch User',
+         short: '-u USER',
+         long: '--user USER'
+
+  option :password,
+         description: 'Elasticsearch Password',
+         short: '-P PASS',
+         long: '--password PASS'
+
   def get_es_resource(resource)
-    r = RestClient::Resource.new("http://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout])
+    headers = {}
+    if config[:user] && config[:password]
+      auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
+      headers = { 'Authorization' => auth }
+    end
+    r = RestClient::Resource.new("http://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
@@ -107,7 +123,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     info['version']['number']
   end
 
-  def run # rubocop:disable all
+  def run
     # invert various stats depending on if some flags are set
     os_stat = !config[:disable_os_stats]
     process_stats = !config[:disable_process_stats]
@@ -194,7 +210,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     node['indices'].each do |type, index|
       index.each do |k, v|
         # #YELLOW
-        unless k =~ /(_time$)/ || v =~ /\d+/ # rubocop:disable IfUnlessModifier
+        unless k =~ /(_time$)/ || v =~ /\d+/
           metrics["indices.#{type}.#{k}"] = v
         end
       end
@@ -202,7 +218,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
 
     node['transport'].each do |k, v|
       # #YELLOW
-      unless k =~ /(_size$)/ # rubocop:disable IfUnlessModifier
+      unless k =~ /(_size$)/
         metrics["transport.#{k}"] = v
       end
     end
