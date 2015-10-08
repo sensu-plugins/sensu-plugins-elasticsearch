@@ -61,11 +61,11 @@ module ElasticsearchCommon
       if config[:months_previous] != 0
         start -= (config[:months_previous] * 60 * 60 * 24 * 7 * 31)
       end
-      step = 60 * 60 * 24
+      total = 60 * 60 * 24
       if config[:date_repeat_hourly]
-        step = 60 * 60
+        total = 60 * 60
       end
-      (start.to_i..curr.to_i).step(step) do |step|
+      (start.to_i..curr.to_i).step(total) do |step|
         indices.push(Time.at(step).utc.strftime config[:date_index])
       end
       unless indices.include?(Time.at(curr).utc.strftime config[:date_index])
