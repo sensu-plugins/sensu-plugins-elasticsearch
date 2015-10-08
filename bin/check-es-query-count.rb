@@ -39,7 +39,10 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
   include ElasticsearchCommon
 
   option :index,
-         description: 'Elasticsearch indices to query. comma-separated list of index names to search; use `_all` or empty string to perform the operation on all indices. Accepts wildcards',
+         description: """Elasticsearch indices to query.
+         Comma-separated list of index names to search.
+         Use `_all` or empty string to perform the operation on all indices.
+         Accepts wildcards""",
          short: '-i INDEX',
          long: '--indices INDEX'
 
@@ -78,7 +81,8 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          default: 0
 
   option :date_index,
-         description: 'Elasticsearch time based index. Accepts format from http://ruby-doc.org/core-2.2.0/Time.html#method-i-strftime',
+         description: """Elasticsearch time based index.
+            Accepts format from http://ruby-doc.org/core-2.2.0/Time.html#method-i-strftime""",
          short: '-d DATE_INDEX',
          long: '--date-index DATE_INDEX'
 
