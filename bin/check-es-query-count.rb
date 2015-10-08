@@ -39,10 +39,10 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
   include ElasticsearchCommon
 
   option :index,
-         description: """Elasticsearch indices to query.
+         description: 'Elasticsearch indices to query.
          Comma-separated list of index names to search.
          Use `_all` or empty string to perform the operation on all indices.
-         Accepts wildcards""",
+         Accepts wildcards',
          short: '-i INDEX',
          long: '--indices INDEX'
 
