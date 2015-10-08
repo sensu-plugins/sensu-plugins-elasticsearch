@@ -15,8 +15,7 @@
 #   Released under the same terms as Sensu (the MIT license); see LICENSE
 #   for details.
 #
-
-require 'sensu-plugins-elasticsearch'
+require_relative "elasticsearch-query.rb"
 
 module ElasticsearchCommon
   include ElasticsearchQuery
