@@ -156,38 +156,35 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          boolean: true
 
   def run # rubocop:disable all
-
-    begin
-        response = client.count(build_request_options)
-        if config[:invert]
-            if response["count"] < config[:crit]
-                critical "Query count was below critical threshold"
-            elsif response["count"] < config[:warn]
-                warning "Query count was below warning threshold"
-            else
-                ok
-            end
-        else
-            if response["count"] > config[:crit]
-                critical "Query count was above critical threshold"
-            elsif response["count"] > config[:warn]
-                warning "Query count was above warning threshold"
-            else
-                ok
-            end
-        end
-    rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
-        if config[:invert]
-            if response["count"] < config[:crit]
-                critical "Query count was below critical threshold"
-            elsif response["count"] < config[:warn]
-                warning "Query count was below warning threshold"
-            else
-                ok
-            end
-        else
-            ok "No results found, count was below thresholds"
-        end
+    response = client.count(build_request_options)
+    if config[:invert]
+      if response['count'] < config[:crit]
+        critical 'Query count was below critical threshold'
+      elsif response['count'] < config[:warn]
+        warning 'Query count was below warning threshold'
+      else
+        ok
+      end
+    else
+      if response['count'] > config[:crit]
+        critical 'Query count was above critical threshold'
+      elsif response['count'] > config[:warn]
+        warning 'Query count was above warning threshold'
+      else
+        ok
+      end
     end
+rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
+  if config[:invert]
+    if response['count'] < config[:crit]
+      critical 'Query count was below critical threshold'
+    elsif response['count'] < config[:warn]
+      warning 'Query count was below warning threshold'
+    else
+      ok
+    end
+  else
+    ok 'No results found, count was below thresholds'
+  end
   end
 end
