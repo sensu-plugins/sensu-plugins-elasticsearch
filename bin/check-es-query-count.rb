@@ -16,7 +16,12 @@
 #   gem: elasticsearch
 #
 # USAGE:
-#   example commands
+#   This example checks that the count of special_type logs matching a query of
+#       anything (*) at the host elasticsearch.service.consul for the past 90 minutes
+#       will warn if there are under 100 and go critical if the result count is below 1
+#       (The invert flag warns if counts are _below_ the critical and warning values)
+#   check-es-query-count.rb -h elasticsearch.service.consul -q "*" --invert
+#           --types special_type -d 'logging-%Y.%m.%d' --minutes-previous 90 -p 9200 -c 1 -w 100
 #
 # NOTES:
 #

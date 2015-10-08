@@ -16,7 +16,14 @@
 #   gem: elasticsearch
 #
 # USAGE:
-#   example commands
+#   This example checks that the count of special_type logs matching a query of
+#       "docker.args:special AND *specialstring* AND _exists_:key.name"
+#       at the host elasticsearch.service.consul and port 9200 for the past 3 minutes
+#       will go critical if there are NO results for that period. 
+#       This check is to ensure that events are happening at all.
+#   check-es-query-exists.rb -h elasticsearch.service.consul
+#           -q "docker.args:special AND *specialstring* AND _exists_:key.name" --invert
+#           --types special_type -d 'logging-%Y.%m.%d' --minutes-previous 3 -p 9200
 #
 # NOTES:
 #
