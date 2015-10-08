@@ -80,9 +80,7 @@ module ElasticsearchQuery
               },
               'filter' => {
                 'range' => {
-                  '@timestamp' => {
-                    'gt' => es_date_filter
-                  }
+                  '@timestamp' => { 'gt' => es_date_filter }
                 }
               }
             }

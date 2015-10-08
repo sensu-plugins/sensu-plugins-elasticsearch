@@ -81,8 +81,8 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          default: 0
 
   option :date_index,
-         description: """Elasticsearch time based index.
-            Accepts format from http://ruby-doc.org/core-2.2.0/Time.html#method-i-strftime""",
+         description: 'Elasticsearch time based index.
+            Accepts format from http://ruby-doc.org/core-2.2.0/Time.html#method-i-strftime',
          short: '-d DATE_INDEX',
          long: '--date-index DATE_INDEX'
 
