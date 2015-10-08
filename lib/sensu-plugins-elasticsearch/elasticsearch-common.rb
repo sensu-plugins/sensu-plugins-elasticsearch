@@ -38,7 +38,7 @@ module ElasticsearchCommon
     end
   end
 
-  def get_indices
+  def indices
     if !config[:index].nil?
       return config[:index]
     elsif !config[:date_index].nil?
@@ -78,13 +78,13 @@ module ElasticsearchCommon
 
   def build_request_options
     options = {
-      index: get_indices,
+      index: indices,
       ignore_unavailable: true
     }
     if !config[:body].nil?
       options[:body] = config[:body]
     else
-      es_date_filter = get_es_date_math_string
+      es_date_filter = es_date_math_string
       unless es_date_filter.nil?
         options[:body] = {
           'query' => {
@@ -113,7 +113,7 @@ module ElasticsearchCommon
     options
   end
 
-  def get_es_date_math_string
+  def es_date_math_string
     if config[:minutes_previous] == 0 && \
        config[:hours_previous] == 0 && \
        config[:weeks_previous] == 0 && \
