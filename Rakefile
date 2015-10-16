@@ -9,9 +9,9 @@ require 'yard/rake/yardoc_task'
 desc 'Don\'t run Rubocop for unsupported versions'
 begin
   if RUBY_VERSION >= '2.0.0'
-    args = [:spec, :make_bin_executable, :yard, :rubocop]
+    args = [:spec, :yard, :rubocop]
   else
-    args = [:spec, :make_bin_executable, :yard]
+    args = [:spec, :yard]
   end
 end
 
@@ -25,11 +25,6 @@ RuboCop::RakeTask.new
 
 RSpec::Core::RakeTask.new(:spec) do |r|
   r.pattern = FileList['**/**/*_spec.rb']
-end
-
-desc 'Make all plugins executable'
-task :make_bin_executable do
-  `chmod -R +x bin/*`
 end
 
 task default: args
