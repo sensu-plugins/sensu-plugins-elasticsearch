@@ -164,7 +164,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          description: 'Invert thresholds',
          boolean: true
 
-  def run # rubocop:disable all
+  def run
     response = client.count(build_request_options)
     if config[:invert]
       if response['count'] < config[:crit]
