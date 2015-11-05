@@ -83,31 +83,31 @@ class ESCircuitBreaker < Sensu::Plugin::Check::CLI
   def breaker_status
     breakers = {}
     status = get_es_resource('/_nodes/stats/breaker')
-    status['nodes'].each_pair {|node,stat|
-      host = stat["host"]
+    status['nodes'].each_pair do |_node, stat|
+      host = stat['host']
       breakers[host] = {}
-      breakers[host]["breakers"] = [] 
-      stat.each_pair {|key,val|
+      breakers[host]['breakers'] = []
+      stat.each_pair do |key, val|
         if key == 'breakers'
-          val.each_pair {|bk,bv|
-            if bv["tripped"] != 0
-              breakers[host]["breakers"] << bk
+          val.each_pair do |bk, bv|
+            if bv['tripped'] != 0
+              breakers[host]['breakers'] << bk
             end
-          }
+          end
         end
-      }
-    }
+      end
+    end
     breakers
   end
 
   def run
     breakers = breaker_status
     tripped = false
-    breakers.each_pair {|k,v| tripped = true unless v["breakers"].empty? }
+    breakers.each_pair { |_k, v| tripped = true unless v['breakers'].empty? }
     if tripped
-      critical "Circuit Breakers: #{breakers.each_pair {|k,v| k}} trippped!"
+      critical "Circuit Breakers: #{breakers.each_pair { |k, _v| k }} trippped!"
     else
-      ok "All circuit breakers okay"
+      ok 'All circuit breakers okay'
     end
   end
 end
