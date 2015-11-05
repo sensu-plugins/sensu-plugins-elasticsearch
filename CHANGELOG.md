@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased][unreleased]
+### Changed
+- Update metrics-es-node-graphite.rb for Elasticsearch 2.0
 
 ## [0.2.0] - 2015-10-15
 ### Changed
