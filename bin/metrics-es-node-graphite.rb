@@ -154,7 +154,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       ].join('&')
     end
 
-    if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
+    if es_version >= Gem::Version.new('1.0.0')
       stats = get_es_resource("/_nodes/_local/stats?#{stats_query_string}")
     else
       stats = get_es_resource("/_cluster/nodes/_local/stats?#{stats_query_string}")
