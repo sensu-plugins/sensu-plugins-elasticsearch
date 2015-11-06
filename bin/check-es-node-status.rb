@@ -4,7 +4,7 @@
 #
 # DESCRIPTION:
 #   This plugin checks the ElasticSearch node status, using its API.
-#   Works with ES 0.9x and ES 1.x
+#   Works with ES 0.9x, ES 1.x, and ES 2.x
 #
 # OUTPUT:
 #   plain text
@@ -70,7 +70,7 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
       headers = { 'Authorization' => auth }
     end
     r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
-    JSON.parse(r.get)
+    r.get
   rescue Errno::ECONNREFUSED
     critical 'Connection refused'
   rescue RestClient::RequestTimeout
@@ -80,8 +80,8 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
   end
 
   def acquire_status
-    health = get_es_resource('/')
-    health['status'].to_i
+    status = get_es_resource('/').code
+    status
   end
 
   def run
