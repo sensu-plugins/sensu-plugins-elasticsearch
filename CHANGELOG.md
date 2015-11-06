@@ -5,7 +5,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased][unreleased]
 ### Changed
-- Update metrics-es-node-graphite.rb for Elasticsearch 2.0
+- Update metrics-es-node-graphite.rb and check-es-node-status.rb for Elasticsearch 2.0
 
 ## [0.2.0] - 2015-10-15
 ### Changed
