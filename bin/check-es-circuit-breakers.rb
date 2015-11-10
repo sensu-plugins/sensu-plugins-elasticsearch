@@ -1,9 +1,10 @@
 #! /usr/bin/env ruby
 #
-#  check-es-node-status
+#  check-es-circuit-breakers
 #
 # DESCRIPTION:
-#   This plugin checks the ElasticSearch node status, using its API.
+#   This plugin checks whether the ElasticSearch circuit breakers have been tripped,
+#   using the node stats API.
 #   Works with ES 0.9x and ES 1.x
 #
 # OUTPUT:
@@ -17,7 +18,7 @@
 #   gem: rest-client
 #
 # USAGE:
-#   check-es-node-status --help
+#   check-es-circuit-breakers --help
 #
 # NOTES:
 #
@@ -31,7 +32,6 @@ require 'sensu-plugin/check/cli'
 require 'rest-client'
 require 'json'
 require 'base64'
-require 'pp'
 
 class ESCircuitBreaker < Sensu::Plugin::Check::CLI
   option :host,
