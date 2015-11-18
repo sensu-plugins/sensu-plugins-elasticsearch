@@ -91,6 +91,11 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
     warning 'Connection timed out'
   end
 
+  def acquire_es_version
+    info = get_es_resource('/')
+    info['version']['number']
+  end
+
   def acquire_open_fds
     stats = get_es_resource('/_nodes/_local/stats?process=true')
     begin
@@ -102,7 +107,11 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
   end
 
   def acquire_max_fds
-    info = get_es_resource('/_nodes/_local?process=true')
+    if Gem::Version.new(acquire_es_version) >= Gem::Version.new('2.0.0')
+      info = get_es_resource('/_nodes/_local/stats?process=true')
+    else
+      info = get_es_resource('/_nodes/_local?process=true')
+    end
     begin
       keys = info['nodes'].keys
       info['nodes'][keys[0]]['process']['max_file_descriptors'].to_i

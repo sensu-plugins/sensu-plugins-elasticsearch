@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [0.2.1]
+- update wrong stats url in check-es-file-descriptors
+
+
 ## [Unreleased][unreleased]
 ### Changed
 - Update metrics-es-node-graphite.rb and check-es-node-status.rb for Elasticsearch 2.0
