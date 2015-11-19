@@ -3,13 +3,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
-## [0.2.1]
-- update wrong stats url in check-es-file-descriptors
+## Unreleased
 
-
-## [Unreleased][unreleased]
+## [0.3.0] - 2015-11-18
 ### Changed
-- Update metrics-es-node-graphite.rb and check-es-node-status.rb for Elasticsearch 2.0
+- Update metrics-es-node-graphite.rb, check-es-node-status.rb, and check-es-file-descriptors.rb for Elasticsearch 2.0
+- Update elasticsearch gem to 1.0.14
+
+### Added
 - Add check-es-circuit-breakers.rb, to alert when circuit breakers have been tripped
 
 ## [0.2.0] - 2015-10-15
