@@ -34,8 +34,7 @@
 require 'sensu-plugin/check/cli'
 require 'elasticsearch'
 require 'time'
-
-require_relative 'sensu-plugins-elasticsearch'
+require 'sensu-plugins-elasticsearch'
 
 #
 # ES Heap
