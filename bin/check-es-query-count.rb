@@ -178,7 +178,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
       elsif response['count'] < config[:warn]
         warning "Query count (#{response['count']}) was below warning threshold"
       else
-        ok
+        ok "Query count (#{response['count']}) was ok"
       end
     else
       if response['count'] > config[:crit]
@@ -186,7 +186,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
       elsif response['count'] > config[:warn]
         warning "Query count (#{response['count']}) was above warning threshold"
       else
-        ok
+        ok "Query count (#{response['count']}) was ok"
       end
     end
 rescue Elasticsearch::Transport::Transport::Errors::NotFound
@@ -196,7 +196,7 @@ rescue Elasticsearch::Transport::Transport::Errors::NotFound
     elsif response['count'] < config[:warn]
       warning "Query count (#{response['count']}) was below warning threshold"
     else
-      ok
+      ok "Query count (#{response['count']}) was ok"
     end
   else
     ok 'No results found, count was below thresholds'
