@@ -74,7 +74,7 @@ module ElasticsearchQuery
             'filtered' => {
               'query' => {
                 'query_string' => {
-                  'default_field' => 'message',
+                  'default_field' => config[:search_field],
                   'query' => config[:query]
                 }
               },
