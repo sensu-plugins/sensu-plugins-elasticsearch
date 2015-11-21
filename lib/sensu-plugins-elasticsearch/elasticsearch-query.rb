@@ -97,6 +97,7 @@ module ElasticsearchQuery
   def es_date_math_string
     if config[:minutes_previous] == 0 && \
        config[:hours_previous] == 0 && \
+       config[:days_previous] == 0 && \
        config[:weeks_previous] == 0 && \
        config[:months_previous] == 0
       return nil
