@@ -102,6 +102,13 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          boolean: true,
          default: false
 
+  option :search_field,
+         description: 'The Elasticsearch document field to search for your query string.',
+         short: '-f FIELD',
+         long: '--field FIELD',
+         required: false,
+         default: 'message'
+
   option :query,
          description: 'Elasticsearch query',
          short: '-q QUERY',
@@ -167,29 +174,29 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
     response = client.count(build_request_options)
     if config[:invert]
       if response['count'] < config[:crit]
-        critical 'Query count was below critical threshold'
+        critical "Query count (#{response['count']}) was below critical threshold"
       elsif response['count'] < config[:warn]
-        warning 'Query count was below warning threshold'
+        warning "Query count (#{response['count']}) was below warning threshold"
       else
-        ok
+        ok "Query count (#{response['count']}) was ok"
       end
     else
       if response['count'] > config[:crit]
-        critical 'Query count was above critical threshold'
+        critical "Query count (#{response['count']}) was above critical threshold"
       elsif response['count'] > config[:warn]
-        warning 'Query count was above warning threshold'
+        warning "Query count (#{response['count']}) was above warning threshold"
       else
-        ok
+        ok "Query count (#{response['count']}) was ok"
       end
     end
 rescue Elasticsearch::Transport::Transport::Errors::NotFound
   if config[:invert]
     if response['count'] < config[:crit]
-      critical 'Query count was below critical threshold'
+      critical "Query count (#{response['count']}) was below critical threshold"
     elsif response['count'] < config[:warn]
-      warning 'Query count was below warning threshold'
+      warning "Query count (#{response['count']}) was below warning threshold"
     else
-      ok
+      ok "Query count (#{response['count']}) was ok"
     end
   else
     ok 'No results found, count was below thresholds'
