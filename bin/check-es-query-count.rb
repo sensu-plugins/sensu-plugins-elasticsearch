@@ -103,7 +103,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          default: false
 
   option :search_field,
-         description: 'field to search',
+         description: 'The Elasticsearch document field to search for your query string.',
          short: '-f FIELD',
          long: '--field FIELD',
          required: false,
