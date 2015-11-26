@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.date                   = Date.today.to_s
   s.description            = 'This plugin provides native ElasticSearch instrumentation
                               for monitoring and metrics collection, including:
-                              service health and metrics for cluster, node, and more'
+                              service health and metrics for cluster, node, and more.'
   s.email                  = '<sensu-users@googlegroups.com>'
   s.executables            = Dir.glob('bin/**/*.rb').map { |file| File.basename(file) }
   s.files                  = Dir.glob('{bin,lib}/**/*') + %w(LICENSE README.md CHANGELOG.md)
