@@ -14,6 +14,7 @@
 # DEPENDENCIES:
 #   gem: sensu-plugin
 #   gem: elasticsearch
+#   gem: aws_es_transport
 #
 # USAGE:
 #   This example checks that the count of special_type logs matching a query of
@@ -34,10 +35,12 @@
 require 'sensu-plugin/check/cli'
 require 'elasticsearch'
 require 'time'
+require 'uri'
+require 'aws_es_transport'
 require 'sensu-plugins-elasticsearch'
 
 #
-# ES Heap
+# ES Query Count
 #
 class ESQueryCount < Sensu::Plugin::Check::CLI
   include ElasticsearchCommon
@@ -49,6 +52,14 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          Accepts wildcards',
          short: '-i INDEX',
          long: '--indices INDEX'
+
+  option :transport,
+         long: '--transport TRANSPORT',
+         description: 'Transport to use to communicate with ES. Use "AWS" for signed AWS transports.'
+
+  option :region,
+         long: '--region REGION',
+         description: 'Region (necessary for AWS Transport)'
 
   option :types,
          description: 'Elasticsearch types to limit searches to, comma separated list.',
@@ -64,6 +75,12 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          long: '--offset OFFSET',
          proc: proc(&:to_i),
          default: 0
+
+  option :ignore_unavailable,
+         description: 'Ignore unavailable indices.',
+         long: '--ignore-unavailable',
+         boolean: true,
+         default: true
 
   option :minutes_previous,
          description: 'Minutes before offset to check @timestamp against query.',
@@ -181,21 +198,54 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          description: 'Invert thresholds',
          boolean: true
 
+  option :kibana_url,
+         long: '--kibana-url KIBANA_URL',
+         description: 'Kibana URL query prefix that will be in critical / warning response output.'
+
+  def kibana_info
+    kibana_date_format = '%Y-%m-%dT%H:%M:%S.%LZ'
+    if !config[:kibana_url].nil?
+      index = config[:index]
+      if !config[:date_index].nil?
+        date_index_partition = config[:date_index].split('%')
+        index = "[#{date_index_partition.first}]#{date_index_partition[1..-1].join.sub('Y', 'YYYY').sub('y', 'YY').sub('m', 'MM').sub('d', 'DD').sub('j','DDDD').sub('H', 'hh')}"
+      end
+      end_time = Time.now.utc.to_i
+      start_time = end_time
+      if config[:minutes_previous] != 0
+        start_time -= (config[:minutes_previous] * 60)
+      end
+      if config[:hours_previous] != 0
+        start_time -= (config[:hours_previous] * 60 * 60)
+      end
+      if config[:days_previous] != 0
+        start_time -= (config[:days_previous] * 60 * 60 * 24)
+      end
+      if config[:weeks_previous] != 0
+        start_time -= (config[:weeks_previous] * 60 * 60 * 24 * 7)
+      end
+      if config[:months_previous] != 0
+        start_time -= (config[:months_previous] * 60 * 60 * 24 * 7 * 31)
+      end
+      "Kibana logs: #{config[:kibana_url]}/#/discover?_g=(refreshInterval:(display:Off,section:0,value:0),time:(from:'#{URI.escape(Time.at(start_time).utc.strftime kibana_date_format)}',mode:absolute,to:'#{URI.escape(Time.at(end_time).utc.strftime kibana_date_format)}'))&_a=(columns:!(_source),index:#{URI.escape(index)},interval:auto,query:(query_string:(analyze_wildcard:!t,query:'#{URI.escape(config[:query])}')),sort:!('@timestamp',desc))&dummy"
+    end
+  end
+
   def run
     response = client.count(build_request_options)
     if config[:invert]
       if response['count'] < config[:crit]
-        critical "Query count (#{response['count']}) was below critical threshold"
+        critical "Query count (#{response['count']}) was below critical threshold. #{kibana_info}"
       elsif response['count'] < config[:warn]
-        warning "Query count (#{response['count']}) was below warning threshold"
+        warning "Query count (#{response['count']}) was below warning threshold. #{kibana_info}"
       else
         ok "Query count (#{response['count']}) was ok"
       end
     else
-      if response['count'] > config[:crit] # rubocop:disable Style/IfInsideElse
-        critical "Query count (#{response['count']}) was above critical threshold"
+      if response['count'] > config[:crit]
+        critical "Query count (#{response['count']}) was above critical threshold. #{kibana_info}"
       elsif response['count'] > config[:warn]
-        warning "Query count (#{response['count']}) was above warning threshold"
+        warning "Query count (#{response['count']}) was above warning threshold. #{kibana_info}"
       else
         ok "Query count (#{response['count']}) was ok"
       end
@@ -203,9 +253,9 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
   rescue Elasticsearch::Transport::Transport::Errors::NotFound
     if config[:invert]
       if response['count'] < config[:crit]
-        critical "Query count (#{response['count']}) was below critical threshold"
+        critical "Query count (#{response['count']}) was below critical threshold. #{kibana_info}"
       elsif response['count'] < config[:warn]
-        warning "Query count (#{response['count']}) was below warning threshold"
+        warning "Query count (#{response['count']}) was below warning threshold. #{kibana_info}"
       else
         ok "Query count (#{response['count']}) was ok"
       end

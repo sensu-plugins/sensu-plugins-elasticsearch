@@ -63,9 +63,18 @@ module ElasticsearchQuery
   def build_request_options
     end_time = (Time.now.utc - config[:offset])
     options = {
+
       index: indices(end_time),
       ignore_unavailable: true
     }
+
+    unless config[:ignore_unavailable].nil?
+      options[:ignore_unavailable] = config[:ignore_unavailable]
+    end
+
+    unless config[:id].nil?
+      options[:id] = config[:id]
+    end
 
     if !config[:body].nil?
       options[:body] = config[:body]
