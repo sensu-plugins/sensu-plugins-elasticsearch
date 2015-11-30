@@ -51,6 +51,10 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
          short: '-i INDEX',
          long: '--indices INDEX'
 
+  option :transport,
+         long: '--transport TRANSPORT',
+         description: 'Transport to use to communicate with ES. Use "AWS" for signed AWS transports.',
+
   option :types,
          description: 'Elasticsearch types to limit searches to, comma separated list.',
          long: '--types TYPES'
@@ -167,7 +171,7 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
     def run # rubocop:disable all
       client.exists(build_request_options)
       ok
-  rescue Elasticsearch::Transport::Transport::Errors::NotFound
-    critical
+    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      critical
     end
 end

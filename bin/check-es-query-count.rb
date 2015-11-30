@@ -51,6 +51,10 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          short: '-i INDEX',
          long: '--indices INDEX'
 
+  option :transport,
+         long: '--transport TRANSPORT',
+         description: 'Transport to use to communicate with ES. Use "AWS" for signed AWS transports.',
+
   option :types,
          description: 'Elasticsearch types to limit searches to, comma separated list.',
          long: '--types TYPES'

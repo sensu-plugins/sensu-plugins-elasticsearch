@@ -5,6 +5,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased][unreleased]
 ### Changed
+- Added AWS transport gem and configuration for check-es-query-* sensu calls to use --transport=AWS
 - Update metrics-es-node-graphite.rb and check-es-node-status.rb for Elasticsearch 2.0
 - Add check-es-circuit-breakers.rb, to alert when circuit breakers have been tripped
 
