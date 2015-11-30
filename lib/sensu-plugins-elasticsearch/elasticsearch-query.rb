@@ -74,7 +74,7 @@ module ElasticsearchQuery
             'filtered' => {
               'query' => {
                 'query_string' => {
-                  'default_field' => 'message',
+                  'default_field' => config[:search_field],
                   'query' => config[:query]
                 }
               },
@@ -97,6 +97,7 @@ module ElasticsearchQuery
   def es_date_math_string
     if config[:minutes_previous] == 0 && \
        config[:hours_previous] == 0 && \
+       config[:days_previous] == 0 && \
        config[:weeks_previous] == 0 && \
        config[:months_previous] == 0
       return nil

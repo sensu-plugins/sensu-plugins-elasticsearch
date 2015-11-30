@@ -3,10 +3,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
-## [Unreleased][unreleased]
+## Unreleased
+
+## [0.3.0] - 2015-11-18
 ### Changed
-- Added AWS transport gem and configuration for check-es-query-* sensu calls to use --transport=AWS
-- Update metrics-es-node-graphite.rb and check-es-node-status.rb for Elasticsearch 2.0
+- Updated AWS transport gem and configuration for check-es-query-* sensu calls to use --transport=AWS
+- Update metrics-es-node-graphite.rb, check-es-node-status.rb, and check-es-file-descriptors.rb for Elasticsearch 2.0
+- Update elasticsearch gem to 1.0.14
+
+### Added
 - Add check-es-circuit-breakers.rb, to alert when circuit breakers have been tripped
 
 ## [0.2.0] - 2015-10-15

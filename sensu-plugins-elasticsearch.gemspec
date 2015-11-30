@@ -17,13 +17,13 @@ Gem::Specification.new do |s|
   s.date                   = Date.today.to_s
   s.description            = 'This plugin provides native ElasticSearch instrumentation
                               for monitoring and metrics collection, including:
-                              service health and metrics for cluster, node, and more'
+                              service health and metrics for cluster, node, and more.'
   s.email                  = '<sensu-users@googlegroups.com>'
   s.executables            = Dir.glob('bin/**/*.rb').map { |file| File.basename(file) }
   s.files                  = Dir.glob('{bin,lib}/**/*') + %w(LICENSE README.md CHANGELOG.md)
   s.homepage               = 'https://github.com/sensu-plugins/sensu-plugins-elasticsearch'
   s.license                = 'MIT'
-  s.metadata               = { 'maintainer'         => '@mattyjones',
+  s.metadata               = { 'maintainer'         => 'sensu-plugin',
                                'development_status' => 'active',
                                'production_status'  => 'unstable - testing recommended',
                                'release_draft'      => 'false',
@@ -39,10 +39,9 @@ Gem::Specification.new do |s|
   s.test_files             = s.files.grep(%r{^(test|spec|features)/})
   s.version                = SensuPluginsElasticsearch::Version::VER_STRING
 
-  s.add_runtime_dependency 'rest-client',  '1.8.0'
-  s.add_runtime_dependency 'elasticsearch', '1.0.12'
-  s.add_runtime_dependency 'sensu-plugin', '1.2.0'
-  s.add_runtime_dependency 'aws-sdk', '~> 2.1'
+  s.add_runtime_dependency 'rest-client',   '1.8.0'
+  s.add_runtime_dependency 'elasticsearch', '1.0.14'
+  s.add_runtime_dependency 'sensu-plugin',  '1.2.0'
   s.add_runtime_dependency 'aws-es-transport', '~> 0.1.1'
 
   s.add_development_dependency 'bundler',                   '~> 1.7'
