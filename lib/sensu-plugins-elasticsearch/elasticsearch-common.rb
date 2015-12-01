@@ -27,7 +27,7 @@ module ElasticsearchCommon
   def client
     @client ||= begin
       if !config[:user].nil? && !config[:pass].nil? && !config[:scheme].nil?
-        if !config[:transport].nil? && config[:transport] == "AWS"
+        if !config[:transport].nil? && config[:transport] == 'AWS'
           Elasticsearch::Client.new(
             transport_class: Elasticsearch::Transport::Transport::HTTP::AWS,
             hosts: [{
@@ -50,11 +50,11 @@ module ElasticsearchCommon
           }]
         end
       else
-        if !config[:transport].nil? && config[:transport] == "AWS"
+        if !config[:transport].nil? && config[:transport] == 'AWS'
           Elasticsearch::Client.new transport_class: Elasticsearch::Transport::Transport::HTTP::AWS,
-            host: "#{config[:host]}:#{config[:port]}",
-            region: config[:region],
-            request_timeout: config[:timeout]
+                                    host: "#{config[:host]}:#{config[:port]}",
+                                    region: config[:region],
+                                    request_timeout: config[:timeout]
         else
           Elasticsearch::Client.new host: "#{config[:host]}:#{config[:port]}", request_timeout: config[:timeout]
         end
