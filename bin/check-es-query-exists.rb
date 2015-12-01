@@ -156,28 +156,38 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
          default: 30
 
   option :warn,
-         short: '-w N',
-         long: '--warn N',
-         description: 'Result count WARNING threshold',
-         proc: proc(&:to_i),
-         default: 0
-
-  option :crit,
-         short: '-c N',
-         long: '--crit N',
-         description: 'Result count CRITICAL threshold',
-         proc: proc(&:to_i),
-         default: 0
+         short: '-w',
+         long: '--warn',
+         description: 'Warn instead of critical',
+         boolean: true,
+         default: false
 
   option :invert,
          long: '--invert',
          description: 'Invert thresholds',
-         boolean: true
+         boolean: true,
+         default: false
 
-    def run # rubocop:disable all
-      client.exists(build_request_options)
+  def run # rubocop:disable all
+    client.exists(build_request_options)
+    if config[:invert]
       ok
-    rescue Elasticsearch::Transport::Transport::Errors::NotFound
-      critical
+    else
+      if config[:warn]
+        warning
+      else
+        critical
+      end
     end
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+    if config[:invert]
+      if config[:warn]
+        warning
+      else
+        critical
+      end
+    else
+      ok
+    end
+  end
 end
