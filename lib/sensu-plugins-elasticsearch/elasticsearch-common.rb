@@ -15,6 +15,8 @@
 #   Released under the same terms as Sensu (the MIT license); see LICENSE
 #   for details.
 #
+
+require 'aws_es_transport'
 require_relative 'elasticsearch-query.rb'
 
 module ElasticsearchCommon
@@ -35,7 +37,8 @@ module ElasticsearchCommon
               user:               config[:user],
               password:           config[:password],
               scheme:             config[:scheme],
-              request_timeout:    config[:timeout]
+              request_timeout:    config[:timeout],
+              region:             config[:region]
             }])
         else
           Elasticsearch::Client.new hosts: [{
@@ -51,6 +54,7 @@ module ElasticsearchCommon
         if !config[:transport].nil? && config[:transport] == "AWS"
           Elasticsearch::Client.new transport_class: Elasticsearch::Transport::Transport::HTTP::AWS,
             host: "#{config[:host]}:#{config[:port]}",
+            region: config[:region],
             request_timeout: config[:timeout]
         else
           Elasticsearch::Client.new host: "#{config[:host]}:#{config[:port]}", request_timeout: config[:timeout]

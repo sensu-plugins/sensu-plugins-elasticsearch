@@ -34,7 +34,8 @@
 require 'sensu-plugin/check/cli'
 require 'elasticsearch'
 require 'time'
-require 'sensu-plugins-elasticsearch'
+require_relative '../lib/sensu-plugins-elasticsearch/elasticsearch-common.rb'
+require_relative '../lib/sensu-plugins-elasticsearch/elasticsearch-query.rb'
 
 #
 # ES Heap
@@ -53,6 +54,10 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
   option :transport,
          long: '--transport TRANSPORT',
          description: 'Transport to use to communicate with ES. Use "AWS" for signed AWS transports.'
+
+  option :region,
+         long: '--region REGION',
+         description: 'Region (necessary for AWS Transport)'
 
   option :types,
          description: 'Elasticsearch types to limit searches to, comma separated list.',
