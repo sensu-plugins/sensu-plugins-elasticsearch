@@ -34,8 +34,7 @@
 require 'sensu-plugin/check/cli'
 require 'elasticsearch'
 require 'time'
-require_relative '../lib/sensu-plugins-elasticsearch/elasticsearch-common.rb'
-require_relative '../lib/sensu-plugins-elasticsearch/elasticsearch-query.rb'
+require 'sensu-plugins-elasticsearch'
 
 #
 # ES Heap
