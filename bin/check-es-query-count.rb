@@ -52,7 +52,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
 
   option :transport,
          long: '--transport TRANSPORT',
-         description: 'Transport to use to communicate with ES. Use "AWS" for signed AWS transports.',
+         description: 'Transport to use to communicate with ES. Use "AWS" for signed AWS transports.'
 
   option :types,
          description: 'Elasticsearch types to limit searches to, comma separated list.',
