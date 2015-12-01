@@ -16,7 +16,6 @@
 #   for details.
 #
 
-require 'aws_es_transport'
 require_relative 'elasticsearch-query.rb'
 
 module ElasticsearchCommon

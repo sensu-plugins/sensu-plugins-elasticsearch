@@ -36,6 +36,7 @@
 require 'sensu-plugin/check/cli'
 require 'elasticsearch'
 require 'time'
+require 'aws_es_transport'
 require 'sensu-plugins-elasticsearch'
 
 #
