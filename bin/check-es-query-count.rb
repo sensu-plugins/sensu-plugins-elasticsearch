@@ -63,6 +63,12 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          description: 'Elasticsearch types to limit searches to, comma separated list.',
          long: '--types TYPES'
 
+  option :ignore_unavailable,
+         description: 'Ignore unavailable indices.',
+         long: '--ignore-unavailable',
+         boolean: true,
+         default: true
+
   option :minutes_previous,
          description: 'Minutes before now to check @timestamp against query.',
          long: '--minutes-previous MINUTES_PREVIOUS',

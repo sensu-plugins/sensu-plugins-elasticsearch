@@ -7,6 +7,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [0.3.0] - 2015-11-18
 ### Changed
+- Updated check es query to check for existence of document id to reflect changes in elasticsearch gem method of the same name
 - Updated check es query exists to use warnings if configured and be able to invert existence check
 - Updated AWS transport gem and configuration for check-es-query-* sensu calls to use --transport=AWS
 - Update metrics-es-node-graphite.rb, check-es-node-status.rb, and check-es-file-descriptors.rb for Elasticsearch 2.0

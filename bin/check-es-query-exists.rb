@@ -113,10 +113,9 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
          boolean: true,
          default: false
 
-  option :query,
-         description: 'Elasticsearch query',
-         short: '-q QUERY',
-         long: '--query QUERY',
+  option :id,
+         description: 'ID of the ElasticSearch document to check for existence',
+         long: '--id ID',
          required: true
 
   option :host,
@@ -164,30 +163,31 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
 
   option :invert,
          long: '--invert',
-         description: 'Invert thresholds',
+         description: 'Invert status',
          boolean: true,
          default: false
 
   def run # rubocop:disable all
-    client.exists(build_request_options)
-    if config[:invert]
-      ok
-    else
-      if config[:warn]
-        warning
+    if client.exists?(build_request_options)
+      if config[:invert]
+        if config[:warn]
+          warning
+        else
+          critical
+        end
       else
-        critical
-      end
-    end
-  rescue Elasticsearch::Transport::Transport::Errors::NotFound
-    if config[:invert]
-      if config[:warn]
-        warning
-      else
-        critical
+        ok
       end
     else
-      ok
+      if config[:invert]
+        ok
+      else
+        if config[:warn]
+          warning
+        else
+          critical
+        end
+      end
     end
   end
 end
