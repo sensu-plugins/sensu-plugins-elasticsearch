@@ -215,7 +215,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
       if config[:months_previous] != 0
         start_time -= (config[:months_previous] * 60 * 60 * 24 * 7 * 31)
       end
-      "Kibana logs: #{config[:kibana_url]}/#/discover?_g=(refreshInterval:(display:Off,section:0,value:0),time:(from:'#{URI.escape(Time.at(start_time).utc.strftime kibana_date_format)}',mode:absolute,to:'#{URI.escape(Time.at(end_time).utc.strftime kibana_date_format)}'))&_a=(columns:!(_source),index:#{URI.escape(index)},interval:auto,query:(query_string:(analyze_wildcard:!t,query:'#{URI.escape(config[:query])}')),sort:!('@timestamp',desc))&dummy"
+      "Kibana logs: < #{config[:kibana_url]}/#/discover?_g=(refreshInterval:(display:Off,section:0,value:0),time:(from:'#{URI.escape(Time.at(start_time).utc.strftime kibana_date_format)}',mode:absolute,to:'#{URI.escape(Time.at(end_time).utc.strftime kibana_date_format)}'))&_a=(columns:!(_source),index:#{URI.escape(index)},interval:auto,query:(query_string:(analyze_wildcard:!t,query:'#{URI.escape(config[:query])}')),sort:!('@timestamp',desc))&dummy >"
     end
   end
 
