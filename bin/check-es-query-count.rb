@@ -14,6 +14,7 @@
 # DEPENDENCIES:
 #   gem: sensu-plugin
 #   gem: elasticsearch
+#   gem: aws_es_transport
 #
 # USAGE:
 #   This example checks that the count of special_type logs matching a query of
@@ -238,7 +239,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
         ok "Query count (#{response['count']}) was ok"
       end
     end
-    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
     if config[:invert]
       if response['count'] < config[:crit]
         critical "Query count (#{response['count']}) was below critical threshold. #{kibana_info}"
