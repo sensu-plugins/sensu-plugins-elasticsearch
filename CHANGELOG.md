@@ -14,6 +14,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - Update elasticsearch gem to 1.0.14
 
 ### Added
+- Add check-es-cluster-health that checks health status with elasticsearch gem and can use AWS transport for checks.
 - Add check-es-circuit-breakers.rb, to alert when circuit breakers have been tripped
 
 ## [0.2.0] - 2015-10-15
