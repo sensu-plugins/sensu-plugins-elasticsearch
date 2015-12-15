@@ -86,11 +86,6 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
   end
 
   def run
-    headers = {}
-    if config[:user] && config[:password]
-      auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
-      headers = { 'Authorization' => auth }
-    end
     if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
       ln = get_es_resource('/_nodes/_local')
       stats = get_es_resource('/_nodes/_local/stats')
