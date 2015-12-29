@@ -40,7 +40,7 @@ require 'aws_es_transport'
 require 'sensu-plugins-elasticsearch'
 
 #
-# ES Heap
+# ES Query Count
 #
 class ESQueryCount < Sensu::Plugin::Check::CLI
   include ElasticsearchCommon

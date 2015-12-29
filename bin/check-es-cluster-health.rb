@@ -34,7 +34,7 @@ require 'aws_es_transport'
 require 'sensu-plugins-elasticsearch'
 
 #
-# ES Heap
+# ES Cluster Health
 #
 class ESClusterHealth < Sensu::Plugin::Check::CLI
   include ElasticsearchCommon
@@ -56,12 +56,12 @@ class ESClusterHealth < Sensu::Plugin::Check::CLI
   option :level,
          description: 'Level of detail to check returend information ("cluster", "indices", "shards").',
          short: '-l LEVEL',
-         long: '--level LEVEL',
+         long: '--level LEVEL'
 
   option :local,
          description: 'Return local information, do not retrieve the state from master node.',
          long: '--local',
-         boolean: true,
+         boolean: true
 
   option :port,
          description: 'Elasticsearch port',
