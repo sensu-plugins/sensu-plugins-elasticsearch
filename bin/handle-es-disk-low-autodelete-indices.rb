@@ -81,12 +81,19 @@ class ESIndexCleanup < Sensu::Handler
          proc: proc(&:to_i),
          default: 60
 
-  option :available,
+  option :available_percent,
          description: 'Percentage of bytes to be made available after deleting indices.',
          short: '-a PERCENTAGE_AVAILABLE',
          long: '--percentage-available PERCENTAGE_AVAILABLE',
          proc: proc(&:to_i),
          default: 20
+
+  option :maximum_butes,
+         description: 'Maximum number bytes for date based indices to use.',
+         short: '-m MAXIMUM_BYTES',
+         long: '--maximum-butes MAXIMUM_BYTES',
+         proc: proc(&:to_i),
+         default: 0
 
   def get_indices_to_delete(starting_date, total_bytes_to_delete, indices_with_sizes)
     total_bytes_deleted = 0
@@ -148,11 +155,16 @@ class ESIndexCleanup < Sensu::Handler
     puts("Used in bytes:      #{used_in_bytes}")
     puts("Total in bytes:     #{total_in_bytes}")
 
-    if config[:available] >= 100 || config[:available] <= 0
+    if config[:available_percent] >= 100 || config[:available_percent] <= 0
       critical "You can not make available percentages greater than 100 or less than 0."
     end
 
-    target_bytes_used = (total_in_bytes.to_f * ((100 - config[:available]).to_f / 100.0)).to_i
+    if config[:maximum_butes] > 0
+      target_bytes_used = config[:maximum_butes]
+    else
+      target_bytes_used = (total_in_bytes.to_f * ((100 - config[:available]).to_f / 100.0)).to_i
+    end
+
     puts("Target bytes used:  #{target_bytes_used}")
     total_bytes_to_delete = used_in_bytes - target_bytes_used
     if total_bytes_to_delete <= 0
@@ -168,7 +180,7 @@ class ESIndexCleanup < Sensu::Handler
 
     puts("Indices to delete: [ #{indices_to_delete.sort.join(', ')} ]")
 
-    # client.indices.delete index: indices_to_delete
+    client.indices.delete index: indices_to_delete
 
     ok "finished"
   end
