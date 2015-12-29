@@ -88,12 +88,18 @@ class ESIndexCleanup < Sensu::Handler
          proc: proc(&:to_i),
          default: 20
 
-  option :maximum_butes,
-         description: 'Maximum number bytes for date based indices to use.',
-         short: '-m MAXIMUM_BYTES',
-         long: '--maximum-butes MAXIMUM_BYTES',
+  option :maximum_megabytes,
+         description: 'Maximum number megabytes for date based indices to use.',
+         short: '-m MAXIMUM_MEGABYTES',
+         long: '--maximum-megabytes MAXIMUM_MEGABYTES',
          proc: proc(&:to_i),
          default: 0
+
+  option :pattern_regex,
+         description: 'Regular expression to use for matching date based indices. Four named groups are matched, pattern, year, month, day.',
+         short: '-x PATTERN_REGEX',
+         long: '--pattern-regex PATTERN_REGEX',
+         default: '^(?<pattern>.*)-(?<year>\d\d\d\d)\.(?<month>\d\d?).(?<day>\d\d?)$'
 
   def get_indices_to_delete(starting_date, total_bytes_to_delete, indices_with_sizes)
     total_bytes_deleted = 0
@@ -122,16 +128,17 @@ class ESIndexCleanup < Sensu::Handler
 
   def build_indices_with_sizes
     indices_fs_stats = client.indices.stats store: true
+    pattern_regex = Regexp.new(config[:pattern_regex])
 
     index_with_sizes = indices_fs_stats['indices'].keys.each_with_object({}) do |key, hash|
-      matching_index = /^(.*)-(\d\d\d\d)\.(\d\d?).(\d\d?)$/.match(key)
+      matching_index = pattern_regex.match(key)
       if matching_index != nil
-        base_pattern = matching_index[1]
+        base_pattern = matching_index[:pattern]
         if base_pattern != nil
           if !hash.include?(base_pattern)
             hash[base_pattern] = []
           end
-          index_date = DateTime.new(matching_index[2].to_i, matching_index[3].to_i, matching_index[4].to_i)
+          index_date = DateTime.new(matching_index[:year].to_i, matching_index[:month].to_i, matching_index[:day].to_i)
           hash[base_pattern].push({
             "size" => indices_fs_stats['indices'][key]['total']['store']['size_in_bytes'].to_i,
             "date" => index_date,
@@ -159,10 +166,10 @@ class ESIndexCleanup < Sensu::Handler
       critical "You can not make available percentages greater than 100 or less than 0."
     end
 
-    if config[:maximum_butes] > 0
-      target_bytes_used = config[:maximum_butes]
+    if config[:maximum_megabytes] > 0
+      target_bytes_used = config[:maximum_megabytes] * 1000000
     else
-      target_bytes_used = (total_in_bytes.to_f * ((100 - config[:available]).to_f / 100.0)).to_i
+      target_bytes_used = (total_in_bytes.to_f * ((100 - config[:available_percent]).to_f / 100.0)).to_i
     end
 
     puts("Target bytes used:  #{target_bytes_used}")
