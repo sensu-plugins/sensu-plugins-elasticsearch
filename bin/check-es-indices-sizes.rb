@@ -80,12 +80,12 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
          proc: proc(&:to_i),
          default: 30
 
-  option :available_percent,
-         description: 'Percentage of bytes to be made available after deleting indices.',
-         short: '-a PERCENTAGE_AVAILABLE',
-         long: '--percentage-available PERCENTAGE_AVAILABLE',
+  option :used_percent,
+         description: 'Percentage of bytes to use for indices matching pattern.',
+         short: '-a USED_PERCENTAGE',
+         long: '--used-percentage USED_PERCENTAGE',
          proc: proc(&:to_i),
-         default: 20
+         default: 80
 
   option :maximum_megabytes,
          description: 'Maximum number megabytes for date based indices to use.',
@@ -110,10 +110,10 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
     if config[:maximum_megabytes] > 0
       target_bytes_used = config[:maximum_megabytes] * 1000000
     else
-      if config[:available_percent] >= 100 || config[:available_percent] <= 0
-        critical "You can not make available percentages greater than 100 or less than 0."
+      if config[:used_percent] > 100 || config[:used_percent] < 0
+        critical "You can not make used-percentages greater than 100 or less than 0."
       end
-      target_bytes_used = (total_in_bytes.to_f * ((100 - config[:available_percent]).to_f / 100.0)).to_i
+      target_bytes_used = (total_in_bytes.to_f * (config[:used_percent].to_f / 100.0)).to_i
     end
 
     total_bytes_to_delete = used_in_bytes - target_bytes_used
