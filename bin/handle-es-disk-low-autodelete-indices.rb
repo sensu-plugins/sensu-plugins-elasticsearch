@@ -24,7 +24,7 @@
 # NOTES:
 #
 # LICENSE:
-#   Brendan Gibat <brendan.gibat@gmail.com>
+#   Brendan Leon Gibat <brendan.gibat@gmail.com>
 #   Released under the same terms as Sensu (the MIT license); see LICENSE
 #   for details.
 #
