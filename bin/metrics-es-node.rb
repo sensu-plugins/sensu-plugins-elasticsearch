@@ -66,16 +66,34 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
          short: '-P PASS',
          long: '--password PASS'
 
-  def run
+  def acquire_es_version
+    info = get_es_resource('/')
+    info['version']['number']
+  end
+
+  def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
       auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
       headers = { 'Authorization' => auth }
     end
-    ln = RestClient::Resource.new "http://#{config[:host]}:#{config[:port]}/_cluster/nodes/_local", timeout: 30, headers: headers
-    stats = RestClient::Resource.new "http://#{config[:host]}:#{config[:port]}/_cluster/nodes/_local/stats", timeout: 30, headers: headers
-    ln = JSON.parse(ln.get)
-    stats = JSON.parse(stats.get)
+    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+    JSON.parse(r.get)
+  rescue Errno::ECONNREFUSED
+    warning 'Connection refused'
+  rescue RestClient::RequestTimeout
+    warning 'Connection timed out'
+  end
+
+  def run
+    if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
+      ln = get_es_resource('/_nodes/_local')
+      stats = get_es_resource('/_nodes/_local/stats')
+    else
+      ln = get_es_resource('/_cluster/nodes/_local')
+      stats = get_es_resource('/_cluster/nodes/_local/stats')
+    end
+
     timestamp = Time.now.to_i
     node = stats['nodes'].values.first
     node['jvm']['mem']['heap_max_in_bytes'] = ln['nodes'].values.first['jvm']['mem']['heap_max_in_bytes']

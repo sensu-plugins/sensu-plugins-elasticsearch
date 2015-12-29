@@ -5,6 +5,11 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## Unreleased
 
+## [0.3.1] - 2015-12-29
+### Changed
+- Update metrics-es-node.rb to use version checks consistent with other metrics
+- Update metrics-es-cluster.rb to use `_stats` api instead of `/_count?q=*:*` see [Unbound wildcard range query cripples es on larger installs #20](https://github.com/sensu-plugins/sensu-plugins-elasticsearch/issues/20)
+
 ## [0.3.0] - 2015-11-18
 ### Changed
 - Update metrics-es-node-graphite.rb, check-es-node-status.rb, and check-es-file-descriptors.rb for Elasticsearch 2.0

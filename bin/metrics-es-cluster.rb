@@ -109,8 +109,8 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
   end
 
   def acquire_document_count
-    document_count = get_es_resource('/_count?q=*:*')
-    document_count['count']
+    document_count = get_es_resource('/_stats/docs')
+    document_count['_all']['total']['docs']['count']
   end
 
   def run
