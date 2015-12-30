@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## Unreleased
+
+## [0.3.2] - 2015-12-29
 ### Changed
 - Update metrics-es-node.rb for Elasticsearch 2.0
 
