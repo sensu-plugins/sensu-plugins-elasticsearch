@@ -100,6 +100,56 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
          long: '--pattern-regex PATTERN_REGEX',
          default: '^(?<pattern>.*)-(?<year>\d\d\d\d)\.(?<month>\d\d?).(?<day>\d\d?)$'
 
+  def get_indices_to_delete(starting_date, total_bytes_to_delete, indices_with_sizes)
+    total_bytes_deleted = 0
+    curr_date = DateTime.now()
+
+    indices_to_delete = []
+
+    # We don't delete the current day, as it is most likely being used.
+    while total_bytes_deleted < total_bytes_to_delete && starting_date < curr_date
+      same_day_indices = indices_with_sizes.values.map { |pattern|
+        pattern.select { |index|
+          index['date'] == starting_date
+          }
+        }.flatten
+      for index in same_day_indices
+        if total_bytes_deleted < total_bytes_to_delete
+          indices_to_delete.push(index['index'])
+          total_bytes_deleted = total_bytes_deleted + index['size']
+        end
+      end
+      starting_date = starting_date + 1
+    end
+
+    return indices_to_delete
+  end
+
+  def build_indices_with_sizes
+    indices_fs_stats = client.indices.stats store: true
+    pattern_regex = Regexp.new(config[:pattern_regex])
+
+    index_with_sizes = indices_fs_stats['indices'].keys.each_with_object({}) do |key, hash|
+      matching_index = pattern_regex.match(key)
+      if matching_index != nil
+        base_pattern = matching_index[:pattern]
+        if base_pattern != nil
+          if !hash.include?(base_pattern)
+            hash[base_pattern] = []
+          end
+          index_date = DateTime.new(matching_index[:year].to_i, matching_index[:month].to_i, matching_index[:day].to_i)
+          hash[base_pattern].push({
+            "size" => indices_fs_stats['indices'][key]['total']['store']['size_in_bytes'].to_i,
+            "date" => index_date,
+            "index" => key
+          })
+        end
+      end
+    end
+
+    return index_with_sizes
+  end
+
   def run
 
     node_fs_stats = client.nodes.stats metric: 'fs,indices'
@@ -117,11 +167,15 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
     end
 
     total_bytes_to_delete = used_in_bytes - target_bytes_used
-
-    if total_bytes_to_delete > 0
-      critical "Not enough space, #{total_bytes_to_delete} bytes need to be deleted. Used space in bytes: #{used_in_bytes}, Total in bytes: #{total_in_bytes}"
+    if total_bytes_to_delete <= 0
+      ok "Used space in bytes: #{used_in_bytes}, Total in bytes: #{total_in_bytes}"
     end
 
-    ok "Used space in bytes: #{used_in_bytes}, Total in bytes: #{total_in_bytes}"
+    indices_with_sizes = build_indices_with_sizes
+
+    oldest = indices_with_sizes.values.flatten.map { |index| index['date'] }.min
+    indices_to_delete = get_indices_to_delete(oldest, total_bytes_to_delete, indices_with_sizes)
+
+    critical "Not enough space, #{total_bytes_to_delete} bytes need to be deleted. Used space in bytes: #{used_in_bytes}, Total in bytes: #{total_in_bytes}. Indices to delete: #{indices_to_delete.sort.map{|i| "INDEX[#{i}]" }.join(", ") }"
   end
 end
