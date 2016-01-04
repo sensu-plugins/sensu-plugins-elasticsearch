@@ -89,7 +89,7 @@ class ESIndexCleanup < Sensu::Handler
   def handle
 
     event_regex = Regexp.new(config[:event_regex])
-    matching_indices = event_regex.match(@event['check']['output']).scan(event_regex).flatten
+    matching_indices = @event['check']['output'].scan(event_regex).flatten
     if matching_indices != nil && matching_indices.size > 0
       indices_to_delete = matching_indices[:indices].split(", ")
 
