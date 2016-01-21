@@ -186,6 +186,12 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       metrics['os.mem.free_in_bytes']             = node['os']['mem']['free_in_bytes']
       # ... Process uptime in millis?
       metrics['os.uptime']                        = node['os']['uptime_in_millis'] if node['os']['uptime_in_millis']
+
+      metrics['os.cpu.sys']                       = node['os']['cpu']['sys']
+      metrics['os.cpu.user']                      = node['os']['cpu']['user']
+      metrics['os.cpu.idle']                      = node['os']['cpu']['idle']
+      metrics['os.cpu.usage']                     = node['os']['cpu']['usage']
+      metrics['os.cpu.stolen']                    = node['os']['cpu']['stolen']
     end
 
     if process_stats
