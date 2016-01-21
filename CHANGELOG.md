@@ -6,6 +6,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## Unreleased
 ### Added
 - metrics-es-node-graphite.rb: Added file system stats
+- metrics-es-node-graphite.rb: Added cpu stats
 
 ## [0.3.2] - 2015-12-29
 ### Changed
