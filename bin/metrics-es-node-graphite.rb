@@ -94,6 +94,12 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
          boolean: true,
          default: false
 
+  option :disable_fs_stats,
+         description: 'Disable filesystem statistics',
+         long: '--disable-fs-stats',
+         boolean: true,
+         default: false
+
   option :user,
          description: 'Elasticsearch User',
          short: '-u USER',
@@ -129,6 +135,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     process_stats = !config[:disable_process_stats]
     jvm_stats = !config[:disable_jvm_stats]
     tp_stats = !config[:disable_thread_pool_stats]
+    fs_stats = !config[:disable_fs_stats]
 
     es_version = Gem::Version.new(acquire_es_version)
 
@@ -138,6 +145,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       stats_query_array.push('os') if os_stat == true
       stats_query_array.push('process') if process_stats == true
       stats_query_array.push('tp_stats') if tp_stats == true
+      stats_query_array.push('fs_stats') if fs_stats == true
       stats_query_string = stats_query_array.join(',')
     else
       stats_query_string = [
@@ -150,7 +158,8 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
         "process=#{process_stats}",
         "thread_pool=#{tp_stats}",
         'transport=true',
-        'thread_pool=true'
+        'thread_pool=true',
+        "fs=#{fs_stats}"
       ].join('&')
     end
 
@@ -250,6 +259,16 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       node['thread_pool'].each do |pool, stat|
         stat.each do |k, v|
           metrics["thread_pool.#{pool}.#{k}"] = v
+        end
+      end
+    end
+
+    if fs_stats
+      node['fs'].each do |fs, fs_value|
+        unless fs =~ /(timestamp|data)/
+          fs_value.each do |k, v|
+            metrics["fs.#{fs}.#{k}"] = v
+          end
         end
       end
     end
