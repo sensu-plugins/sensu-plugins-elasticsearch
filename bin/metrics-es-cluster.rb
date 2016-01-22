@@ -5,7 +5,7 @@
 # DESCRIPTION:
 #   This plugin uses the ES API to collect metrics, producing a JSON
 #   document which is outputted to STDOUT. An exit status of 0 indicates
-#   the plugin has successfully collected and produced.
+#   the plugin has successfully collected and produced metrics.
 #
 # OUTPUT:
 #   metric data
