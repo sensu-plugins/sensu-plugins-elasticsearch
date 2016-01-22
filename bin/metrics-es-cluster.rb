@@ -5,7 +5,7 @@
 # DESCRIPTION:
 #   This plugin uses the ES API to collect metrics, producing a JSON
 #   document which is outputted to STDOUT. An exit status of 0 indicates
-#   the plugin has successfully collected and produced.
+#   the plugin has successfully collected and produced metrics.
 #
 # OUTPUT:
 #   metric data
@@ -63,6 +63,18 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
          proc: proc(&:to_i),
          default: 30
 
+  option :allow_non_master,
+         description: 'Allow check to run on non-master nodes',
+         short: '-a',
+         long: '--allow-non-master',
+         default: false
+
+  option :enable_percolate,
+         description: 'Enables percolator stats',
+         short: '-o',
+         long: '--enable-percolate',
+         default: false
+
   option :user,
          description: 'Elasticsearch User',
          short: '-u USER',
@@ -113,12 +125,42 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
     document_count['_all']['total']['docs']['count']
   end
 
+  def acquire_cluster_metrics
+    cluster_stats = get_es_resource('/_cluster/stats')
+    cluster_metrics = Hash.new { |h, k| h[k] = {} }
+    cluster_metrics['fs']['total_in_bytes'] = cluster_stats['nodes']['fs']['total_in_bytes']
+    cluster_metrics['fs']['free_in_bytes'] = cluster_stats['nodes']['fs']['free_in_bytes']
+    cluster_metrics['fs']['store_in_bytes'] = cluster_stats['indices']['store']['size_in_bytes']
+    cluster_metrics['fielddata']['memory_size_in_bytes'] = cluster_stats['indices']['fielddata']['memory_size_in_bytes']
+    cluster_metrics['fielddata']['evictions'] = cluster_stats['indices']['fielddata']['evictions']
+    cluster_metrics['filter_cache']['memory_size_in_bytes'] = cluster_stats['indices']['filter_cache']['memory_size_in_bytes']
+    cluster_metrics['filter_cache']['evictions'] = cluster_stats['indices']['filter_cache']['evictions']
+    cluster_metrics['mem'] = cluster_stats['nodes']['jvm']['mem']
+    if config[:enable_percolate]
+      cluster_metrics['percolate']['total'] = cluster_stats['indices']['percolate']['total']
+      cluster_metrics['percolate']['time_in_millis'] = cluster_stats['indices']['percolate']['time_in_millis']
+      cluster_metrics['percolate']['queries'] = cluster_stats['indices']['percolate']['queries']
+    end
+    cluster_metrics
+  end
+
+  def acquire_allocation_status
+    cluster_config = get_es_resource('/_cluster/settings')
+    %w(none new_primaries primaries all).index(cluster_config['transient']['cluster']['routing']['allocation']['enable'])
+  end
+
   def run
-    if master?
+    if config[:allow_non_master] || master?
       acquire_health.each do |k, v|
         output(config[:scheme] + '.' + k, v)
       end
+      acquire_cluster_metrics.each do |cluster_metric|
+        cluster_metric[1].each do |k, v|
+          output(config[:scheme] + '.' + cluster_metric[0] + '.' + k, v)
+        end
+      end
       output(config[:scheme] + '.document_count', acquire_document_count)
+      output(config[:scheme] + '.allocation_status', acquire_allocation_status)
     end
     ok
   end
