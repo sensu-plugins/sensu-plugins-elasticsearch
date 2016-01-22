@@ -4,9 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## Unreleased
+
+## [0.4.0] - 2016-01-22
 ### Added
-- metrics-es-node-graphite.rb: Added file system stats
-- metrics-es-node-graphite.rb: Added cpu stats
+- metrics-es-node-graphite.rb: Added file system and cpu stats
+- metrics-es-cluster.rb: Added cluster metrics including optional percolator metrics, allocation status, and option to run on non-master nodes
 
 ## [0.3.2] - 2015-12-29
 ### Changed
