@@ -63,10 +63,10 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
          proc: proc(&:to_i),
          default: 30
 
-  option :allow_not_master,
-         description: 'Use master Elasticsearch server only',
+  option :allow_non_master,
+         description: 'Allow check to run on non-master nodes',
          short: '-a',
-         long: '--allow-not-master-only',
+         long: '--allow-non-master',
          default: false
 
   option :enable_percolate,
@@ -150,7 +150,7 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
   end
 
   def run
-    if config[:allow_not_master] || master?
+    if config[:allow_non_master] || master?
       acquire_health.each do |k, v|
         output(config[:scheme] + '.' + k, v)
       end
