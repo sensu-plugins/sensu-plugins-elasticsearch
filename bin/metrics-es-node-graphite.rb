@@ -182,20 +182,19 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
         metrics['os.load_average.1']                = node['os']['load_average'][0]
         metrics['os.load_average.5']                = node['os']['load_average'][1]
         metrics['os.load_average.15']               = node['os']['load_average'][2]
+        metrics['os.cpu.sys']                       = node['os']['cpu']['sys']
+        metrics['os.cpu.user']                      = node['os']['cpu']['user']
+        metrics['os.cpu.idle']                      = node['os']['cpu']['idle']
+        metrics['os.cpu.usage']                     = node['os']['cpu']['usage']
+        metrics['os.cpu.stolen']                    = node['os']['cpu']['stolen']
+        metrics['os.uptime']                        = node['os']['uptime_in_millis']
       end
       metrics['os.mem.free_in_bytes']             = node['os']['mem']['free_in_bytes']
-      # ... Process uptime in millis?
-      metrics['os.uptime']                        = node['os']['uptime_in_millis'] if node['os']['uptime_in_millis']
-
-      metrics['os.cpu.sys']                       = node['os']['cpu']['sys']
-      metrics['os.cpu.user']                      = node['os']['cpu']['user']
-      metrics['os.cpu.idle']                      = node['os']['cpu']['idle']
-      metrics['os.cpu.usage']                     = node['os']['cpu']['usage']
-      metrics['os.cpu.stolen']                    = node['os']['cpu']['stolen']
     end
 
     if process_stats
-      metrics['process.mem.resident_in_bytes']    = node['process']['mem']['resident_in_bytes']
+      metrics['process.cpu.percent']              = node['process']['cpu']['percent']
+      metrics['process.mem.resident_in_bytes']    = node['process']['mem']['resident_in_bytes'] if node['process']['mem']['resident_in_bytes']
     end
 
     if jvm_stats
