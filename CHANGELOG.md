@@ -6,7 +6,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## Unreleased
 ### Fixed
 - metrics-es-cluster.rb: Allow metrics to be gathered even if the cluster has zero documents. Also updated cache name for Elasticsearch 2.0+ upgrade.
-
+- metrics-es-node-graphite.rb: Update node stats for Elasticsearch 2.0+ upgrade
 
 ## [0.4.0] - 2016-01-22
 ### Added
