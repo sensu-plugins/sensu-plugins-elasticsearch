@@ -138,9 +138,14 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
     cluster_metrics['fs']['store_in_bytes'] = cluster_stats['indices']['store']['size_in_bytes']
     cluster_metrics['fielddata']['memory_size_in_bytes'] = cluster_stats['indices']['fielddata']['memory_size_in_bytes']
     cluster_metrics['fielddata']['evictions'] = cluster_stats['indices']['fielddata']['evictions']
-    cluster_metrics['filter_cache']['memory_size_in_bytes'] = cluster_stats['indices']['filter_cache']['memory_size_in_bytes']
-    cluster_metrics['filter_cache']['evictions'] = cluster_stats['indices']['filter_cache']['evictions']
+
+    # Elasticsearch changed the name filter_cache to query_cache in 2.0+
+    cache_name = Gem::Version.new(acquire_es_version) < Gem::Version.new('2.0.0') ? 'filter_cache' : 'query_cache'
+
+    cluster_metrics[cache_name]['memory_size_in_bytes'] = cluster_stats['indices'][cache_name]['memory_size_in_bytes']
+    cluster_metrics[cache_name]['evictions'] = cluster_stats['indices'][cache_name]['evictions']
     cluster_metrics['mem'] = cluster_stats['nodes']['jvm']['mem']
+
     if config[:enable_percolate]
       cluster_metrics['percolate']['total'] = cluster_stats['indices']['percolate']['total']
       cluster_metrics['percolate']['time_in_millis'] = cluster_stats['indices']['percolate']['time_in_millis']
