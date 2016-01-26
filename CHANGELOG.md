@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## Unreleased
+### Fixed
+- metrics-es-cluster.rb: Allow metrics to be gathered even if the cluster has zero documents
 
 ## [0.4.0] - 2016-01-22
 ### Added
