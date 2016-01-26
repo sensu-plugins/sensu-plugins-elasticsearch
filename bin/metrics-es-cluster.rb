@@ -122,7 +122,12 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
 
   def acquire_document_count
     document_count = get_es_resource('/_stats/docs')
-    document_count['_all']['total']['docs']['count']
+    count = document_count['_all']['total']
+    if count.empty?
+      return 0
+    else
+      return count['docs']['count']
+    end
   end
 
   def acquire_cluster_metrics
@@ -146,7 +151,12 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
 
   def acquire_allocation_status
     cluster_config = get_es_resource('/_cluster/settings')
-    %w(none new_primaries primaries all).index(cluster_config['transient']['cluster']['routing']['allocation']['enable'])
+    transient_settings = cluster_config['transient']
+    if transient_settings.empty?
+      return nil
+    else
+      return %w(none new_primaries primaries all).index(transient_settings['cluster']['routing']['allocation']['enable'])
+    end
   end
 
   def run
@@ -160,7 +170,7 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
         end
       end
       output(config[:scheme] + '.document_count', acquire_document_count)
-      output(config[:scheme] + '.allocation_status', acquire_allocation_status)
+      output(config[:scheme] + '.allocation_status', acquire_allocation_status) unless acquire_allocation_status.nil?
     end
     ok
   end
