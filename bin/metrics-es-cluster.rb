@@ -136,6 +136,10 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
     cluster_metrics['fs']['total_in_bytes'] = cluster_stats['nodes']['fs']['total_in_bytes']
     cluster_metrics['fs']['free_in_bytes'] = cluster_stats['nodes']['fs']['free_in_bytes']
     cluster_metrics['fs']['store_in_bytes'] = cluster_stats['indices']['store']['size_in_bytes']
+    cluster_metrics['fs']['disk_reads'] = cluster_stats['nodes']['fs']['disk_reads']
+    cluster_metrics['fs']['disk_writes'] = cluster_stats['nodes']['fs']['disk_writes']
+    cluster_metrics['fs']['disk_read_size_in_bytes'] = cluster_stats['nodes']['fs']['disk_read_size_in_bytes']
+    cluster_metrics['fs']['disk_write_size_in_bytes'] = cluster_stats['nodes']['fs']['disk_write_size_in_bytes']
     cluster_metrics['fielddata']['memory_size_in_bytes'] = cluster_stats['indices']['fielddata']['memory_size_in_bytes']
     cluster_metrics['fielddata']['evictions'] = cluster_stats['indices']['fielddata']['evictions']
 
