@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## Unreleased
+
+## [0.4.2] - 2016-01-27
 ### Added
 - metrics-es-cluster.rb: Added i/o cluster stats
 
