@@ -35,10 +35,12 @@
 
 require 'sensu-plugin/check/cli'
 require 'elasticsearch'
+require 'time'
+require 'aws_es_transport'
 require 'sensu-plugins-elasticsearch'
 
 #
-# ES Heap
+# ES Query Exists
 #
 class ESQueryExists < Sensu::Plugin::Check::CLI
   include ElasticsearchCommon
@@ -50,6 +52,14 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
          Accepts wildcards',
          short: '-i INDEX',
          long: '--indices INDEX'
+
+  option :transport,
+         long: '--transport TRANSPORT',
+         description: 'Transport to use to communicate with ES. Use "AWS" for signed AWS transports.'
+
+  option :region,
+         long: '--region REGION',
+         description: 'Region (necessary for AWS Transport)'
 
   option :types,
          description: 'Elasticsearch types to limit searches to, comma separated list.',
@@ -103,10 +113,9 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
          boolean: true,
          default: false
 
-  option :query,
-         description: 'Elasticsearch query',
-         short: '-q QUERY',
-         long: '--query QUERY',
+  option :id,
+         description: 'ID of the ElasticSearch document to check for existence',
+         long: '--id ID',
          required: true
 
   option :host,
@@ -146,28 +155,39 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
          default: 30
 
   option :warn,
-         short: '-w N',
-         long: '--warn N',
-         description: 'Result count WARNING threshold',
-         proc: proc(&:to_i),
-         default: 0
-
-  option :crit,
-         short: '-c N',
-         long: '--crit N',
-         description: 'Result count CRITICAL threshold',
-         proc: proc(&:to_i),
-         default: 0
+         short: '-w',
+         long: '--warn',
+         description: 'Warn instead of critical',
+         boolean: true,
+         default: false
 
   option :invert,
          long: '--invert',
-         description: 'Invert thresholds',
-         boolean: true
+         description: 'Invert status',
+         boolean: true,
+         default: false
 
-    def run # rubocop:disable all
-      client.exists(build_request_options)
-      ok
-  rescue Elasticsearch::Transport::Transport::Errors::NotFound
-    critical
+  def run # rubocop:disable all
+    if client.exists?(build_request_options)
+      if config[:invert]
+        if config[:warn]
+          warning
+        else
+          critical
+        end
+      else
+        ok
+      end
+    else
+      if config[:invert]
+        ok
+      else
+        if config[:warn]
+          warning
+        else
+          critical
+        end
+      end
     end
+  end
 end

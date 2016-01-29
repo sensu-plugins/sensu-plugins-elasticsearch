@@ -61,9 +61,14 @@ module ElasticsearchQuery
 
   def build_request_options
     options = {
-      index: indices,
-      ignore_unavailable: true
+      index: indices
     }
+    if !config[:ignore_unavailable].nil?
+      options[:ignore_unavailable] = config[:ignore_unavailable]
+    end
+    if !config[:id].nil?
+      options[:id] = config[:id]
+    end
     if !config[:body].nil?
       options[:body] = config[:body]
     else
