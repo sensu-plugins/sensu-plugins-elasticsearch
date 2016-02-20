@@ -100,11 +100,11 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
     node = stats['nodes'].values.first
     node['jvm']['mem']['heap_max_in_bytes'] = ln['nodes'].values.first['jvm']['mem']['heap_max_in_bytes']
     metrics = {}
-    if es_version >= Gem::Version.new('2.0.0')
-      metrics['os.load_average'] = node['os']['load_average']
-    else
-      metrics['os.load_average'] = node['os']['load_average'][0]
-    end
+    metrics['os.load_average'] = if es_version >= Gem::Version.new('2.0.0')
+                                   node['os']['load_average']
+                                 else
+                                   node['os']['load_average'][0]
+                                 end
     metrics['os.mem.free_in_bytes'] = node['os']['mem']['free_in_bytes']
     metrics['process.mem.resident_in_bytes'] = node['process']['mem']['resident_in_bytes']
     metrics['jvm.mem.heap_used_in_bytes'] = node['jvm']['mem']['heap_used_in_bytes']

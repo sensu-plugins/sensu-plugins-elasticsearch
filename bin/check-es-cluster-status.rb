@@ -111,11 +111,11 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
   end
 
   def acquire_status
-    if config[:status_timeout]
-      health = get_es_resource("/_cluster/health?wait_for_status=green&timeout=#{config[:status_timeout]}s")
-    else
-      health = get_es_resource('/_cluster/health')
-    end
+    health = if config[:status_timeout]
+               get_es_resource("/_cluster/health?wait_for_status=green&timeout=#{config[:status_timeout]}s")
+             else
+               get_es_resource('/_cluster/health')
+             end
     health['status'].downcase
   end
 

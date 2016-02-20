@@ -34,3 +34,9 @@ Style/Next:
 
 Style/FormatString:
   Enabled: false
+
+Style/NestedParenthesizedCalls:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false

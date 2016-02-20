@@ -163,11 +163,11 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       ].join('&')
     end
 
-    if es_version >= Gem::Version.new('1.0.0')
-      stats = get_es_resource("/_nodes/_local/stats?#{stats_query_string}")
-    else
-      stats = get_es_resource("/_cluster/nodes/_local/stats?#{stats_query_string}")
-    end
+    stats = if es_version >= Gem::Version.new('1.0.0')
+              get_es_resource("/_nodes/_local/stats?#{stats_query_string}")
+            else
+              get_es_resource("/_cluster/nodes/_local/stats?#{stats_query_string}")
+            end
 
     timestamp = Time.now.to_i
     node = stats['nodes'].values.first
@@ -203,7 +203,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       metrics['jvm.mem.max_heap_size_in_bytes']   = 0
 
       node['jvm']['mem']['pools'].each do |k, v|
-        metrics["jvm.mem.#{k.gsub(' ', '_')}.max_in_bytes"] = v['max_in_bytes']
+        metrics["jvm.mem.#{k.tr(' ', '_')}.max_in_bytes"] = v['max_in_bytes']
         metrics['jvm.mem.max_heap_size_in_bytes'] += v['max_in_bytes']
       end
 

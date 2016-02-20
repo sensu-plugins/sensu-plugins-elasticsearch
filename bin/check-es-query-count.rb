@@ -181,7 +181,7 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
         ok "Query count (#{response['count']}) was ok"
       end
     else
-      if response['count'] > config[:crit]
+      if response['count'] > config[:crit] # rubocop:disable Style/IfInsideElse
         critical "Query count (#{response['count']}) was above critical threshold"
       elsif response['count'] > config[:warn]
         warning "Query count (#{response['count']}) was above warning threshold"
@@ -189,17 +189,17 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
         ok "Query count (#{response['count']}) was ok"
       end
     end
-rescue Elasticsearch::Transport::Transport::Errors::NotFound
-  if config[:invert]
-    if response['count'] < config[:crit]
-      critical "Query count (#{response['count']}) was below critical threshold"
-    elsif response['count'] < config[:warn]
-      warning "Query count (#{response['count']}) was below warning threshold"
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+    if config[:invert]
+      if response['count'] < config[:crit]
+        critical "Query count (#{response['count']}) was below critical threshold"
+      elsif response['count'] < config[:warn]
+        warning "Query count (#{response['count']}) was below warning threshold"
+      else
+        ok "Query count (#{response['count']}) was ok"
+      end
     else
-      ok "Query count (#{response['count']}) was ok"
+      ok 'No results found, count was below thresholds'
     end
-  else
-    ok 'No results found, count was below thresholds'
-  end
   end
 end

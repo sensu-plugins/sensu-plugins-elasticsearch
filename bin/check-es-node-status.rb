@@ -88,7 +88,7 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
     node_status = acquire_status
 
     if node_status == 200
-      ok "Alive #{(node_status)}"
+      ok "Alive #{node_status}"
     else
       critical "Dead (#{node_status})"
     end

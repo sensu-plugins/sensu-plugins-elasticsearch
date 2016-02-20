@@ -1,19 +1,33 @@
 language: ruby
 cache:
-  - bundler
+- bundler
 install:
-  - bundle install
+- bundle install
 rvm:
-  - 1.9.3
-  - 2.0
-  - 2.1
-  - 2.2
+- 1.9.3
+- 2.0
+- 2.1
+- 2.2
 notifications:
   email:
     recipients:
-      - sensu-plugin@sensu-plugins.io
+    - sensu-plugin@sensu-plugins.io
     on_success: change
     on_failure: always
-
 script:
-  - 'bundle exec rake default'
+- bundle exec rake default
+- gem build sensu-plugins-elasticsearch.gemspec
+- gem install sensu-plugins-elasticsearch-*.gem
+deploy:
+  provider: rubygems
+  api_key:
+    secure: lF7CO6Vfmd9+PR4vDdv5E4iL+NuOUacQR19DhBY+TNrz/BSD+ehAlaGMshbFICpZ6BtUKVj+lMlmjiKHEfcKrPuovO4AUE4wRQRiD/LSorBdgM06iJL6mGblrMiyCMfBs0FLkXVdrQRa5AHGY8Assw+JGS58Xrnh1pvttgP6Tyw=
+  gem: sensu-plugins-elasticsearch
+  on:
+    tags: true
+    all_branches: true
+    rvm: 1.9.3
+    rvm: 2.0
+    rvm: 2.1
+    rvm: 2.2
+    repo: sensu-plugins/sensu-plugins-elasticsearch
