@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+
+## [0.4.3] - 2016-02-22
 ### Fixed
 - metrics-es-heap.rb: Assignment of node from the stats variable happened before stats was assigned.  Moved node assignment to be after stats assignment.
 
@@ -74,7 +76,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.2...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.3...HEAD
+[0.4.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.2...0.4.3
 [0.4.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.1...0.4.2
 [0.4.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.0...0.4.1
 [0.4.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.3.2...0.4.0
