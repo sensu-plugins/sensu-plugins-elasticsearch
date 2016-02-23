@@ -54,32 +54,38 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          description: 'Elasticsearch types to limit searches to, comma separated list.',
          long: '--types TYPES'
 
+  option :offset,
+         description: 'Seconds before offset to end @timestamp against query.',
+         long: '--offset OFFSET',
+         proc: proc(&:to_i),
+         default: 0
+
   option :minutes_previous,
-         description: 'Minutes before now to check @timestamp against query.',
+         description: 'Minutes before offset to check @timestamp against query.',
          long: '--minutes-previous MINUTES_PREVIOUS',
          proc: proc(&:to_i),
          default: 0
 
   option :hours_previous,
-         description: 'Hours before now to check @timestamp against query.',
+         description: 'Hours before offset to check @timestamp against query.',
          long: '--hours-previous HOURS_PREVIOUS',
          proc: proc(&:to_i),
          default: 0
 
   option :days_previous,
-         description: 'Days before now to check @timestamp against query.',
+         description: 'Days before offset to check @timestamp against query.',
          long: '--days-previous DAYS_PREVIOUS',
          proc: proc(&:to_i),
          default: 0
 
   option :weeks_previous,
-         description: 'Weeks before now to check @timestamp against query.',
+         description: 'Weeks before offset to check @timestamp against query.',
          long: '--weeks-previous WEEKS_PREVIOUS',
          proc: proc(&:to_i),
          default: 0
 
   option :months_previous,
-         description: 'Months before now to check @timestamp against query.',
+         description: 'Months before offset to check @timestamp against query.',
          long: '--months-previous MONTHS_PREVIOUS',
          proc: proc(&:to_i),
          default: 0

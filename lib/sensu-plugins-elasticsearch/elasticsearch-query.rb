@@ -21,12 +21,13 @@ module ElasticsearchQuery
     super()
   end
 
-  def indices
+  def indices(end_time)
     if !config[:index].nil?
       return config[:index]
     elsif !config[:date_index].nil?
       indices = []
-      curr = Time.now.utc.to_i
+
+      curr = end_time.to_i
       start = curr
 
       if config[:minutes_previous] != 0
@@ -60,15 +61,17 @@ module ElasticsearchQuery
   end
 
   def build_request_options
+    end_time = (Time.now.utc - config[:offset])
     options = {
-      index: indices,
+      index: indices(end_time),
       ignore_unavailable: true
     }
+
     if !config[:body].nil?
       options[:body] = config[:body]
     else
-      es_date_filter = es_date_math_string
-      unless es_date_filter.nil?
+      es_date_start = es_date_math_string end_time
+      unless es_date_start.nil?
         options[:body] = {
           'query' => {
             'filtered' => {
@@ -80,7 +83,10 @@ module ElasticsearchQuery
               },
               'filter' => {
                 'range' => {
-                  '@timestamp' => { 'gt' => es_date_filter }
+                  '@timestamp' => {
+                    'gt' => es_date_start,
+                    'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S')
+                  }
                 }
               }
             }
@@ -94,7 +100,7 @@ module ElasticsearchQuery
     options
   end
 
-  def es_date_math_string
+  def es_date_math_string(end_time)
     if config[:minutes_previous] == 0 && \
        config[:hours_previous] == 0 && \
        config[:days_previous] == 0 && \
@@ -102,22 +108,12 @@ module ElasticsearchQuery
        config[:months_previous] == 0
       return nil
     else
-      es_math = "#{Time.now.utc.strftime '%Y-%m-%dT%H:%M:%S'}||"
-      if config[:minutes_previous] != 0
-        es_math += "-#{config[:minutes_previous]}m"
-      end
-      if config[:hours_previous] != 0
-        es_math += "-#{config[:hours_previous]}h"
-      end
-      if config[:days_previous] != 0
-        es_math += "-#{config[:days_previous]}d"
-      end
-      if config[:weeks_previous] != 0
-        es_math += "-#{config[:weeks_previous]}w"
-      end
-      if config[:months_previous] != 0
-        es_math += "-#{config[:months_previous]}M"
-      end
+      es_math = "#{end_time.strftime '%Y-%m-%dT%H:%M:%S'}||"
+      es_math += "-#{config[:minutes_previous]}m" if config[:minutes_previous] != 0
+      es_math += "-#{config[:hours_previous]}h" if config[:hours_previous] != 0
+      es_math += "-#{config[:days_previous]}d" if config[:days_previous] != 0
+      es_math += "-#{config[:weeks_previous]}w" if config[:weeks_previous] != 0
+      es_math += "-#{config[:months_previous]}M" if config[:months_previous] != 0
       return es_math
     end
   end
