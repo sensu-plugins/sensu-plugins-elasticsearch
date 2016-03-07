@@ -111,9 +111,9 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
          long: '--password PASS'
 
   option :https,
-         description: "Enables HTTPS",
-         short: "-e",
-         long: "--https"
+         description: 'Enables HTTPS',
+         short: '-e',
+         long: '--https'
 
   def get_es_resource(resource)
     headers = {}
@@ -122,11 +122,11 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       headers = { 'Authorization' => auth }
     end
 
-    if config[:https]
-      protocol='https'
-    else
-      protocol='http'
-    end
+    protocol = if config[:https]
+                 'https'
+               else
+                 'http'
+               end
 
     r = RestClient::Resource.new("#{protocol}://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)

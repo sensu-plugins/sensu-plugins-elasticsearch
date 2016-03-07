@@ -86,9 +86,9 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
          long: '--password PASS'
 
   option :https,
-         description: "Enables HTTPS",
-         short: "-e",
-         long: "--https"
+         description: 'Enables HTTPS',
+         short: '-e',
+         long: '--https'
 
   def acquire_es_version
     info = get_es_resource('/')
@@ -102,11 +102,11 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
       headers = { 'Authorization' => auth }
     end
 
-    if config[:https]
-      protocol='https'
-    else
-      protocol='http'
-    end
+    protocol = if config[:https]
+                 'https'
+               else
+                 'http'
+               end
 
     r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
