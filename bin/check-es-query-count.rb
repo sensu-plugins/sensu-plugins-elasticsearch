@@ -54,6 +54,11 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          description: 'Elasticsearch types to limit searches to, comma separated list.',
          long: '--types TYPES'
 
+  option :timestamp_field,
+         description: 'Field to use instead of @timestamp for query.',
+         long: '--timestamp-field FIELD_NAME',
+         default: '@timestamp'
+
   option :offset,
          description: 'Seconds before offset to end @timestamp against query.',
          long: '--offset OFFSET',

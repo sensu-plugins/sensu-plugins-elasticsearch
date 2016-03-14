@@ -83,7 +83,7 @@ module ElasticsearchQuery
               },
               'filter' => {
                 'range' => {
-                  '@timestamp' => {
+                  config[:timestamp_field] => {
                     'gt' => es_date_start,
                     'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S')
                   }
