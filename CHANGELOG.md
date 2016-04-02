@@ -4,8 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+
+## [0.6.3] - 2016-04-02
+### Added
+- check-es-indexes (check for dup indexes)
+- check-es-shard-allocation (check ElasticSearch shard allocation persistent and transient settings)
 - Adding offset flag to allow specifying of a end time offset
 - Adding custom timestamp field feature to check-es-query-count and check-es-query-exists
+- Added support for https requests (OrbotixInc)
+
 
 ## [0.4.3] - 2016-02-22
 ### Fixed
@@ -15,7 +22,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - metrics-es-cluster.rb: Added i/o cluster stats
 
-## [0.4.1] - 2016-01-26 
+## [0.4.1] - 2016-01-26
 ### Fixed
 - metrics-es-cluster.rb: Allow metrics to be gathered even if the cluster has zero documents. Also updated cache name for Elasticsearch 2.0+
 - metrics-es-node-graphite.rb: Update node stats for Elasticsearch 2.0+
@@ -78,8 +85,9 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.3...HEAD
-[0.4.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.2...0.4.3
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.5.3...HEAD
+[0.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.2...0.4.3
+[0.4.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.2...0.4.3
 [0.4.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.1...0.4.2
 [0.4.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.0...0.4.1
 [0.4.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.3.2...0.4.0
