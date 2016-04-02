@@ -64,13 +64,25 @@ class ESCircuitBreaker < Sensu::Plugin::Check::CLI
          short: '-P PASS',
          long: '--password PASS'
 
+  option :https,
+         description: 'Enables HTTPS',
+         short: '-e',
+         long: '--https'
+
   def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
       auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
       headers = { 'Authorization' => auth }
     end
-    r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+
+    protocol = if config[:https]
+                 'https'
+               else
+                 'http'
+               end
+
+    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     critical 'Connection refused'

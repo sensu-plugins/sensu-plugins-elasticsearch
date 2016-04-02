@@ -110,13 +110,25 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
          short: '-P PASS',
          long: '--password PASS'
 
+  option :https,
+         description: 'Enables HTTPS',
+         short: '-e',
+         long: '--https'
+
   def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
       auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
       headers = { 'Authorization' => auth }
     end
-    r = RestClient::Resource.new("http://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout], headers: headers)
+
+    protocol = if config[:https]
+                 'https'
+               else
+                 'http'
+               end
+
+    r = RestClient::Resource.new("#{protocol}://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
