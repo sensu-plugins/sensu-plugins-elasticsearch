@@ -53,7 +53,7 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
          default: '9200'
 
   def get_es_resource(resource)
-    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}/#{resource}", timeout: 45)
+    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}/#{resource}", user: ENV["shield_user"], password: ENV["shield_password"], timeout: 45)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
