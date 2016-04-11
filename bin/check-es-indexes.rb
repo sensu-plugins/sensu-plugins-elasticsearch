@@ -49,6 +49,16 @@ class CheckESClusterIndex < Sensu::Plugin::Check::CLI
          short: '-d',
          long: '--debug'
 
+  option :shield_user,
+         description: 'Shield User',
+         short: '-s',
+         long: '--shield-user USER'
+
+  option :shield_password,
+         description: 'Shield Password',
+         short: '-d',
+         long: '--shield-password PASS'
+
   def run
     # If only one cluster is given, no need to check the indexes
     ok 'All indexes are unique' if config[:cluster].length == 1
@@ -59,7 +69,7 @@ class CheckESClusterIndex < Sensu::Plugin::Check::CLI
     valid_index = {}
     dupe_index = {}
     config[:cluster].each do |u|
-      index_arr = `curl -s -u $shield_user:$shield_password #{ u }#{ port }#{ cmd }`.split("\n")
+      index_arr = `curl -s -u #{ shield_user }:#{ shield_password } #{ u }#{ port }#{ cmd }`.split("\n")
       index_arr.each do |t|
         t = t.split[1]
 
