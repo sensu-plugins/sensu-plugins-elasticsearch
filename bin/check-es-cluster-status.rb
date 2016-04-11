@@ -90,7 +90,7 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
 
   option :shield_password,
          description: 'Specify Shield password',
-         short: '-sp',
+         short: '-d',
          long: '--shield-password'
 
   def get_es_resource(resource)
