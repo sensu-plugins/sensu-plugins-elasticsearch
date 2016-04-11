@@ -83,6 +83,16 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
+  option :shield_username,
+         description: 'Specify Shield username',
+         short: '-s',
+         long: '--shield-username'
+
+  option :shield_password,
+         description: 'Specify Shield password',
+         short: '-sp',
+         long: '--shield-password'
+
   def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
@@ -96,7 +106,7 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", user: ENV["shield_user"], password: ENV["shield_password"], timeout: config[:timeout], headers: headers)
+    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", user: config["shield_username"], password: config["shield_password"], timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     critical 'Connection refused'
