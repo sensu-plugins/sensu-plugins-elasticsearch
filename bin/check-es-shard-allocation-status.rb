@@ -63,7 +63,7 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
          long: '--shield-password PASS'
 
   def get_es_resource(resource)
-    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}/#{resource}", user: config[:shield_user], password: config[:shield_password], timeout: 45)
+    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}/#{resource}", verify_ssl: false, user: config[:shield_user], password: config[:shield_password], timeout: 45)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'

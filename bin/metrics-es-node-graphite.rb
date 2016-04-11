@@ -138,7 +138,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:server]}:#{config[:port]}#{resource}?pretty", user: config[:shield_user], password: config[:shield_password], timeout: config[:timeout], headers: headers)
+    r = RestClient::Resource.new("#{protocol}://#{config[:server]}:#{config[:port]}#{resource}?pretty", verify_ssl: false, user: config[:shield_user], password: config[:shield_password], timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'

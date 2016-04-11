@@ -105,7 +105,7 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", user: config[:shield_user], password: config[:shield_password], timeout: config[:timeout], headers: headers)
+    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", verify_ssl: false, user: config[:shield_user], password: config[:shield_password], timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'

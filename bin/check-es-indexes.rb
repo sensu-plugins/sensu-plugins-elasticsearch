@@ -69,7 +69,7 @@ class CheckESClusterIndex < Sensu::Plugin::Check::CLI
     valid_index = {}
     dupe_index = {}
     config[:cluster].each do |u|
-      index_arr = `curl -s -u #{ shield_user }:#{ shield_password } #{ u }#{ port }#{ cmd }`.split("\n")
+      index_arr = `curl -s -k -u #{ shield_user }:#{ shield_password } #{ u }#{ port }#{ cmd }`.split("\n")
       index_arr.each do |t|
         t = t.split[1]
 
