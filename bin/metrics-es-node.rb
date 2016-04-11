@@ -71,6 +71,16 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
          short: '-e',
          long: '--https'
 
+  option :shield_user,
+         description: 'Shield User',
+         short: '-s',
+         long: '--shield-user USER'
+
+  option :shield_password,
+         description: 'Shield Password',
+         short: '-d',
+         long: '--shield-password PASS'
+
   def acquire_es_version
     info = get_es_resource('/')
     info['version']['number']
@@ -89,7 +99,7 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", user: ENV["shield_user"], password: ENV["shield_password"], timeout: config[:timeout], headers: headers)
+    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", user: config[:shield_user], password: config[:shield_password], timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
