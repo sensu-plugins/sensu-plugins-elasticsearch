@@ -181,6 +181,16 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
          description: 'Invert thresholds',
          boolean: true
 
+  option :shield_user,
+         description: 'Shield User',
+         short: '-s',
+         long: '--shield-user USER'
+
+  option :shield_password,
+         description: 'Shield Password',
+         short: '-d',
+         long: '--shield-password PASS'
+
   def run
     response = client.count(build_request_options)
     if config[:invert]

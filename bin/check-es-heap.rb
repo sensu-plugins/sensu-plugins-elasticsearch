@@ -90,6 +90,16 @@ class ESHeap < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
+  option :shield_user,
+         description: 'Shield User',
+         short: '-s',
+         long: '--shield-user USER'
+
+  option :shield_password,
+         description: 'Shield Password',
+         short: '-d',
+         long: '--shield-password PASS'
+
   def acquire_es_version
     info = acquire_es_resource('/')
     info['version']['number']
@@ -108,7 +118,7 @@ class ESHeap < Sensu::Plugin::Check::CLI
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", user: config[:shield_user], password: config[:shield_password], timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
