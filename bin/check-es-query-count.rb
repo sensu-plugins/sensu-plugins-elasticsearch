@@ -204,11 +204,12 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
 
   def kibana_info
     kibana_date_format = '%Y-%m-%dT%H:%M:%S.%LZ'
-    if !config[:kibana_url].nil?
+    unless config[:kibana_url].nil?
       index = config[:index]
-      if !config[:date_index].nil?
+      unless config[:date_index].nil?
         date_index_partition = config[:date_index].split('%')
-        index = "[#{date_index_partition.first}]#{date_index_partition[1..-1].join.sub('Y', 'YYYY').sub('y', 'YY').sub('m', 'MM').sub('d', 'DD').sub('j','DDDD').sub('H', 'hh')}"
+        index = "[#{date_index_partition.first}]" \
+          "#{date_index_partition[1..-1].join.sub('Y', 'YYYY').sub('y', 'YY').sub('m', 'MM').sub('d', 'DD').sub('j', 'DDDD').sub('H', 'hh')}"
       end
       end_time = Time.now.utc.to_i
       start_time = end_time
@@ -227,7 +228,12 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
       if config[:months_previous] != 0
         start_time -= (config[:months_previous] * 60 * 60 * 24 * 7 * 31)
       end
-      "Kibana logs: #{config[:kibana_url]}/#/discover?_g=(refreshInterval:(display:Off,section:0,value:0),time:(from:'#{URI.escape(Time.at(start_time).utc.strftime kibana_date_format)}',mode:absolute,to:'#{URI.escape(Time.at(end_time).utc.strftime kibana_date_format)}'))&_a=(columns:!(_source),index:#{URI.escape(index)},interval:auto,query:(query_string:(analyze_wildcard:!t,query:'#{URI.escape(config[:query])}')),sort:!('@timestamp',desc))&dummy"
+      "Kibana logs: #{config[:kibana_url]}/#/discover?_g=" \
+      "(refreshInterval:(display:Off,section:0,value:0),time:(from:'" \
+      "#{URI.escape(Time.at(start_time).utc.strftime kibana_date_format)}',mode:absolute,to:'" \
+      "#{URI.escape(Time.at(end_time).utc.strftime kibana_date_format)}'))&_a=(columns:!(_source),index:" \
+      "#{URI.escape(index)},interval:auto,query:(query_string:(analyze_wildcard:!t,query:'" \
+      "#{URI.escape(config[:query])}')),sort:!('@timestamp',desc))&dummy"
     end
   end
 
@@ -241,14 +247,12 @@ class ESQueryCount < Sensu::Plugin::Check::CLI
       else
         ok "Query count (#{response['count']}) was ok"
       end
+    elsif response['count'] > config[:crit]
+      critical "Query count (#{response['count']}) was above critical threshold. #{kibana_info}"
+    elsif response['count'] > config[:warn]
+      warning "Query count (#{response['count']}) was above warning threshold. #{kibana_info}"
     else
-      if response['count'] > config[:crit]
-        critical "Query count (#{response['count']}) was above critical threshold. #{kibana_info}"
-      elsif response['count'] > config[:warn]
-        warning "Query count (#{response['count']}) was above warning threshold. #{kibana_info}"
-      else
-        ok "Query count (#{response['count']}) was ok"
-      end
+      ok "Query count (#{response['count']}) was ok"
     end
   rescue Elasticsearch::Transport::Transport::Errors::NotFound
     if config[:invert]

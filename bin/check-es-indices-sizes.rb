@@ -102,27 +102,27 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
 
   def get_indices_to_delete(starting_date, total_bytes_to_delete, indices_with_sizes)
     total_bytes_deleted = 0
-    curr_date = DateTime.now()
+    curr_date = DateTime.now
 
     indices_to_delete = []
 
     # We don't delete the current day, as it is most likely being used.
     while total_bytes_deleted < total_bytes_to_delete && starting_date < curr_date
-      same_day_indices = indices_with_sizes.values.map { |pattern|
-        pattern.select { |index|
+      same_day_indices = indices_with_sizes.values.map do |pattern|
+        pattern.select do |index|
           index['date'] == starting_date
-          }
-        }.flatten
-      for index in same_day_indices
+        end
+      end.flatten
+      same_day_indices.each do |index|
         if total_bytes_deleted < total_bytes_to_delete
           indices_to_delete.push(index['index'])
-          total_bytes_deleted = total_bytes_deleted + index['size']
+          total_bytes_deleted += index['size']
         end
       end
-      starting_date = starting_date + 1
+      starting_date += 1
     end
 
-    return indices_to_delete
+    indices_to_delete
   end
 
   def build_indices_with_sizes
@@ -131,37 +131,40 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
 
     index_with_sizes = indices_fs_stats['indices'].keys.each_with_object({}) do |key, hash|
       matching_index = pattern_regex.match(key)
-      if matching_index != nil
+      unless matching_index.nil?
         base_pattern = matching_index[:pattern]
-        if base_pattern != nil
-          if !hash.include?(base_pattern)
+        unless base_pattern.nil?
+          unless hash.include?(base_pattern)
             hash[base_pattern] = []
           end
           index_date = DateTime.new(matching_index[:year].to_i, matching_index[:month].to_i, matching_index[:day].to_i)
-          hash[base_pattern].push({
-            "size" => indices_fs_stats['indices'][key]['total']['store']['size_in_bytes'].to_i,
-            "date" => index_date,
-            "index" => key
-          })
+          hash[base_pattern].push(
+            size: indices_fs_stats['indices'][key]['total']['store']['size_in_bytes'].to_i,
+            date: index_date,
+            index: key
+          )
         end
       end
     end
 
-    return index_with_sizes
+    index_with_sizes
   end
 
   def run
-
     node_fs_stats = client.nodes.stats metric: 'fs,indices'
     nodes_being_used = node_fs_stats['nodes'].values.select { |node| node['indices']['store']['size_in_bytes'] > 0 }
-    used_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] - data['available_in_bytes'] }.flatten }.flatten.inject{|sum,x| sum + x}
-    total_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] }.flatten }.flatten.inject{|sum,x| sum + x}
+    # rubocop:disable SingleLineBlockParams
+    # rubocop:disable LineLength
+    used_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] - data['available_in_bytes'] }.flatten }.flatten.inject { |sum, x| sum + x }
+    # rubocop:enable LineLength
+    total_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] }.flatten }.flatten.inject { |sum, x| sum + x }
+    # rubocop:enable SingleLineBlockParams
 
     if config[:maximum_megabytes] > 0
-      target_bytes_used = config[:maximum_megabytes] * 1000000
+      target_bytes_used = config[:maximum_megabytes] * 1_000_000
     else
       if config[:used_percent] > 100 || config[:used_percent] < 0
-        critical "You can not make used-percentages greater than 100 or less than 0."
+        critical 'You can not make used-percentages greater than 100 or less than 0.'
       end
       target_bytes_used = (total_in_bytes.to_f * (config[:used_percent].to_f / 100.0)).to_i
     end
@@ -176,6 +179,8 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
     oldest = indices_with_sizes.values.flatten.map { |index| index['date'] }.min
     indices_to_delete = get_indices_to_delete(oldest, total_bytes_to_delete, indices_with_sizes)
 
-    critical "Not enough space, #{total_bytes_to_delete} bytes need to be deleted. Used space in bytes: #{used_in_bytes}, Total in bytes: #{total_in_bytes}. Indices to delete: #{indices_to_delete.sort.map{|i| "INDEX[#{i}]" }.join(", ") }"
+    critical "Not enough space, #{total_bytes_to_delete} bytes need to be deleted. Used space in bytes: " \
+      "#{used_in_bytes}, Total in bytes: #{total_in_bytes}. Indices to delete: " \
+      "#{indices_to_delete.sort.map { |i| "INDEX[#{i}]" }.join(', ')}"
   end
 end

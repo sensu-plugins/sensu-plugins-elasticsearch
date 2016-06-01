@@ -178,7 +178,7 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
          boolean: true,
          default: false
 
-  def run # rubocop:disable all
+  def run
     if client.exists?(build_request_options)
       if config[:invert]
         if config[:warn]
@@ -189,16 +189,12 @@ class ESQueryExists < Sensu::Plugin::Check::CLI
       else
         ok
       end
+    elsif config[:invert]
+      ok
+    elsif config[:warn]
+      warning
     else
-      if config[:invert]
-        ok
-      else
-        if config[:warn]
-          warning
-        else
-          critical
-        end
-      end
+      critical
     end
   end
 end

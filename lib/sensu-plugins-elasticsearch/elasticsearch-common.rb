@@ -38,7 +38,8 @@ module ElasticsearchCommon
               scheme:             config[:scheme],
               request_timeout:    config[:timeout],
               region:             config[:region]
-            }])
+            }]
+          )
         else
           Elasticsearch::Client.new hosts: [{
             host:               config[:host],
@@ -49,15 +50,13 @@ module ElasticsearchCommon
             request_timeout:    config[:timeout]
           }]
         end
+      elsif config[:transport].nil? && config[:transport] == 'AWS'
+        Elasticsearch::Client.new host: "#{config[:host]}:#{config[:port]}", request_timeout: config[:timeout]
       else
-        if !config[:transport].nil? && config[:transport] == 'AWS'
-          Elasticsearch::Client.new transport_class: Elasticsearch::Transport::Transport::HTTP::AWS,
-                                    host: "#{config[:host]}:#{config[:port]}",
-                                    region: config[:region],
-                                    request_timeout: config[:timeout]
-        else
-          Elasticsearch::Client.new host: "#{config[:host]}:#{config[:port]}", request_timeout: config[:timeout]
-        end
+        Elasticsearch::Client.new transport_class: Elasticsearch::Transport::Transport::HTTP::AWS,
+                                  host: "#{config[:host]}:#{config[:port]}",
+                                  region: config[:region],
+                                  request_timeout: config[:timeout]
       end
     end
   end

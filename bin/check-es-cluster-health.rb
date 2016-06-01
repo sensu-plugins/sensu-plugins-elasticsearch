@@ -95,17 +95,17 @@ class ESClusterHealth < Sensu::Plugin::Check::CLI
 
   def run
     options = {}
-    if !config[:level].nil?
+    unless config[:level].nil?
       options[:level] = config[:level]
     end
-    if !config[:local].nil?
+    unless config[:local].nil?
       options[:local] = config[:local]
     end
-    if !config[:index].nil?
+    unless config[:index].nil?
       options[:index] = config[:index]
     end
     health = client.cluster.health options
-    case health["status"]
+    case health['status']
     when 'yellow'
       warning 'Cluster state is Yellow'
     when 'red'
@@ -113,7 +113,7 @@ class ESClusterHealth < Sensu::Plugin::Check::CLI
     when 'green'
       ok
     else
-      unknown "Cluster state is in an unknown health: #{health["status"]}"
+      unknown "Cluster state is in an unknown health: #{health['status']}"
     end
   end
 end
