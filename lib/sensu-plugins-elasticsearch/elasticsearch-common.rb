@@ -25,39 +25,25 @@ module ElasticsearchCommon
   end
 
   def client
-    @client ||= begin
-      if !config[:user].nil? && !config[:pass].nil? && !config[:scheme].nil?
-        if !config[:transport].nil? && config[:transport] == 'AWS'
-          Elasticsearch::Client.new(
-            transport_class: Elasticsearch::Transport::Transport::HTTP::AWS,
-            hosts: [{
-              host:               config[:host],
-              port:               config[:port],
-              user:               config[:user],
-              password:           config[:password],
-              scheme:             config[:scheme],
-              request_timeout:    config[:timeout],
-              region:             config[:region]
-            }]
-          )
-        else
-          Elasticsearch::Client.new hosts: [{
-            host:               config[:host],
-            port:               config[:port],
-            user:               config[:user],
-            password:           config[:password],
-            scheme:             config[:scheme],
-            request_timeout:    config[:timeout]
-          }]
-        end
-      elsif config[:transport].nil? && config[:transport] == 'AWS'
-        Elasticsearch::Client.new host: "#{config[:host]}:#{config[:port]}", request_timeout: config[:timeout]
-      else
-        Elasticsearch::Client.new transport_class: Elasticsearch::Transport::Transport::HTTP::AWS,
-                                  host: "#{config[:host]}:#{config[:port]}",
-                                  region: config[:region],
-                                  request_timeout: config[:timeout]
-      end
+    transport_class = nil
+    if config[:transport] == 'AWS'
+      transport_class = Elasticsearch::Transport::Transport::HTTP::AWS
     end
+
+    host = {
+      host:               config[:host],
+      port:               config[:port],
+      request_timeout:    config[:timeout]
+    }
+
+    if !config[:user].nil? && !config[:password].nil? && !config[:scheme].nil?
+      host[:user] = config[:user]
+      host[:password] = config[:password]
+      host[:scheme] = config[:scheme]
+    end
+
+    host[:region] = config[:region] unless config[:region].nil?
+
+    @client ||= Elasticsearch::Client.new(transport_class: transport_class, hosts: [host])
   end
 end
