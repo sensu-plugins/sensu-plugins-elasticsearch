@@ -33,13 +33,13 @@ module ElasticsearchCommon
     host = {
       host:               config[:host],
       port:               config[:port],
-      request_timeout:    config[:timeout]
+      request_timeout:    config[:timeout],
+      scheme:             config[:scheme]
     }
 
-    if !config[:user].nil? && !config[:password].nil? && !config[:scheme].nil?
+    if !config[:user].nil? && !config[:password].nil?
       host[:user] = config[:user]
       host[:password] = config[:password]
-      host[:scheme] = config[:scheme]
     end
 
     host[:region] = config[:region] unless config[:region].nil?
