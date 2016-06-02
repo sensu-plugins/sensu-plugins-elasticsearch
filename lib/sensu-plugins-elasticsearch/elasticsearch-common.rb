@@ -42,8 +42,6 @@ module ElasticsearchCommon
       host[:password] = config[:password]
     end
 
-    host[:region] = config[:region] unless config[:region].nil?
-
-    @client ||= Elasticsearch::Client.new(transport_class: transport_class, hosts: [host])
+    @client ||= Elasticsearch::Client.new(transport_class: transport_class, hosts: [host], region: config[:region])
   end
 end
