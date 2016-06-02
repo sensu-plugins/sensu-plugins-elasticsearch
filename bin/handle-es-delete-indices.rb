@@ -60,8 +60,7 @@ class ESIndexCleanup < Sensu::Handler
   option :scheme,
          description: 'Elasticsearch connection scheme, defaults to https for authenticated connections',
          short: '-s SCHEME',
-         long: '--scheme SCHEME',
-         default: 'https'
+         long: '--scheme SCHEME'
 
   option :password,
          description: 'Elasticsearch connection password',
