@@ -109,13 +109,13 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
     while total_bytes_deleted < total_bytes_to_delete && starting_date < curr_date
       same_day_indices = indices_with_sizes.values.map do |pattern|
         pattern.select do |index|
-          index['date'] == starting_date
+          index[:date] == starting_date
         end
       end.flatten
       same_day_indices.each do |index|
         if total_bytes_deleted < total_bytes_to_delete
-          indices_to_delete.push(index['index'])
-          total_bytes_deleted += index['size']
+          indices_to_delete.push(index[:index])
+          total_bytes_deleted += index[:size]
         end
       end
       starting_date += 1

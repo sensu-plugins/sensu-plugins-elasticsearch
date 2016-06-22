@@ -6,6 +6,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 ### Fixed
 - aws-sdk 2.5.x breaks aws-es-transport
+- check-es-indicies-size - fix array mapping by (@nyxcharon)
 
 ## [1.0.0] - 2016-07-29
 ### Added
