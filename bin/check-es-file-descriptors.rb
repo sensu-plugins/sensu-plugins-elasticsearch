@@ -101,6 +101,8 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
     warning 'Connection refused'
   rescue RestClient::RequestTimeout
     warning 'Connection timed out'
+  rescue RestClient::ServiceUnavailable
+    warning 'Service is unavailable'
   end
 
   def acquire_es_version

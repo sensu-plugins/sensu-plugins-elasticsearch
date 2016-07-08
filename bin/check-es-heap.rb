@@ -114,6 +114,8 @@ class ESHeap < Sensu::Plugin::Check::CLI
     warning 'Connection refused'
   rescue RestClient::RequestTimeout
     warning 'Connection timed out'
+  rescue RestClient::ServiceUnavailable
+    warning 'Service is unavailable'
   rescue JSON::ParserError
     warning 'Elasticsearch API returned invalid JSON'
   end
