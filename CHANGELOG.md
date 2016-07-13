@@ -12,6 +12,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
  - check-es-cluster-status.rb
  - check-es-file-descriptors.rb
  - check-es-heap.rb
+- Added option --localhost for check-es-circuit-breakers.rb to only check its local node for broken circuit
 
 
 ## [0.5.3] - 2016-04-02
