@@ -7,6 +7,12 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - Added AWS transport gem and configuration for check-es-query-* sensu calls to use --transport=AWS
 - Update metrics-es-node-graphite.rb and check-es-node-status.rb for Elasticsearch 2.0
+- Added a rescue for 503 on several checks:
+ - check-es-circuit-breakers.rb
+ - check-es-cluster-status.rb
+ - check-es-file-descriptors.rb
+ - check-es-heap.rb
+
 
 ## [0.5.3] - 2016-04-02
 ### Added
