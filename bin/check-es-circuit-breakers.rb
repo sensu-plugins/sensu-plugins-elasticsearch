@@ -69,6 +69,13 @@ class ESCircuitBreaker < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
+  option :localhost,
+         description: 'only check local node',
+         short: '-l',
+         long: '--localhost',
+         boolean: true,
+         default: false
+
   def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
@@ -96,7 +103,11 @@ class ESCircuitBreaker < Sensu::Plugin::Check::CLI
 
   def breaker_status
     breakers = {}
-    status = get_es_resource('/_nodes/stats/breaker')
+    status = if config[:localhost]
+               get_es_resource('/_nodes/_local/stats/breaker')
+             else
+               get_es_resource('/_nodes/stats/breaker')
+             end
     status['nodes'].each_pair do |_node, stat|
       host = stat['host']
       breakers[host] = {}
