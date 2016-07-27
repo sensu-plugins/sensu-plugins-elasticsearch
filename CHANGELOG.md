@@ -13,7 +13,10 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
  - check-es-file-descriptors.rb
  - check-es-heap.rb
 - Added option --localhost for check-es-circuit-breakers.rb to only check its local node for broken circuit
+- Ruby 2.3.0 support
 
+### Removed
+- Ruby 1.9.3 support
 
 ## [0.5.3] - 2016-04-02
 ### Added
