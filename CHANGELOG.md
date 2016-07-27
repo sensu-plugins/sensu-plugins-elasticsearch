@@ -14,6 +14,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
  - check-es-heap.rb
 - Added option --localhost for check-es-circuit-breakers.rb to only check its local node for broken circuit
 - Ruby 2.3.0 support
+- allowing using newer patch versions of elasticsearch gem within the same minor
 
 ### Removed
 - Ruby 1.9.3 support
