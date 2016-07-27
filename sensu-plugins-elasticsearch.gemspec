@@ -2,12 +2,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'date'
-
-if RUBY_VERSION < '2.0.0'
-  require 'sensu-plugins-elasticsearch'
-else
-  require_relative 'lib/sensu-plugins-elasticsearch'
-end
+require_relative 'lib/sensu-plugins-elasticsearch'
 
 # pvt_key = '~/.ssh/gem-private_key.pem'
 
@@ -32,7 +27,7 @@ Gem::Specification.new do |s|
   s.platform               = Gem::Platform::RUBY
   s.post_install_message   = 'You can use the embedded Ruby by setting EMBEDDED_RUBY=true in /etc/default/sensu'
   s.require_paths          = ['lib']
-  s.required_ruby_version  = '>= 1.9.3'
+  s.required_ruby_version  = '>= 2.0.0'
   # s.signing_key            = File.expand_path(pvt_key) if $PROGRAM_NAME =~ /gem\z/
   s.summary                = 'Sensu plugins for elasticsearch'
   s.test_files             = s.files.grep(%r{^(test|spec|features)/})
@@ -42,7 +37,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'elasticsearch',     '1.0.14'
   s.add_runtime_dependency 'aws-es-transport',  '~> 0.1'
   s.add_runtime_dependency 'sensu-plugin',      '~> 1.2'
-  s.add_runtime_dependency 'json',      '~> 1.8'
+  s.add_runtime_dependency 'json',              '~> 1.8'
 
   s.add_development_dependency 'bundler',                   '~> 1.7'
   s.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
