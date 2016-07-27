@@ -9,7 +9,7 @@
 ## Functionality
 
 ## Files
-* /bin/check-es-circuit-breakers.rb
+ * /bin/check-es-circuit-breakers.rb
  * /bin/check-es-cluster-status.rb
  * /bin/check-es-file-descriptors.rb
  * /bin/check-es-heap.rb
