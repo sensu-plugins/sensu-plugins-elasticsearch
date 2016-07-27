@@ -18,6 +18,9 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Removed
 - Ruby 1.9.3 support
 
+### Changed
+- Update to Rubocop 0.40 and cleanup
+
 ## [0.5.3] - 2016-04-02
 ### Added
 - check-es-indexes (check for dup indexes) (Yieldbot)
