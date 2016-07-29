@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+
+## [1.0.0] - 2016-07-29
 ### Added
 - Added AWS transport gem and configuration for check-es-query-* sensu calls to use --transport=AWS (@brendangibat)
 - Added a rescue for 503 on several checks: (@majormoses)
@@ -105,8 +107,9 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.5.3...HEAD
-[0.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.2...0.4.3
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.5.3...1.0.0
+[0.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.3...0.5.3
 [0.4.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.2...0.4.3
 [0.4.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.1...0.4.2
 [0.4.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.0...0.4.1
