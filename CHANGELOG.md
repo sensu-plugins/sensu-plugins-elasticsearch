@@ -5,22 +5,24 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 ### Added
-- Added AWS transport gem and configuration for check-es-query-* sensu calls to use --transport=AWS
-- Update metrics-es-node-graphite.rb and check-es-node-status.rb for Elasticsearch 2.0
-- Added a rescue for 503 on several checks:
+- Added AWS transport gem and configuration for check-es-query-* sensu calls to use --transport=AWS (@brendangibat)
+- Added a rescue for 503 on several checks: (@majormoses)
  - check-es-circuit-breakers.rb
  - check-es-cluster-status.rb
  - check-es-file-descriptors.rb
  - check-es-heap.rb
-- Added option --localhost for check-es-circuit-breakers.rb to only check its local node for broken circuit
-- Ruby 2.3.0 support
-- allowing using newer patch versions of elasticsearch gem within the same minor
+- Added option --localhost for check-es-circuit-breakers.rb to only check its local node for broken circuit (@majormoses)
+- Add Ruby 2.3.0 support (@eheydrick)
+- Allow using newer patch versions of elasticsearch gem within the same minor (@majormoses)
+- Add check-es-cluster-health to check Elasticsearch cluster health and status (@brendangibat)
+- Add check-es-indices-size to check if indicies grow above a certain size (@brendangibat)
+- Add handle-es-delete-indices handler to delete indicies (@brendangibat)
 
 ### Removed
-- Ruby 1.9.3 support
+- Ruby 1.9.3 support (@eheydrick)
 
 ### Changed
-- Update to Rubocop 0.40 and cleanup
+- Update to Rubocop 0.40 and cleanup (@eheydrick)
 
 ## [0.5.3] - 2016-04-02
 ### Added
