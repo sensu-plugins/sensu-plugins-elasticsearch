@@ -16,7 +16,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - Allow using newer patch versions of elasticsearch gem within the same minor (@majormoses)
 - Add check-es-cluster-health to check Elasticsearch cluster health and status (@brendangibat)
 - Add check-es-indices-size to check if indicies grow above a certain size (@brendangibat)
-- Add handle-es-delete-indices handler to delete indicies (@brendangibat)
+- Add handler-es-delete-indices handler to delete indicies (@brendangibat)
 
 ### Removed
 - Ruby 1.9.3 support (@eheydrick)
