@@ -10,14 +10,17 @@
 
 ## Files
  * /bin/check-es-circuit-breakers.rb
+ * /bin/check-es-cluster-health.rb
  * /bin/check-es-cluster-status.rb
  * /bin/check-es-file-descriptors.rb
  * /bin/check-es-heap.rb
  * /bin/check-es-indexes.rb
+ * /bin/check-es-indicies-sizes.rb
  * /bin/check-es-node-status.rb
  * /bin/check-es-query-count.rb
  * /bin/check-es-query-exists.rb
- * /bin/check-es-shard-allocation
+ * /bin/check-es-shard-allocation-status.rb
+ * /bin/handler-es-delete-indices.rb
  * /bin/metrics-es-cluster.rb
  * /bin/metrics-es-node.rb
  * /bin/metrics-es-node-graphite.rb
