@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 #
-#   handle-es-delete-indices.rb
+#   handler-es-delete-indices.rb
 #
 # DESCRIPTION:
 #   This handler deletes indices.
