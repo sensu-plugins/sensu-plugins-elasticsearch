@@ -175,7 +175,7 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
 
     indices_with_sizes = build_indices_with_sizes
 
-    oldest = indices_with_sizes.values.flatten.map { |index| index['date'] }.min
+    oldest = indices_with_sizes.values.flatten.map { |index| index[:date] }.min
     indices_to_delete = get_indices_to_delete(oldest, total_bytes_to_delete, indices_with_sizes)
 
     critical "Not enough space, #{total_bytes_to_delete} bytes need to be deleted. Used space in bytes: " \

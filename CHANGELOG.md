@@ -26,6 +26,9 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Changed
 - Update to Rubocop 0.40 and cleanup (@eheydrick)
 
+### Fixed
+- check-es-indicies-size.rb - broken for newer updates
+
 ## [0.5.3] - 2016-04-02
 ### Added
 - check-es-indexes (check for dup indexes) (Yieldbot)
