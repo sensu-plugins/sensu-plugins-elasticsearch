@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Fixed
+- aws-sdk 2.5.x breaks aws-es-transport
 
 ## [1.0.0] - 2016-07-29
 ### Added
