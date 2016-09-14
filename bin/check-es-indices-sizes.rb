@@ -99,6 +99,13 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
          long: '--pattern-regex PATTERN_REGEX',
          default: '^(?<pattern>.*)-(?<year>\d\d\d\d)\.(?<month>\d\d?).(?<day>\d\d?)$'
 
+  option :delete,
+         description: 'Instead of alerting deletes the indicies',
+         short: '-d',
+         long: '--delete',
+         boolean: true,
+         default: false
+
   def get_indices_to_delete(starting_date, total_bytes_to_delete, indices_with_sizes)
     total_bytes_deleted = 0
     curr_date = DateTime.now
@@ -178,8 +185,13 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
     oldest = indices_with_sizes.values.flatten.map { |index| index[:date] }.min
     indices_to_delete = get_indices_to_delete(oldest, total_bytes_to_delete, indices_with_sizes)
 
-    critical "Not enough space, #{total_bytes_to_delete} bytes need to be deleted. Used space in bytes: " \
+    if config[:delete]
+      client.indices.delete index: indices_to_delete
+      ok "Cleaned up space: #{total_bytes_to_delete}"
+    else
+      critical "Not enough space, #{total_bytes_to_delete} bytes need to be deleted. Used space in bytes: " \
       "#{used_in_bytes}, Total in bytes: #{total_in_bytes}. Indices to delete: " \
       "#{indices_to_delete.sort.map { |i| "INDEX[#{i}]" }.join(', ')}"
+    end
   end
 end
