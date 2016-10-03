@@ -4,8 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Added
+- Added direct support to check-es-indices-size.rb to delete indicies without the handler-es-delete-indices.rb
 ### Fixed
 - aws-sdk 2.5.x breaks aws-es-transport
+- check-es-indicies-size - fix array mapping by (@nyxcharon)
 
 ## [1.0.0] - 2016-07-29
 ### Added
