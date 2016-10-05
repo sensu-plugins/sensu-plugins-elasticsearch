@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.1] - 2016-10-03
+### Added
+- Added check-es-query-ratio.tb to support ratio-type checks (@alcasim)
+
 ## [Unreleased]
 ### Added
 - Added direct support to check-es-indices-size.rb to delete indicies without the handler-es-delete-indices.rb
