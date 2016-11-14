@@ -122,9 +122,9 @@ class ESHeap < Sensu::Plugin::Check::CLI
 
   def acquire_heap_data(return_max = false)
     stats = if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
-              acquire_es_resource('/_nodes/_local/stats?jvm=true')
+              acquire_es_resource('/_nodes/_local/stats')
             else
-              acquire_es_resource('/_cluster/nodes/_local/stats?jvm=true')
+              acquire_es_resource('/_cluster/nodes/_local/stats')
             end
     node = stats['nodes'].keys.first
     begin
