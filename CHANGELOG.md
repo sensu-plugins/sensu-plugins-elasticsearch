@@ -3,19 +3,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
-## [1.0.2] - 2016-11-14
+## [Unreleased]
 ### Changed
-- Changed check-es-heap.rb to be compatible with Elasticsearch 5.0
+- Changed check-es-heap.rb to be compatible with Elasticsearch 5.0 (@christianherro)
 
-## [1.0.1] - 2016-10-03
 ### Added
 - Added check-es-query-ratio.tb to support ratio-type checks (@alcasim)
-
-## [Unreleased]
-### Added
 - Added direct support to check-es-indices-size.rb to delete indicies without the handler-es-delete-indices.rb
+
 ### Fixed
-- aws-sdk 2.5.x breaks aws-es-transport
+- aws-sdk 2.5.x breaks aws-es-transport (@sstarcher)
 - check-es-indicies-size - fix array mapping by (@nyxcharon)
 
 ## [1.0.0] - 2016-07-29
