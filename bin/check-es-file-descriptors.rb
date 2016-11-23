@@ -110,8 +110,16 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
     info['version']['number']
   end
 
+  def es_version
+    @es_version ||= Gem::Version.new(acquire_es_version)
+  end
+
   def acquire_open_fds
-    stats = get_es_resource('/_nodes/_local/stats?process=true')
+    stats = if es_version < Gem::Version.new('5.0.0')
+              get_es_resource('/_nodes/_local/stats?process=true')
+            else
+              get_es_resource('/_nodes/_local/stats/process')
+            end
     begin
       keys = stats['nodes'].keys
       stats['nodes'][keys[0]]['process']['open_file_descriptors'].to_i
@@ -121,10 +129,12 @@ class ESFileDescriptors < Sensu::Plugin::Check::CLI
   end
 
   def acquire_max_fds
-    info = if Gem::Version.new(acquire_es_version) >= Gem::Version.new('2.0.0')
+    info = if es_version < Gem::Version.new('2.0.0')
+             get_es_resource('/_nodes/_local?process=true')
+           elsif es_version < Gem::Version.new('5.0.0')
              get_es_resource('/_nodes/_local/stats?process=true')
            else
-             get_es_resource('/_nodes/_local?process=true')
+             get_es_resource('/_nodes/_local/stats/process')
            end
     begin
       keys = info['nodes'].keys
