@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Fixed
+- Fixed check-es-file-descriptors.rb was not compatible with Elasticsearch 5.0 (@woqer)
 
 ## [1.1.0] - 2016-11-14
 ### Changed
