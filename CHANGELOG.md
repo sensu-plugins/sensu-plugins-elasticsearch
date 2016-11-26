@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+
+## [1.1.1] - 2016-11-26
 ### Fixed
 - Fixed check-es-file-descriptors.rb was not compatible with Elasticsearch 5.0 (@woqer)
 
@@ -124,7 +126,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.1...HEAD
+[1.1.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.5.3...1.0.0
 [0.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.4.3...0.5.3
