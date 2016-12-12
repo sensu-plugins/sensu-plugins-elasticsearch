@@ -4,8 +4,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
-
-## [1.1.2] - 2016-12-12
 ### Fixed
 - Use strick Base64 encoding to fix base64 encoding/netty issue (@msblum)
 
