@@ -5,6 +5,10 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+## [1.1.2] - 2016-12-12
+### Fixed
+- Use strick Base64 encoding to fix base64 encoding/netty issue (@msblum)
+
 ## [1.1.1] - 2016-11-26
 ### Fixed
 - Fixed check-es-file-descriptors.rb was not compatible with Elasticsearch 5.0 (@woqer)
