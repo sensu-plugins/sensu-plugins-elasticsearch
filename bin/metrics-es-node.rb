@@ -79,7 +79,7 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
   def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
-      auth = 'Basic ' + Base64.encode64("#{config[:user]}:#{config[:password]}").chomp
+      auth = 'Basic ' + Base64.strict_encode64("#{config[:user]}:#{config[:password]}").chomp
       headers = { 'Authorization' => auth }
     end
 
