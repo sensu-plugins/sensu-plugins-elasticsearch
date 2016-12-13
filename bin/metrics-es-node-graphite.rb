@@ -151,7 +151,15 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
 
     es_version = Gem::Version.new(acquire_es_version)
 
-    if es_version >= Gem::Version.new('1.0.0')
+    if es_version >= Gem::Version.new('3.0.0')
+      stats_query_array = %w(indices http network transport thread_pool)
+      stats_query_array.push('jvm') if jvm_stats == true
+      stats_query_array.push('os') if os_stat == true
+      stats_query_array.push('process') if process_stats == true
+      stats_query_array.push('tp_stats') if tp_stats == true
+      stats_query_array.push('fs') if fs_stats == true
+      stats_query_string = stats_query_array.join(',')
+    elsif es_version >= Gem::Version.new('1.0.0')
       stats_query_array = %w(indices http network transport thread_pool)
       stats_query_array.push('jvm') if jvm_stats == true
       stats_query_array.push('os') if os_stat == true
@@ -175,7 +183,9 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       ].join('&')
     end
 
-    stats = if es_version >= Gem::Version.new('1.0.0')
+    stats = if es_version >= Gem::Version.new('3.0.0')
+              get_es_resource("/_nodes/_local/stats/#{stats_query_string}")
+            elsif es_version >= Gem::Version.new('1.0.0')
               get_es_resource("/_nodes/_local/stats?#{stats_query_string}")
             else
               get_es_resource("/_cluster/nodes/_local/stats?#{stats_query_string}")
