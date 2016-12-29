@@ -83,21 +83,20 @@ module ElasticsearchQuery
       unless es_date_start.nil?
         options[:body] = {
           'query' => {
-            'filtered' => {
-              'query' => {
+            'bool' => {
+              'must' => [{
                 'query_string' => {
                   'default_field' => config[:search_field],
                   'query' => config[:query]
                 }
-              },
-              'filter' => {
+              }, {
                 'range' => {
                   config[:timestamp_field] => {
                     'gt' => es_date_start,
                     'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S')
                   }
                 }
-              }
+              }]
             }
           }
         }
