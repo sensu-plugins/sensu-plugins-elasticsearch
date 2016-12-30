@@ -6,6 +6,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 ### Fixed
 - Fixed metrics-es-node-graphite.rb was not compatible with Elasticsearch 5.0 (@woqer)
+- Make query lib compatible with ES 5+ (@jackfengji)
 
 ## [1.1.1] - 2016-11-26
 ### Fixed
