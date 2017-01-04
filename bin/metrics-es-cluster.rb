@@ -117,7 +117,11 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
   end
 
   def master?
-    state = get_es_resource('/_cluster/state?filter_routing_table=true&filter_metadata=true&filter_indices=true')
+    state = if Gem::Version.new(acquire_es_version) >= Gem::Version.new('3.0.0')
+              get_es_resource('/_cluster/state/master_node')
+            else
+              get_es_resource('/_cluster/state?filter_routing_table=true&filter_metadata=true&filter_indices=true')
+            end
     local = if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
               get_es_resource('/_nodes/_local')
             else
