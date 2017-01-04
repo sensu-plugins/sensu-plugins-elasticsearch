@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+
+## [1.1.3] - 2017-01-04
 ### Fixed
 - metrics-es-cluster/metrics-es-node-graphite.rb: Fix Elasticsearch 5.0 compatability (@terjesannum)
 
@@ -133,7 +135,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.2...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.3...HEAD
+[1.1.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.0.0...1.1.0
