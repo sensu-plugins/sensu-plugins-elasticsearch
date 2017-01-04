@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Fixed
+- metrics-es-cluster/metrics-es-node-graphite.rb: Fix Elasticsearch 5.0 compatability (@terjesannum)
 
 ## [1.1.2] - 2016-12-29
 ### Fixed
