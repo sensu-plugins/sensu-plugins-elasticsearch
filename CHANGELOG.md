@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Fixed
+- Fixed check-es-shard-allocation-status.rb for Elasticsearch 5.x compatibility (@Evesy)
 
 ## [1.1.3] - 2017-01-04
 ### Fixed
