@@ -155,11 +155,11 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
     if !config[:master_only] || master?
       case acquire_status
       when 'green'
-        self.send(config[:green], 'Cluster is green')
+        send(config[:green], 'Cluster is green')
       when 'yellow'
-        self.send(config[:yellow], 'Cluster is yellow')
+        send(config[:yellow], 'Cluster is yellow')
       when 'red'
-        self.send(config[:red], 'Cluster is red')
+        send(config[:red], 'Cluster is red')
       end
     else
       ok 'Not the master'
