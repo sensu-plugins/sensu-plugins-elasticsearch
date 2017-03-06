@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Added
+- heck-es-cluster-status.rb: Added options to change the default value for the state for sensu (@radio-gonzalo)
 
 ## [1.1.3] - 2017-01-04
 ### Fixed
