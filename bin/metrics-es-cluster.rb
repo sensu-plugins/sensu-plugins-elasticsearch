@@ -180,7 +180,11 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
     if transient_settings.empty?
       return nil
     else
-      return %w(none new_primaries primaries all).index(transient_settings['cluster']['routing']['allocation']['enable'])
+      if transient_settings.key?('cluster')
+        return %w(none new_primaries primaries all).index(transient_settings['cluster']['routing']['allocation']['enable'])
+      else
+        return nil
+      end
     end
   end
 
