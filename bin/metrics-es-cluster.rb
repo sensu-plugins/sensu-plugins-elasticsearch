@@ -177,10 +177,10 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
   def acquire_allocation_status
     cluster_config = get_es_resource('/_cluster/settings')
     transient_settings = cluster_config['transient']
-    if transient_settings.empty?
-      return nil
-    else
+    if transient_settings.key?('cluster')
       return %w(none new_primaries primaries all).index(transient_settings['cluster']['routing']['allocation']['enable'])
+    else
+      return nil
     end
   end
 
