@@ -52,6 +52,12 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
          long: '--port PORT',
          default: '9200'
 
+  option :allow_non_master,
+         description: 'Allow check to run on non-master nodes',
+         short: '-a',
+         long: '--allow-non-master',
+         default: false
+
   def get_es_resource(resource)
     r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}/#{resource}", timeout: 45)
     JSON.parse(r.get)
@@ -79,7 +85,7 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
   end
 
   def run
-    if master?
+    if config[:allow_non_master] || master?
       transient   = get_status('transient')
       persistent  = get_status('persistent')
 
