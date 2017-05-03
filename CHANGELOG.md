@@ -6,6 +6,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 ### Fixed
 - metrics-es-cluster.rb: Check to see if cluster key exists in transient_settings before trying to use it. (@RAR)
+### Added
+- Add option to run check-es-shard-allocation-status.rb on non master nodes (@Evesy)
 
 ## [1.1.3] - 2017-01-04
 ### Fixed
