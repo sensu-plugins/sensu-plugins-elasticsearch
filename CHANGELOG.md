@@ -6,6 +6,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 ### Fixed
 - metrics-es-cluster.rb: Check to see if cluster key exists in transient_settings before trying to use it. (@RAR)
+- Fixed check-es-shard-allocation-status.rb for Elasticsearch 5.x compatibility (@Evesy)
 
 ## [1.1.3] - 2017-01-04
 ### Fixed
