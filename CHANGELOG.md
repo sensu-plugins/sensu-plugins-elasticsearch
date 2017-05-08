@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Fixed
+- Use strict Base64 encoding to fix base64 encoding/netty issue (@msblum)
+
 ## [1.2.0] - 2017-05-03
 ### Fixed
 - metrics-es-cluster.rb: Check to see if cluster key exists in transient_settings before trying to use it. (@RAR)
