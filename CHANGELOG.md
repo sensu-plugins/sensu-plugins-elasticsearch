@@ -66,6 +66,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - check-es-shard-allocation (check ElasticSearch shard allocation persistent and transient settings) (Yieldbot)
 - Adding offset flag to allow specifying of a end time offset
 - Adding custom timestamp field feature to check-es-query-count and check-es-query-exists
+- Adding check-es-query-count-compare plugin
 - Added support for https requests (OrbotixInc)
 
 

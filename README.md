@@ -18,6 +18,7 @@
  * /bin/check-es-indicies-sizes.rb
  * /bin/check-es-node-status.rb
  * /bin/check-es-query-count.rb
+ * /bin/check-es-query-count-compare.rb
  * /bin/check-es-query-exists.rb
  * /bin/check-es-query-ratio.rb
  * /bin/check-es-shard-allocation-status.rb
