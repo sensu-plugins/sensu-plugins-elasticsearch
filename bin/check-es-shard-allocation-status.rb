@@ -52,8 +52,14 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
          long: '--port PORT',
          default: '9200'
 
+  option :allow_non_master,
+         description: 'Allow check to run on non-master nodes',
+         short: '-a',
+         long: '--allow-non-master',
+         default: false
+
   def get_es_resource(resource)
-    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}/#{resource}", timeout: 45)
+    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}#{resource}", timeout: 45)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
@@ -62,7 +68,7 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
   end
 
   def master?
-    state = get_es_resource('/_cluster/state?filter_routing_table=true&filter_metadata=true&filter_indices=true&filter_blocks=true&filter_nodes=true')
+    state = get_es_resource('/_cluster/state/master_node')
     local = get_es_resource('/_nodes/_local')
     local['nodes'].keys.first == state['master_node']
   end
@@ -79,7 +85,7 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
   end
 
   def run
-    if master?
+    if config[:allow_non_master] || master?
       transient   = get_status('transient')
       persistent  = get_status('persistent')
 

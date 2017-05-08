@@ -117,7 +117,11 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
   end
 
   def master?
-    state = get_es_resource('/_cluster/state?filter_routing_table=true&filter_metadata=true&filter_indices=true')
+    state = if Gem::Version.new(acquire_es_version) >= Gem::Version.new('3.0.0')
+              get_es_resource('/_cluster/state/master_node')
+            else
+              get_es_resource('/_cluster/state?filter_routing_table=true&filter_metadata=true&filter_indices=true')
+            end
     local = if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
               get_es_resource('/_nodes/_local')
             else
@@ -173,10 +177,10 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
   def acquire_allocation_status
     cluster_config = get_es_resource('/_cluster/settings')
     transient_settings = cluster_config['transient']
-    if transient_settings.empty?
-      return nil
-    else
+    if transient_settings.key?('cluster')
       return %w(none new_primaries primaries all).index(transient_settings['cluster']['routing']['allocation']['enable'])
+    else
+      return nil
     end
   end
 
