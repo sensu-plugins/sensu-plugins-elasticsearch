@@ -233,7 +233,7 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
         start_time -= (config[:weeks_previous] * 60 * 60 * 24 * 7)
       end
       if config[:months_previous] != 0
-        start_time -= (config[:months_previous] * 60 * 60 * 24 * 7 * 31)
+        start_time -= (config[:months_previous] * 60 * 60 * 24 * 31)
       end
       "Kibana logs: #{config[:kibana_url]}/#/discover?_g=" \
       "(refreshInterval:(display:Off,section:0,value:0),time:(from:'" \
