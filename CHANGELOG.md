@@ -6,6 +6,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 ### Added
 - added ruby 2.4 testing (@majormoses)
+- HTTP Basic Auth support is added for shard allocation status (@cihangirbesiktas)
 
 ### Fixed
 - PR template spell "compatibility" correctly. (@majormoses)

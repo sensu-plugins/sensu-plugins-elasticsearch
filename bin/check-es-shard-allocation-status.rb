@@ -30,6 +30,7 @@
 require 'sensu-plugin/check/cli'
 require 'rest-client'
 require 'json'
+require 'base64'
 
 #
 # == Elastic Search Shard Allocation Status
@@ -58,13 +59,40 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
          long: '--allow-non-master',
          default: false
 
+  option :timeout,
+         description: 'Sets the connection timeout for REST client',
+         short: '-t SECS',
+         long: '--timeout SECS',
+         proc: proc(&:to_i),
+         default: 45
+
+  option :user,
+         description: 'Elasticsearch User',
+         short: '-u USER',
+         long: '--user USER'
+
+  option :password,
+         description: 'Elasticsearch Password',
+         short: '-P PASS',
+         long: '--password PASS'
+
   def get_es_resource(resource)
-    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}#{resource}", timeout: 45)
+    headers = {}
+    if config[:user] && config[:password]
+      auth = 'Basic ' + Base64.strict_encode64("#{config[:user]}:#{config[:password]}").chomp
+      headers = { 'Authorization' => auth }
+    end
+
+    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
   rescue RestClient::RequestTimeout
-    warning 'Connection timed out'
+    critical 'Connection timed out'
+  rescue RestClient::ServiceUnavailable
+    critical 'Service is unavailable'
+  rescue Errno::ECONNRESET
+    critical 'Connection reset by peer'
   end
 
   def master?
