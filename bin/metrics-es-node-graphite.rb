@@ -82,6 +82,24 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
          boolean: true,
          default: false
 
+  option :disable_indices_stats,
+         description: 'Disable indices statistics',
+         long: '--disable-indices-stats',
+         boolean: true,
+         default: false
+
+  option :disable_http_stats,
+         description: 'Disable http statistics',
+         long: '--disable-http-stats',
+         boolean: true,
+         default: false
+
+  option :disable_transport_stats,
+         description: 'Disable transport statistics',
+         long: '--disable-transport-stats',
+         boolean: true,
+         default: false
+
   option :disable_process_stats,
          description: 'Disable process statistics',
          long: '--disable-process-stats',
@@ -146,39 +164,46 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     os_stat = !config[:disable_os_stats]
     process_stats = !config[:disable_process_stats]
     jvm_stats = !config[:disable_jvm_stats]
+    indices_stats = !config[:disable_indices_stats]
+    http_stats = !config[:disable_http_stats]
+    transport_stats = !config[:disable_transport_stats]
     tp_stats = !config[:disable_thread_pool_stats]
     fs_stats = !config[:disable_fs_stats]
 
     es_version = Gem::Version.new(acquire_es_version)
 
     if es_version >= Gem::Version.new('3.0.0')
-      stats_query_array = %w(indices http transport)
+      stats_query_array = Array.new
       stats_query_array.push('jvm') if jvm_stats == true
       stats_query_array.push('os') if os_stat == true
+      stats_query_array.push('indices') if indices_stats == true
+      stats_query_array.push('http') if http_stats == true
+      stats_query_array.push('transport') if transport_stats == true
       stats_query_array.push('process') if process_stats == true
       stats_query_array.push('thread_pool') if tp_stats == true
       stats_query_array.push('fs') if fs_stats == true
       stats_query_string = stats_query_array.join(',')
     elsif es_version >= Gem::Version.new('1.0.0')
-      stats_query_array = %w(indices http network transport thread_pool)
+      stats_query_array = %w(network)
       stats_query_array.push('jvm') if jvm_stats == true
       stats_query_array.push('os') if os_stat == true
+      stats_query_array.push('indices') if indices_stats == true
+      stats_query_array.push('http') if http_stats == true
+      stats_query_array.push('transport') if transport_stats == true
       stats_query_array.push('process') if process_stats == true
-      stats_query_array.push('tp_stats') if tp_stats == true
-      stats_query_array.push('fs_stats') if fs_stats == true
+      stats_query_array.push('thread_pool') if tp_stats == true
+      stats_query_array.push('fs') if fs_stats == true
       stats_query_string = stats_query_array.join(',')
     else
       stats_query_string = [
-        'clear=true',
-        'indices=true',
-        'http=true',
+        "indices=#{indices_stats}",
+        "http=#{http_stats}",
         "jvm=#{jvm_stats}",
-        'network=true',
+        "network=true",
         "os=#{os_stat}",
         "process=#{process_stats}",
         "thread_pool=#{tp_stats}",
-        'transport=true',
-        'thread_pool=true',
+        "transport=#{transport_stats}",
         "fs=#{fs_stats}"
       ].join('&')
     end
@@ -248,24 +273,30 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       metrics['jvm.uptime']                       = node['jvm']['uptime_in_millis']
     end
 
-    node['indices'].each do |type, index|
-      index.each do |k, v|
-        # #YELLOW
-        unless k =~ /(_time$)/ || v =~ /\d+/
-          metrics["indices.#{type}.#{k}"] = v
+    if indices_stats
+      node['indices'].each do |type, index|
+        index.each do |k, v|
+          # #YELLOW
+          if k !~ /(_time$)/ && v.is_a?(Numeric)
+            metrics["indices.#{type}.#{k}"] = v
+          end
         end
       end
     end
 
-    node['transport'].each do |k, v|
-      # #YELLOW
-      unless k =~ /(_size$)/
-        metrics["transport.#{k}"] = v
+    if transport_stats
+      node['transport'].each do |k, v|
+        # #YELLOW
+        unless k =~ /(_size$)/
+          metrics["transport.#{k}"] = v
+        end
       end
     end
 
-    metrics['http.current_open']                = node['http']['current_open']
-    metrics['http.total_opened']                = node['http']['total_opened']
+    if http_stats
+      metrics['http.current_open']                = node['http']['current_open']
+      metrics['http.total_opened']                = node['http']['total_opened']
+    end
 
     if node['network']
       metrics['network.tcp.active_opens']         = node['network']['tcp']['active_opens']

@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Fixed
+- metrics-es-node-graphite.rb: Only output numeric values on indices stats (@terjesannum)
+### Added
+- metrics-es-node-graphite.rb: Added more disable options (@terjesannum)
+
 ## [1.3.1] - 2017-05-22
 ### Fixed
 - Conversion of previous_months option to Seconds (@guptaishabh)
