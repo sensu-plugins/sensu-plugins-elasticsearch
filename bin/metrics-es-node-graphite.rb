@@ -173,7 +173,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     es_version = Gem::Version.new(acquire_es_version)
 
     if es_version >= Gem::Version.new('3.0.0')
-      stats_query_array = Array.new
+      stats_query_array = []
       stats_query_array.push('jvm') if jvm_stats == true
       stats_query_array.push('os') if os_stat == true
       stats_query_array.push('indices') if indices_stats == true
@@ -199,7 +199,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
         "indices=#{indices_stats}",
         "http=#{http_stats}",
         "jvm=#{jvm_stats}",
-        "network=true",
+        'network=true',
         "os=#{os_stat}",
         "process=#{process_stats}",
         "thread_pool=#{tp_stats}",
