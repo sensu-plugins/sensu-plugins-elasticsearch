@@ -4,9 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+## [1.4.0] - 2017-07-04
 ### Added
 - added ruby 2.4 testing (@majormoses)
-- HTTP Basic Auth support is added for shard allocation status (@cihangirbesiktas)
+- check-es-shard-allocation-status.rb: HTTP Basic Auth support added  (@cihangirbesiktas)
+- check-es-shard-allocation-status.rb: timeout option for rest calls (@cihangirbesiktas)
+
 
 ### Fixed
 - PR template spell "compatibility" correctly. (@majormoses)
@@ -156,7 +159,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.3.1...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.4.0...HEAD
+[1.4.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.3.1...1.4.0
 [1.3.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.1.3...1.2.0
