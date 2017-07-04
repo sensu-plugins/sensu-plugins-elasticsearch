@@ -177,3 +177,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 [0.1.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.0.2...0.1.0
 [0.0.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/0.0.1...0.0.2
+
+### [1.3.1] - 2017-05-10
+###Bug Fix
+- added ES version dependencies in gemspec
