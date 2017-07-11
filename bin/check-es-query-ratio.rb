@@ -240,7 +240,7 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
       "#{URI.escape(Time.at(start_time).utc.strftime kibana_date_format)}',mode:absolute,to:'" \
       "#{URI.escape(Time.at(end_time).utc.strftime kibana_date_format)}'))&_a=(columns:!(_source),index:" \
       "#{URI.escape(index)},interval:auto,query:(query_string:(analyze_wildcard:!t,query:'" \
-      "#{URI.escape(config[:query])}')),sort:!('@timestamp',desc))&dummy"
+      "#{URI.escape(config[:query])}')),sort:!('#{config[:timestamp_field]}',desc))&dummy"
     end
   end
 
