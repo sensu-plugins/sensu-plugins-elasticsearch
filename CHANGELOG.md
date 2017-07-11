@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Fixed
+- use timestamp_field from config for sorting in Kibana  
+
 ## [1.4.0] - 2017-07-04
 ### Added
 - added ruby 2.4 testing (@majormoses)
