@@ -145,9 +145,9 @@ class ESQueryAverage < Sensu::Plugin::Check::CLI
   option :aggr,
          description: 'Elasticsearch query aggr',
          long: '--aggr',
-	 boolean: true,
+         boolean: true,
          required: false,
-	 default: true
+         default: true
 
   option :aggr_field,
          description: 'Elasticsearch query field to aggregate and average from',
@@ -212,8 +212,6 @@ class ESQueryAverage < Sensu::Plugin::Check::CLI
   option :kibana_url,
          long: '--kibana-url KIBANA_URL',
          description: 'Kibana URL query prefix that will be in critical / warning response output.'
-
-
 
   def kibana_info
     kibana_date_format = '%Y-%m-%dT%H:%M:%S.%LZ'
