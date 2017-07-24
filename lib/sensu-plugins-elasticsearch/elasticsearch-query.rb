@@ -78,6 +78,31 @@ module ElasticsearchQuery
 
     if !config[:body].nil?
       options[:body] = config[:body]
+    elsif config[:aggr] == true
+      es_date_start = es_date_math_string end_time
+      options[:size] = 0
+      options[:body] = {
+          'query' => {
+            'bool' => {
+              'must' => [{
+                'query_string' => {
+                  'default_field' => config[:search_field],
+                  'query' => config[:query]
+                }
+              }, {
+                'range' => {
+                  config[:timestamp_field] => {
+                    'gt' => es_date_start,
+                    'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S')
+                  }
+                }
+              }]
+            }
+          },
+          'aggregations' => {
+            'average' => { 'avg' => { 'field' => config[:aggr_field] } }
+          }
+        }
     else
       es_date_start = es_date_math_string end_time
       unless es_date_start.nil?
