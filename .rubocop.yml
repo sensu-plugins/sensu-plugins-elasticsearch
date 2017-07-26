@@ -40,3 +40,7 @@ Style/NestedParenthesizedCalls:
 
 Style/GuardClause:
   Enabled: false
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'lib/sensu-plugins-elasticsearch/elasticsearch-query.rb'
