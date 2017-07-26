@@ -82,23 +82,45 @@ module ElasticsearchQuery
       es_date_start = es_date_math_string end_time
       options[:size] = 0
       options[:body] = {
-        'query' => {
-          'bool' => {
-            'must' => [{ 'query_string' => { 'default_field' => config[:search_field], 'query' => config[:query] } }, {
-              'range' => { config[:timestamp_field] => { 'gt' => es_date_start, 'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S') } }
-            }]
+          'query' => {
+            'bool' => {
+              'must' => [{
+                'query_string' => {
+                  'default_field' => config[:search_field],
+                  'query' => config[:query]
+                }
+              }, {
+                'range' => {
+                  config[:timestamp_field] => {
+                    'gt' => es_date_start,
+                    'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S')
+                  }
+                }
+              }]
+            }
+          },
+          'aggregations' => {
+            'average' => { 'avg' => { 'field' => config[:aggr_field] } }
           }
-        },
-        'aggregations' => { 'average' => { 'avg' => { 'field' => config[:aggr_field] } } }
-      }
+        }
     else
       es_date_start = es_date_math_string end_time
       unless es_date_start.nil?
         options[:body] = {
           'query' => {
             'bool' => {
-              'must' => [{ 'query_string' => { 'default_field' => config[:search_field], 'query' => config[:query] } }, {
-                'range' => { config[:timestamp_field] => { 'gt' => es_date_start, 'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S') } }
+              'must' => [{
+                'query_string' => {
+                  'default_field' => config[:search_field],
+                  'query' => config[:query]
+                }
+              }, {
+                'range' => {
+                  config[:timestamp_field] => {
+                    'gt' => es_date_start,
+                    'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S')
+                  }
+                }
               }]
             }
           }
@@ -112,8 +134,11 @@ module ElasticsearchQuery
   end
 
   def es_date_math_string(end_time)
-    if config[:minutes_previous] == 0 && config[:hours_previous] == 0 && \
-       config[:days_previous] == 0 && config[:weeks_previous] == 0 && config[:months_previous] == 0
+    if config[:minutes_previous] == 0 && \
+       config[:hours_previous] == 0 && \
+       config[:days_previous] == 0 && \
+       config[:weeks_previous] == 0 && \
+       config[:months_previous] == 0
       return nil
     else
       es_math = "#{end_time.strftime '%Y-%m-%dT%H:%M:%S'}||"
