@@ -78,6 +78,31 @@ module ElasticsearchQuery
 
     if !config[:body].nil?
       options[:body] = config[:body]
+    elsif config[:aggr] == true
+      es_date_start = es_date_math_string end_time
+      options[:size] = 0
+      options[:body] = {
+        'query' => {
+          'bool' => {
+            'must' => [{
+              'query_string' => {
+                'default_field' => config[:search_field],
+                'query' => config[:query]
+              }
+            }, {
+              'range' => {
+                config[:timestamp_field] => {
+                  'gt' => es_date_start,
+                  'lt' => end_time.strftime('%Y-%m-%dT%H:%M:%S')
+                }
+              }
+            }]
+          }
+        },
+        'aggregations' => {
+          'average' => { 'avg' => { 'field' => config[:aggr_field] } }
+        }
+      }
     else
       es_date_start = es_date_math_string end_time
       unless es_date_start.nil?
@@ -114,7 +139,7 @@ module ElasticsearchQuery
        config[:days_previous] == 0 && \
        config[:weeks_previous] == 0 && \
        config[:months_previous] == 0
-      return nil
+      nil
     else
       es_math = "#{end_time.strftime '%Y-%m-%dT%H:%M:%S'}||"
       es_math += "-#{config[:minutes_previous]}m" if config[:minutes_previous] != 0
@@ -122,7 +147,7 @@ module ElasticsearchQuery
       es_math += "-#{config[:days_previous]}d" if config[:days_previous] != 0
       es_math += "-#{config[:weeks_previous]}w" if config[:weeks_previous] != 0
       es_math += "-#{config[:months_previous]}M" if config[:months_previous] != 0
-      return es_math
+      es_math
     end
   end
 end
