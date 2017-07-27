@@ -5,6 +5,7 @@ require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'yard'
 require 'yard/rake/yardoc_task'
+require 'English'
 
 YARD::Rake::YardocTask.new do |t|
   OTHER_PATHS = %w().freeze
