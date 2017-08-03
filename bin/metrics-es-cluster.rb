@@ -191,7 +191,7 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
       end
       acquire_cluster_metrics.each do |cluster_metric|
         cluster_metric[1].each do |k, v|
-          output(config[:scheme] + '.' + cluster_metric[0] + '.' + k, v)
+          output(config[:scheme] + '.' + cluster_metric[0] + '.' + k, v || 0)
         end
       end
       output(config[:scheme] + '.document_count', acquire_document_count)
