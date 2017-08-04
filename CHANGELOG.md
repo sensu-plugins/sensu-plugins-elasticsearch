@@ -4,8 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+
+## [1.5.1] - 2017-08-03
 ### Fixed
-- bin/metrics-es-cluster.rb: missing data no longer causes invalid metrics
+- bin/metrics-es-cluster.rb: missing data no longer causes invalid metrics by defaulting to 0 (@TheKevJames)
 
 ## [1.5.0] - 2017-07-26
 ### Added
@@ -170,7 +172,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.1...HEAD
+[1.5.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.0...1.5.1
 [1.5.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.4.1...1.5.0
 [1.4.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.3.1...1.4.0
