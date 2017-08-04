@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Fixed
+- bin/metrics-es-cluster.rb: missing data no longer causes invalid metrics
 
 ## [1.5.0] - 2017-07-26
 ### Added
