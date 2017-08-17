@@ -257,7 +257,7 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
       critical 'Divisor is 0, ratio check cannot be performed, raising an alert'
     else
       response = {}
-      response['count'] = (dividend['count'] / divisor['count']).round
+      response['count'] = (dividend['count'].to_f / divisor['count'])
     end
     if config[:invert]
       if response['count'] < config[:crit]
