@@ -5,14 +5,14 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+
 ## [1.5.3] - 2017-08-17
 ### Fixed
 - bin/check-es-query-ratio.rb: ratio is performed by a float division, instead of integer division (@cgarciaarano)
 
-## [1.5.2] - 2017-08-13
+## [1.5.2] - 2017-08-12
 ### Fixed
-- bin/check-es-query-ratio.rb: division by 0 now is handled (@cgarciaarano)
-
+- check-es-query-ratio.rb: Fix when divisor = 0 (@cgarciaarano)
 ## [1.5.1] - 2017-08-03
 ### Fixed
 - bin/metrics-es-cluster.rb: missing data no longer causes invalid metrics by defaulting to 0 (@TheKevJames)
@@ -180,8 +180,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.3...HEAD
-[1.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.2...1.5.3
+
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.2...HEAD
 [1.5.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.1...1.5.2
 [1.5.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.0...1.5.1
 [1.5.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.4.1...1.5.0
