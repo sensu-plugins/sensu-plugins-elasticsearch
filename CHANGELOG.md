@@ -182,6 +182,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 
 [Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.2...HEAD
+[1.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.2...1.5.3
 [1.5.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.1...1.5.2
 [1.5.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.0...1.5.1
 [1.5.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.4.1...1.5.0
