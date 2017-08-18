@@ -261,12 +261,10 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
     config[:query] = divisor_query
     divisor = client.count(build_request_options)
     divisor_zero_ok = config[:divisor_zero_ok]
-    if divisor['count'] == 0
-      if divisor_zero_ok
-        ok 'Divisor is 0, ratio check cannot be performed, failing safe with ok'
-      else
-        critical 'Divisor is 0, ratio check cannot be performed, raising an alert'
-      end
+    if divisor_zero_ok && divisor['count'].zero?
+      ok 'Divisor is 0, ratio check cannot be performed, failing safe with ok'
+    elsif divisor['count'].zero?
+      critical 'Divisor is 0, ratio check cannot be performed, raising an alert'
     else
       response = {}
       response['count'] = (dividend['count'].to_f / divisor['count'])
