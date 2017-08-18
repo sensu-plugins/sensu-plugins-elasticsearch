@@ -209,7 +209,8 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
          short: '-z',
          long: '--zero',
          description: 'Division by 0 returns OK',
-         boolean: true
+         boolean: true,
+         default: false
 
   option :kibana_url,
          long: '--kibana-url KIBANA_URL',
