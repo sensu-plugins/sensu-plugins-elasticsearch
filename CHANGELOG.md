@@ -5,6 +5,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+## [1.6.0] - 2017-08-18
 ### Added
 - bin/check-es-query-ratio.rb: added option to avoid triggering alert if divisor is 0 (@cgarciaarano)
 
@@ -183,7 +184,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.2...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.0...HEAD
+[1.6.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.3...1.6.0
 [1.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.2...1.5.3
 [1.5.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.1...1.5.2
 [1.5.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.0...1.5.1
