@@ -205,6 +205,12 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
          description: 'Invert thresholds',
          boolean: true
 
+  option :divisor_zero_ok,
+         short: '-z',
+         long: '--zero',
+         description: 'Division by 0 returns OK',
+         boolean: true
+
   option :kibana_url,
          long: '--kibana-url KIBANA_URL',
          description: 'Kibana URL query prefix that will be in critical / warning response output.'
@@ -253,8 +259,13 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
     dividend = client.count(build_request_options)
     config[:query] = divisor_query
     divisor = client.count(build_request_options)
+    divisor_zero_ok = config[:divisor_zero_ok]
     if divisor['count'] == 0
-      critical 'Divisor is 0, ratio check cannot be performed, raising an alert'
+      if divisor_zero_ok
+        ok 'Divisor is 0, ratio check cannot be performed, failing safe with ok'
+      else
+        critical 'Divisor is 0, ratio check cannot be performed, raising an alert'
+      end
     else
       response = {}
       response['count'] = (dividend['count'].to_f / divisor['count'])
