@@ -5,6 +5,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+### Added
+- bin/check-es-query-ratio.rb: added option to avoid triggering alert if divisor is 0 (@cgarciaarano)
 
 ## [1.5.3] - 2017-08-17
 ### Fixed
