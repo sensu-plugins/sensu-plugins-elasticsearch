@@ -5,6 +5,9 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+### Fixed
+- bin/check-es-query-ratio.rb: added support to define float thresholds (@cgarciaarano)
+
 ## [1.6.0] - 2017-08-18
 ### Added
 - bin/check-es-query-ratio.rb: added option to avoid triggering alert if divisor is 0 (@cgarciaarano)
