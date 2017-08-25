@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+
+## [1.6.1] - 2017-08-24
 ### Fixed
 - bin/check-es-query-ratio.rb: added support to define float thresholds (@cgarciaarano)
 
@@ -35,7 +37,6 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - added ruby 2.4 testing (@majormoses)
 - check-es-shard-allocation-status.rb: HTTP Basic Auth support added  (@cihangirbesiktas)
 - check-es-shard-allocation-status.rb: timeout option for rest calls (@cihangirbesiktas)
-
 
 ### Fixed
 - PR template spell "compatibility" correctly. (@majormoses)
@@ -186,7 +187,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.1...HEAD
+[1.6.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.3...1.6.0
 [1.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.2...1.5.3
 [1.5.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.1...1.5.2
