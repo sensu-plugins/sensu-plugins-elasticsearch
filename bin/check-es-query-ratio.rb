@@ -190,14 +190,14 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
          short: '-w N',
          long: '--warn N',
          description: 'Result count WARNING threshold',
-         proc: proc(&:to_i),
+         proc: proc(&:to_f),
          default: 0
 
   option :crit,
          short: '-c N',
          long: '--crit N',
          description: 'Result count CRITICAL threshold',
-         proc: proc(&:to_i),
+         proc: proc(&:to_f),
          default: 0
 
   option :invert,
