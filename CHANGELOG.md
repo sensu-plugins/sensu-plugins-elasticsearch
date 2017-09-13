@@ -6,6 +6,10 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 
 ## [1.6.1] - 2017-08-24
+### Added
+- bin/check-es-cluster-health.rb: added option to alert only during a yellow state or only during a red state
+- bin/check-es-cluster-status.rb: added option to alert only during a yellow state or only during a red state
+
 ### Fixed
 - bin/check-es-query-ratio.rb: added support to define float thresholds (@cgarciaarano)
 
