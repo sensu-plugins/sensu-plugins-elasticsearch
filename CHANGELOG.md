@@ -4,12 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
-
-## [1.6.1] - 2017-08-24
 ### Added
 - bin/check-es-cluster-health.rb: added option to alert only during a yellow state or only during a red state
 - bin/check-es-cluster-status.rb: added option to alert only during a yellow state or only during a red state
 
+## [1.6.1] - 2017-08-24
 ### Fixed
 - bin/check-es-query-ratio.rb: added support to define float thresholds (@cgarciaarano)
 
