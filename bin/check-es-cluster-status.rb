@@ -144,13 +144,13 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
       when 'green'
         ok 'Cluster is green'
       when 'yellow'
-        if !options[:alert_status].include? 'red'
+        if !options[:alert_status].downcase.include? 'red'
           warning 'Cluster state is Yellow'
         else
           ok 'Not alerting on yellow'
         end
       when 'red'
-        if !options[:alert_status].include? 'yellow'
+        if !options[:alert_status].downcase.include? 'yellow'
           critical 'Cluster state is Red'
         else
           ok 'Not alerting on red'

@@ -111,13 +111,13 @@ class ESClusterHealth < Sensu::Plugin::Check::CLI
     health = client.cluster.health options
     case health['status']
     when 'yellow'
-      if !options[:alert_status].include? 'red'
+      if !options[:alert_status].downcase.include? 'red'
         warning 'Cluster state is Yellow'
       else
         ok 'Not alerting on yellow'
       end
     when 'red'
-      if !options[:alert_status].include? 'yellow'
+      if !options[:alert_status].downcase.include? 'yellow'
         critical 'Cluster state is Red'
       else
         ok 'Not alerting on red'
