@@ -4,9 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+
+### Changed
+- check-es-cluster-health.rb: changed `--alert_status` to `--alert-status` to be more consistent with conventions, restrict `--alert-status` to the actual acceptable options. (@majormoses)
+- check-es-cluster-status.rb: changed `--alert_status` to `--alert-status` to be more consistent with conventions, restrict `--alert-status` to the actual acceptable options. (@majormoses)
+
 ### Added
-- bin/check-es-cluster-health.rb: added option to alert only during a yellow state or only during a red state
-- bin/check-es-cluster-status.rb: added option to alert only during a yellow state or only during a red state
+- bin/check-es-cluster-health.rb: added option to alert only during a yellow state or only during a red state (@barrebre)
+- bin/check-es-cluster-status.rb: added option to alert only during a yellow state or only during a red state (@barrebre)
 
 ## [1.6.1] - 2017-08-24
 ### Fixed

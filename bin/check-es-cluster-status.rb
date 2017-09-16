@@ -85,8 +85,9 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
 
   option :alert_status,
          description: 'Only alert when status matches given (red/yellow) option (or green)',
-         long: '--alert_status STATUS',
-         default: ''
+         long: '--alert-status STATUS',
+         default: '',
+         in: %w(RED YELLOW GREEN)
 
   def get_es_resource(resource)
     headers = {}
@@ -144,13 +145,13 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
       when 'green'
         ok 'Cluster is green'
       when 'yellow'
-        if !options[:alert_status].downcase.include? 'red'
+        if !options[:alert_status] == 'RED'
           warning 'Cluster state is Yellow'
         else
           ok 'Not alerting on yellow'
         end
       when 'red'
-        if !options[:alert_status].downcase.include? 'yellow'
+        if !options[:alert_status] == 'YELLOW'
           critical 'Cluster state is Red'
         else
           ok 'Not alerting on red'
