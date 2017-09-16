@@ -5,6 +5,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+## [1.7.0] - 2017-09-16
 ### Changed
 - check-es-cluster-health.rb: changed `--alert_status` to `--alert-status` to be more consistent with conventions, restrict `--alert-status` to the actual acceptable options. (@majormoses)
 - check-es-cluster-status.rb: changed `--alert_status` to `--alert-status` to be more consistent with conventions, restrict `--alert-status` to the actual acceptable options. (@majormoses)
@@ -195,7 +196,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.1...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.7.0...HEAD
+[1.7.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.1...1.7.0
 [1.6.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.3...1.6.0
 [1.5.3]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.2...1.5.3
