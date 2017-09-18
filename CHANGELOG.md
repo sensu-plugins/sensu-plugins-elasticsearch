@@ -5,6 +5,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+- bin/check-es-cluster-health.rb and bin/check-es-cluster-status.rb fixed --alert-status failing to alert and allow absent value to alert on any status
+
 ## [1.7.0] - 2017-09-16
 ### Changed
 - check-es-cluster-health.rb: changed `--alert_status` to `--alert-status` to be more consistent with conventions, restrict `--alert-status` to the actual acceptable options. (@majormoses)
