@@ -5,7 +5,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
-- bin/check-es-cluster-health.rb and bin/check-es-cluster-status.rb fixed --alert-status failing to alert and allow absent value to alert on any status
+### Fixed
+- bin/check-es-cluster-health.rb and bin/check-es-cluster-status.rb fixed --alert-status failing to alert and allow absent value to alert on any status (@rwky)
 
 ## [1.7.0] - 2017-09-16
 ### Changed
