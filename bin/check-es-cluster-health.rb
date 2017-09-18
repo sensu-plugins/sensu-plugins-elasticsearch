@@ -93,10 +93,10 @@ class ESClusterHealth < Sensu::Plugin::Check::CLI
          default: 30
 
   option :alert_status,
-         description: 'Only alert when status matches given (red/yellow) option (or green)',
+         description: 'Only alert when status matches given RED/YELLOW/GREEN or if blank all statuses',
          long: '--alert-status STATUS',
          default: '',
-         in: %w(RED YELLOW GREEN)
+         in: ['RED', 'YELLOW', 'GREEN', '']
 
   def run
     options = {}
@@ -112,13 +112,13 @@ class ESClusterHealth < Sensu::Plugin::Check::CLI
     health = client.cluster.health options
     case health['status']
     when 'yellow'
-      if !options[:alert_status] == 'RED'
+      if ['YELLOW', ''].include? config[:alert_status]
         warning 'Cluster state is Yellow'
       else
         ok 'Not alerting on yellow'
       end
     when 'red'
-      if !options[:alert_status] == 'YELLOW'
+      if ['RED', ''].include? config[:alert_status]
         critical 'Cluster state is Red'
       else
         ok 'Not alerting on red'
