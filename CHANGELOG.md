@@ -5,6 +5,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+## [1.7.1] - 2017-09-18
 ### Fixed
 - bin/check-es-cluster-health.rb and bin/check-es-cluster-status.rb fixed --alert-status failing to alert and allow absent value to alert on any status (@rwky)
 
@@ -199,7 +200,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.7.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.7.1...HEAD
+[1.7.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.7.0...1.7.1
 [1.7.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.1...1.7.0
 [1.6.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.5.3...1.6.0
