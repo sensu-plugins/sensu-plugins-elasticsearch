@@ -133,21 +133,17 @@ class ESHeap < Sensu::Plugin::Check::CLI
       else
         acquire_es_resource('/_nodes/_local/stats')
       end
+    elsif config[:all]
+      acquire_es_resource('/_cluster/nodes/stats')
     else
-      if config[:all]
-        acquire_es_resource('/_cluster/nodes/stats')
-      else
-        acquire_es_resource('/_cluster/nodes/_local/stats')
-      end
+      acquire_es_resource('/_cluster/nodes/_local/stats')
     end
   end
 
   def acquire_heap_data(node)
-    begin
-      return node['jvm']['mem']['heap_used_in_bytes'], node['jvm']['mem']['heap_max_in_bytes']
-    rescue
-      warning 'Failed to obtain heap used in bytes'
-    end
+    return node['jvm']['mem']['heap_used_in_bytes'], node['jvm']['mem']['heap_max_in_bytes']
+  rescue
+    warning 'Failed to obtain heap used in bytes'
   end
 
   def acquire_heap_usage(heap_used, heap_max, node_name)
@@ -158,7 +154,7 @@ class ESHeap < Sensu::Plugin::Check::CLI
       heap_usage = heap_used
       output = "Node #{node_name}: Heap used in bytes #{heap_used}\n"
     end
-    return heap_usage, output
+    [heap_usage, output]
   end
 
   def run
