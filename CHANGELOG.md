@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Added
+- bin/check-es-heap.rb: added support to check heap usage of all nodes in a cluster (@cihangirbesiktas) 
 
 ## [1.7.1] - 2017-09-18
 ### Fixed

@@ -90,6 +90,12 @@ class ESHeap < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
+  option :all,
+         description: 'Check all nodes in the ES cluster',
+         short: '-a',
+         long: '--all',
+         default: false
+
   def acquire_es_version
     info = acquire_es_resource('/')
     info['version']['number']
@@ -120,46 +126,66 @@ class ESHeap < Sensu::Plugin::Check::CLI
     warning 'Elasticsearch API returned invalid JSON'
   end
 
-  def acquire_heap_data(return_max = false)
-    stats = if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
-              acquire_es_resource('/_nodes/_local/stats')
-            else
-              acquire_es_resource('/_cluster/nodes/_local/stats')
-            end
-    node = stats['nodes'].keys.first
-    begin
-      if return_max
-        return stats['nodes'][node]['jvm']['mem']['heap_used_in_bytes'], stats['nodes'][node]['jvm']['mem']['heap_max_in_bytes']
+  def acquire_stats
+    if Gem::Version.new(acquire_es_version) >= Gem::Version.new('1.0.0')
+      if config[:all]
+        acquire_es_resource('/_nodes/stats')
       else
-        stats['nodes'][node]['jvm']['mem']['heap_used_in_bytes']
+        acquire_es_resource('/_nodes/_local/stats')
       end
+    else
+      if config[:all]
+        acquire_es_resource('/_cluster/nodes/stats')
+      else
+        acquire_es_resource('/_cluster/nodes/_local/stats')
+      end
+    end
+  end
+
+  def acquire_heap_data(node)
+    begin
+      return node['jvm']['mem']['heap_used_in_bytes'], node['jvm']['mem']['heap_max_in_bytes']
     rescue
       warning 'Failed to obtain heap used in bytes'
     end
   end
 
-  def run
+  def acquire_heap_usage(heap_used, heap_max, node_name)
     if config[:percentage]
-      heap_used, heap_max = acquire_heap_data(true)
-      heap_used_ratio = ((100 * heap_used) / heap_max).to_i
-      message "Heap used in bytes #{heap_used} (#{heap_used_ratio}% full)"
-      if heap_used_ratio >= config[:crit]
-        critical
-      elsif heap_used_ratio >= config[:warn]
-        warning
-      else
-        ok
-      end
+      heap_usage = ((100 * heap_used) / heap_max).to_i
+      output = "Node #{node_name}: Heap used in bytes #{heap_used} (#{heap_usage}% full)\n"
     else
-      heap_used = acquire_heap_data(false)
-      message "Heap used in bytes #{heap_used}"
-      if heap_used >= config[:crit]
-        critical
-      elsif heap_used >= config[:warn]
-        warning
-      else
-        ok
+      heap_usage = heap_used
+      output = "Node #{node_name}: Heap used in bytes #{heap_used}\n"
+    end
+    return heap_usage, output
+  end
+
+  def run
+    stats = acquire_stats
+    status_w = false
+    status_c = false
+    msg = "\n"
+
+    # Check all the nodes in the cluster, alert if any of the nodes have heap usage above thresholds
+    stats['nodes'].each do |_, node|
+      heap_used, heap_max = acquire_heap_data(node)
+      heap_usage, output = acquire_heap_usage(heap_used, heap_max, node['name'])
+      msg += output
+      if heap_usage >= config[:crit]
+        status_c = true
+      elsif heap_usage >= config[:warn]
+        status_w = true
       end
+    end
+
+    message msg
+    if status_c
+      critical
+    elsif status_w
+      warning
+    else
+      ok
     end
   end
 end
