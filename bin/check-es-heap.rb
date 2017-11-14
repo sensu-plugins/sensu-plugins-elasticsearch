@@ -149,10 +149,14 @@ class ESHeap < Sensu::Plugin::Check::CLI
   def acquire_heap_usage(heap_used, heap_max, node_name)
     if config[:percentage]
       heap_usage = ((100 * heap_used) / heap_max).to_i
-      output = "Node #{node_name}: Heap used in bytes #{heap_used} (#{heap_usage}% full)\n"
+      output = if config[:all]
+                 "Node #{node_name}: Heap used in bytes #{heap_used} (#{heap_usage}% full)\n"
+               else
+                 "Heap used in bytes #{heap_used} (#{heap_usage}% full)"
+               end
     else
       heap_usage = heap_used
-      output = "Node #{node_name}: Heap used in bytes #{heap_used}\n"
+      output = config[:all] ? "Node #{node_name}: Heap used in bytes #{heap_used}\n" : "Heap used in bytes #{heap_used}"
     end
     [heap_usage, output]
   end
@@ -161,8 +165,9 @@ class ESHeap < Sensu::Plugin::Check::CLI
     stats = acquire_stats
     status_w = false
     status_c = false
-    w_msg = "\n"
-    c_msg = "\n"
+    w_msg = ''
+    c_msg = ''
+    msg = ''
 
     # Check all the nodes in the cluster, alert if any of the nodes have heap usage above thresholds
     stats['nodes'].each do |_, node|
@@ -174,6 +179,8 @@ class ESHeap < Sensu::Plugin::Check::CLI
       elsif heap_usage >= config[:warn]
         w_msg += output
         status_w = true
+      elsif !config[:all]
+        msg += output
       end
     end
 
@@ -184,6 +191,7 @@ class ESHeap < Sensu::Plugin::Check::CLI
       message w_msg
       warning
     else
+      message msg
       ok
     end
   end
