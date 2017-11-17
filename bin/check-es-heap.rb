@@ -163,35 +163,29 @@ class ESHeap < Sensu::Plugin::Check::CLI
 
   def run
     stats = acquire_stats
-    status_w = false
-    status_c = false
-    w_msg = ''
-    c_msg = ''
-    msg = ''
+    status = { crit: '', warn: '', ok: '' }
 
     # Check all the nodes in the cluster, alert if any of the nodes have heap usage above thresholds
     stats['nodes'].each do |_, node|
       heap_used, heap_max = acquire_heap_data(node)
       heap_usage, output = acquire_heap_usage(heap_used, heap_max, node['name'])
       if heap_usage >= config[:crit]
-        c_msg += output
-        status_c = true
+        status[:crit] += output
       elsif heap_usage >= config[:warn]
-        w_msg += output
-        status_w = true
+        status[:warn] += output
       elsif !config[:all]
-        msg += output
+        status[:ok] += output
       end
     end
 
-    if status_c
-      message c_msg
+    if !status[:crit].empty?
+      message status[:crit]
       critical
-    elsif status_w
-      message w_msg
+    elsif !status[:warn].empty?
+      message status[:warn]
       warning
     else
-      message msg
+      message status[:ok]
       ok
     end
   end
