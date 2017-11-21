@@ -1,11 +1,14 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
+This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+
+## [1.8.0] - 2017-11-21
 ### Added
-- bin/check-es-heap.rb: added support to check heap usage of all nodes in a cluster (@cihangirbesiktas) 
+- bin/check-es-heap.rb: added support to check heap usage of all nodes in a cluster (@cihangirbesiktas)
+- update changelog location guidelines (@majormoses)
 
 ## [1.7.1] - 2017-09-18
 ### Fixed
@@ -202,7 +205,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.7.1...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.8.0...HEAD
+[1.8.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.7.1...1.8.0
 [1.7.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.7.0...1.7.1
 [1.7.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.1...1.7.0
 [1.6.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.6.0...1.6.1
