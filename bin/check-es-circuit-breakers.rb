@@ -69,11 +69,10 @@ class ESCircuitBreaker < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
- option :cert,
-       description: 'Cert to use',
-       short: '-c CERT',
-       long: '--cert CERT'
-
+  option :cert,
+         description: 'Cert to use',
+         short: '-c CERT',
+         long: '--cert CERT'
 
   option :localhost,
          description: 'only check local node',
@@ -96,7 +95,7 @@ class ESCircuitBreaker < Sensu::Plugin::Check::CLI
                end
 
     r = if config[:cert]
-          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", ssl_ca_file: "#{config[:cert]}", timeout: config[:timeout], headers: headers)
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", ssl_ca_file: config[:cert].to_s, timeout: config[:timeout], headers: headers)
         else
           RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
         end

@@ -90,10 +90,10 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
          short: '-e',
          long: '--https'
 
- option :cert,
-        description: 'Cert to use',
-        short: '-c CERT',
-        long: '--cert CERT'
+  option :cert,
+         description: 'Cert to use',
+         short: '-c CERT',
+         long: '--cert CERT'
 
   def acquire_es_version
     info = get_es_resource('/')
@@ -114,7 +114,7 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
                end
 
     r = if config[:cert]
-          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", ssl_ca_file: "#{config[:cert]}", timeout: config[:timeout], headers: headers)
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", ssl_ca_file: config[:cert].to_s, timeout: config[:timeout], headers: headers)
         else
           RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
         end
@@ -140,8 +140,8 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
   end
 
   def acquire_health
-    health = get_es_resource('/_cluster/health').reject { |k, _v| %w(cluster_name timed_out).include?(k) }
-    health['status'] = %w(red yellow green).index(health['status'])
+    health = get_es_resource('/_cluster/health').reject { |k, _v| %w[cluster_name timed_out].include?(k) }
+    health['status'] = %w[red yellow green].index(health['status'])
     health
   end
 
@@ -187,7 +187,7 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
     cluster_config = get_es_resource('/_cluster/settings')
     transient_settings = cluster_config['transient']
     if transient_settings.key?('cluster')
-      return %w(none new_primaries primaries all).index(transient_settings['cluster']['routing']['allocation']['enable'])
+      return %w[none new_primaries primaries all].index(transient_settings['cluster']['routing']['allocation']['enable'])
     else
       return nil
     end
