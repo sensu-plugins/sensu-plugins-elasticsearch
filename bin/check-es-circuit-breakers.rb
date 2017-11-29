@@ -69,6 +69,12 @@ class ESCircuitBreaker < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
+ option :cert,
+       description: 'Cert to use',
+       short: '-c CERT',
+       long: '--cert CERT'
+
+
   option :localhost,
          description: 'only check local node',
          short: '-l',
@@ -89,7 +95,11 @@ class ESCircuitBreaker < Sensu::Plugin::Check::CLI
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+    r = if config[:cert]
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", ssl_ca_file: "#{config[:cert]}", timeout: config[:timeout], headers: headers)
+        else
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+        end
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     critical 'Connection refused'

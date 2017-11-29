@@ -71,6 +71,11 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
          short: '-e',
          long: '--https'
 
+  option :cert,
+         description: 'Cert to use',
+         short: '-c CERT',
+         long: '--cert CERT'
+
   def acquire_es_version
     info = get_es_resource('/')
     info['version']['number']
@@ -89,7 +94,11 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+    r = if config[:cert]
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", ssl_ca_file: "#{config[:cert]}", timeout: config[:timeout], headers: headers)
+        else
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+        end
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
