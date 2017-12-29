@@ -88,9 +88,14 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
                end
 
     r = if config[:cert]
-          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", ssl_ca_file: config[:cert].to_s, timeout: config[:timeout], headers: headers)
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
+                                   ssl_ca_file: config[:cert].to_s,
+                                   timeout: config[:timeout],
+                                   headers: headers)
         else
-          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
+                                   timeout: config[:timeout],
+                                   headers: headers)
         end
     r.get
   rescue Errno::ECONNREFUSED
