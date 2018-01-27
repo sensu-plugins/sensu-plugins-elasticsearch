@@ -16,6 +16,7 @@
  * /bin/check-es-heap.rb
  * /bin/check-es-indexes.rb
  * /bin/check-es-indicies-sizes.rb
+ * /bin/check-es-maximum-shard-limit.rb
  * /bin/check-es-node-status.rb
  * /bin/check-es-query-count.rb
  * /bin/check-es-query-exists.rb
