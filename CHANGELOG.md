@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+- bin/check-es-node-status.rb: updated to check the status of all nodes in a cluster (@cihangirbesiktas)
 
 ## [1.8.1] - 2018-02-15
 ### Fixed

@@ -92,17 +92,19 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
   end
 
   def acquire_status
-    status = get_es_resource('/').code
+    status = get_es_resource('/_nodes/stats')
     status
   end
 
   def run
-    node_status = acquire_status
+    stats = acquire_status
+    total = stats['_nodes']['total']
+    successful = stats['_nodes']['successful']
 
-    if node_status == 200
-      ok "Alive #{node_status}"
+    if total == successful
+      ok "Alive - all nodes"
     else
-      critical "Dead (#{node_status})"
+      critical "Dead - one or more nodes"
     end
   end
 end
