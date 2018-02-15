@@ -102,9 +102,9 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
     successful = stats['_nodes']['successful']
 
     if total == successful
-      ok "Alive - all nodes"
+      ok 'Alive - all nodes'
     else
-      critical "Dead - one or more nodes"
+      critical 'Dead - one or more nodes'
     end
   end
 end
