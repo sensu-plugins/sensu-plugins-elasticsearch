@@ -70,7 +70,7 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
          default: false
 
   option :enable_percolate,
-         description: 'Enables percolator stats',
+         description: 'Enables percolator stats (ES 2 and older only)',
          short: '-o',
          long: '--enable-percolate',
          default: false
@@ -166,7 +166,7 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
     cluster_metrics[cache_name]['evictions'] = cluster_stats['indices'][cache_name]['evictions']
     cluster_metrics['mem'] = cluster_stats['nodes']['jvm']['mem']
 
-    if config[:enable_percolate]
+    if config[:enable_percolate] && Gem::Version.new(acquire_es_version) < Gem::Version.new('5.0.0')
       cluster_metrics['percolate']['total'] = cluster_stats['indices']['percolate']['total']
       cluster_metrics['percolate']['time_in_millis'] = cluster_stats['indices']['percolate']['time_in_millis']
       cluster_metrics['percolate']['queries'] = cluster_stats['indices']['percolate']['queries']
