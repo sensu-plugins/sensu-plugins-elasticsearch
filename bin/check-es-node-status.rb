@@ -68,6 +68,12 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
+  option :all,
+         description: 'Check all nodes in the ES cluster',
+         short: '-a',
+         long: '--all',
+         default: false
+
   def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
@@ -92,17 +98,27 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
   end
 
   def acquire_status
-    status = get_es_resource('/').code
+    status = get_es_resource('/_nodes/stats')
     status
   end
 
   def run
-    node_status = acquire_status
+    stats = acquire_status
 
-    if node_status == 200
-      ok "Alive #{node_status}"
+    if stats.code == 200
+      if config[:all]
+        total = stats['_nodes']['total']
+        successful = stats['_nodes']['successful']
+        if total == successful
+          ok 'Alive - all nodes'
+        else
+          critical 'Dead - one or more nodes'
+        end
+      else
+        ok "Alive #{stats.code}"
+      end
     else
-      critical "Dead (#{node_status})"
+      critical "Dead (#{stats.code})"
     end
   end
 end
