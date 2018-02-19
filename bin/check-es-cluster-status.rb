@@ -83,10 +83,10 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
-  option :cert,
-         description: 'Cert to use',
-         short: '-c CERT',
-         long: '--cert CERT'
+  option :cert_file,
+         description: 'Cert file to use',
+         short: '-c CERT_FILE',
+         long: '--cert-file CERT_FILE'
 
   option :alert_status,
          description: 'Only alert when status matches given RED/YELLOW/GREEN or if blank all statuses',
@@ -107,9 +107,9 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
                  'http'
                end
 
-    r = if config[:cert]
+    r = if config[:cert_file]
           RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
-                                   ssl_ca_file: config[:cert].to_s,
+                                   ssl_ca_file: config[:cert_file].to_s,
                                    timeout: config[:timeout],
                                    headers: headers)
         else

@@ -71,10 +71,10 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
          short: '-e',
          long: '--https'
 
-  option :cert,
-         description: 'Cert to use',
-         short: '-c CERT',
-         long: '--cert CERT'
+  option :cert_file,
+         description: 'Cert file to use',
+         short: '-c CERT_FILE',
+         long: '--cert CERT_FILE'
 
   def acquire_es_version
     info = get_es_resource('/')
@@ -94,9 +94,9 @@ class ESMetrics < Sensu::Plugin::Metric::CLI::Graphite
                  'http'
                end
 
-    r = if config[:cert]
+    r = if config[:cert_file]
           RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
-                                   ssl_ca_file: config[:cert].to_s,
+                                   ssl_ca_file: config[:cert_file].to_s,
                                    timeout: config[:timeout],
                                    headers: headers)
         else
