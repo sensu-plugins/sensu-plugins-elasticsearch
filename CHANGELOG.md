@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+
+## [1.10.0] - 2018-02-19
 ### Added
 - check-es-circuit-breakers.rb, check-es-cluster-status.rb, check-es-indices-sizes.rb, check-es-node-status.rb, metrics-es-cluster.rb, metrics-es-node-graphite.rb, metrics-es-node.rb: added `--cert-file` option which allows you to specify a ca-cert to be used to verify TLS (@csoleimani) (@majormoses)
 
@@ -215,7 +217,8 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.9.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.10.0...HEAD
+[1.10.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.9.0...1.10.0
 [1.9.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.8.1...1.9.0
 [1.8.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.8.0...1.8.1
 [1.8.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.7.1...1.8.0
