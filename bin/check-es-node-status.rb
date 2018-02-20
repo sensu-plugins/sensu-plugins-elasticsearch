@@ -68,6 +68,10 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
+  option :cert_file,
+         description: 'Cert file to use',
+         long: '--cert-file CERT_FILE'
+
   option :all,
          description: 'Check all nodes in the ES cluster',
          short: '-a',
@@ -87,7 +91,16 @@ class ESNodeStatus < Sensu::Plugin::Check::CLI
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+    r = if config[:cert_file]
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
+                                   ssl_ca_file: config[:cert_file].to_s,
+                                   timeout: config[:timeout],
+                                   headers: headers)
+        else
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
+                                   timeout: config[:timeout],
+                                   headers: headers)
+        end
     r.get
   rescue Errno::ECONNREFUSED
     critical 'Connection refused'

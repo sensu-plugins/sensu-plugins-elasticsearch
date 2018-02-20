@@ -115,6 +115,10 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
          short: '-e',
          long: '--https'
 
+  option :cert_file,
+         description: 'Cert file to use',
+         long: '--cert-file CERT_FILE'
+
   def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
@@ -128,7 +132,16 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:server]}:#{config[:port]}#{resource}?pretty", timeout: config[:timeout], headers: headers)
+    r = if config[:cert_file]
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
+                                   ssl_ca_file: config[:cert_file].to_s,
+                                   timeout: config[:timeout],
+                                   headers: headers)
+        else
+          RestClient::Resource.new("#{protocol}://#{config[:server]}:#{config[:port]}#{resource}?pretty",
+                                   timeout: config[:timeout],
+                                   headers: headers)
+        end
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'

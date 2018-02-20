@@ -159,12 +159,11 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
   def run
     node_fs_stats = client.nodes.stats metric: 'fs,indices'
     nodes_being_used = node_fs_stats['nodes'].values.select { |node| node['indices']['store']['size_in_bytes'] > 0 }
-    # rubocop:disable SingleLineBlockParams
-    # rubocop:disable LineLength
-    used_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] - data['available_in_bytes'] }.flatten }.flatten.inject { |sum, x| sum + x }
-    # rubocop:enable LineLength
+    # TODO: come back and cleanup all these rubocop disables with a little refactor
+    # rubocop:disable Style/SingleLineBlockParams
+    used_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] - data['available_in_bytes'] }.flatten }.flatten.inject { |sum, x| sum + x } # rubocop:disable LineLength
     total_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] }.flatten }.flatten.inject { |sum, x| sum + x }
-    # rubocop:enable SingleLineBlockParams
+    # rubocop:enable Style/SingleLineBlockParams LineLength
 
     if config[:maximum_megabytes] > 0
       target_bytes_used = config[:maximum_megabytes] * 1_000_000

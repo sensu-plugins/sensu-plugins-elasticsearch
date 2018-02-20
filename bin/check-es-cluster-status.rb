@@ -83,6 +83,10 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
          short: '-e',
          long: '--https'
 
+  option :cert_file,
+         description: 'Cert file to use',
+         long: '--cert-file CERT_FILE'
+
   option :alert_status,
          description: 'Only alert when status matches given RED/YELLOW/GREEN or if blank all statuses',
          long: '--alert-status STATUS',
@@ -102,7 +106,16 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
                  'http'
                end
 
-    r = RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+    r = if config[:cert_file]
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
+                                   ssl_ca_file: config[:cert_file].to_s,
+                                   timeout: config[:timeout],
+                                   headers: headers)
+        else
+          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
+                                   timeout: config[:timeout],
+                                   headers: headers)
+        end
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     critical 'Connection refused'
