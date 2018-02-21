@@ -43,6 +43,22 @@ module ElasticsearchCommon
       host[:scheme] = 'https' unless config[:scheme]
     end
 
-    @client ||= Elasticsearch::Client.new(transport_class: transport_class, hosts: [host], region: config[:region])
+    transport_options = {}
+
+    if config[:header]
+
+      headers = {}
+
+      config[:header].split(',').each do |header|
+        h, v = header.split(':', 2)
+        headers[h.strip] = v.strip
+      end
+
+      transport_options[:headers] = headers
+
+    end
+
+
+    @client ||= Elasticsearch::Client.new(transport_class: transport_class, hosts: [host], region: config[:region], transport_options: transport_options)
   end
 end
