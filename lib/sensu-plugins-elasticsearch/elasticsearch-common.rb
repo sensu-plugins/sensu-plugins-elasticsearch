@@ -45,11 +45,11 @@ module ElasticsearchCommon
 
     transport_options = {}
 
-    if config[:header]
+    if config[:headers]
 
       headers = {}
 
-      config[:header].split(',').each do |header|
+      config[:headers].split(',').each do |header|
         h, v = header.split(':', 2)
         headers[h.strip] = v.strip
       end
@@ -57,7 +57,6 @@ module ElasticsearchCommon
       transport_options[:headers] = headers
 
     end
-
 
     @client ||= Elasticsearch::Client.new(transport_class: transport_class, hosts: [host], region: config[:region], transport_options: transport_options)
   end

@@ -4,6 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+### Added
+- bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
+- bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
+- bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
+- bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
+- lib/sensu-plugins-elasticsearch/elasticsearch-common.rb: collect headers originating from query commands and pass them to the elasticsearch client (@alexandrustaetu)
 
 ## [1.10.0] - 2018-02-19
 ### Added
