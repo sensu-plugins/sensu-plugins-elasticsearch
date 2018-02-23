@@ -38,6 +38,14 @@
 
 This repository uses the [Kitchen](https://kitchen.ci/) suite for it's tests.
 
+Note: The test suite uses an elasticsearch instance in order to have passing tests. Execute the following command to create a mock elasticsearch 6 instance:
+
+```bash
+docker run -d --name sensu-elasticsearch-6 docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+``` 
+
+Running the tests:
+
 ```bash
 bundle install --path vendor/bundle
 bundle exec kitchen test
