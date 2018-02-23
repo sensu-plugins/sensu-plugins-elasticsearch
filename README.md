@@ -33,3 +33,14 @@
 [Installation and Setup](http://sensu-plugins.io/docs/installation_instructions.html)
 
 ## Notes
+
+## Testing
+
+This repository uses the [Kitchen](https://kitchen.ci/) suite for it's tests.
+
+```bash
+bundle install --path vendor/bundle
+bundle exec kitchen test
+``` 
+
+You can find sample output for all tests running successfully in [this gist](https://gist.github.com/alexandrustaetu/d19feea1296d2ce7e367542265252d7a). 
