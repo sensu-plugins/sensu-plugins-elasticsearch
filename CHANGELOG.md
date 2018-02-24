@@ -4,12 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+
+## [1.11.0] - 2018-02-23
 ### Added
 - bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
 - bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
 - bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
 - bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
 - lib/sensu-plugins-elasticsearch/elasticsearch-common.rb: collect headers originating from query commands and pass them to the elasticsearch client (@alexandrustaetu)
+- integration testing with es6 (@alexandrustaetu) (@majormoses)
 
 ## [1.10.0] - 2018-02-19
 ### Added
@@ -223,7 +226,8 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.10.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.11.0...HEAD
+[1.11.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.10.0...1.11.0
 [1.10.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.9.0...1.10.0
 [1.9.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.8.1...1.9.0
 [1.8.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.8.0...1.8.1
