@@ -14,6 +14,7 @@
  * /bin/check-es-cluster-status.rb
  * /bin/check-es-file-descriptors.rb
  * /bin/check-es-heap.rb
+ * /bin/check-es-indices-field-count.rb
  * /bin/check-es-indexes.rb
  * /bin/check-es-indicies-sizes.rb
  * /bin/check-es-node-status.rb
@@ -42,13 +43,13 @@ Note: The test suite uses an elasticsearch instance in order to have passing tes
 
 ```bash
 docker run -d --name sensu-elasticsearch-6 docker.elastic.co/elasticsearch/elasticsearch:6.2.2
-``` 
+```
 
 Running the tests:
 
 ```bash
 bundle install --path vendor/bundle
 bundle exec kitchen test
-``` 
+```
 
-You can find sample output for all tests running successfully in [this gist](https://gist.github.com/alexandrustaetu/d19feea1296d2ce7e367542265252d7a). 
+You can find sample output for all tests running successfully in [this gist](https://gist.github.com/alexandrustaetu/d19feea1296d2ce7e367542265252d7a).
