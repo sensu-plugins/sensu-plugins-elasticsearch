@@ -1,6 +1,11 @@
+sudo: true
+service: docker
 language: ruby
 cache:
 - bundler
+before_install:
+  - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
+  - gem install bundler -v 1.15
 install:
 - bundle install
 rvm:
@@ -15,10 +20,14 @@ notifications:
     - sensu-plugin@sensu-plugins.io
     on_success: change
     on_failure: always
+
+before_script:
+  - docker run --name sensu-elasticsearch-6 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -d docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.2
 script:
-- bundle exec rake default
 - gem build sensu-plugins-elasticsearch.gemspec
 - gem install sensu-plugins-elasticsearch-*.gem
+- bundle exec rake quick
+- bundle exec rake kitchen:ruby-`echo $TRAVIS_RUBY_VERSION | sed -e "s/\.//g"`-debian-8
 deploy:
   provider: rubygems
   api_key:

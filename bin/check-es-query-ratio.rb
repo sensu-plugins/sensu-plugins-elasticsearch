@@ -179,6 +179,12 @@ class ESQueryRatio < Sensu::Plugin::Check::CLI
          short: '-u USER',
          long: '--user USER'
 
+  option :headers,
+         description: 'A comma separated list of headers to pass to elasticsearch http client',
+         short: '-H headers',
+         long: '--headers headers',
+         default: 'Content-Type: application/json'
+
   option :timeout,
          description: 'Elasticsearch query timeout in seconds',
          short: '-t TIMEOUT',

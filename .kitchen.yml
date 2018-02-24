@@ -1,0 +1,37 @@
+---
+driver:
+  name: docker
+  use_sudo: false
+  links:
+    # TODO: multiple versions at some point
+    - sensu-elasticsearch-6:sensu-elasticsearch-6
+
+provisioner:
+  name: shell
+  data_path: .
+  script: test/fixtures/bootstrap.sh
+
+# verifier:
+#   ruby_bindir: <%= ENV['MY_RUBY_HOME'] || '/opt/sensu/embedded' %>/bin
+verifier:
+  ruby_bindir: /usr/local/bin
+
+platforms:
+  - name: debian-8
+
+suites:
+  - name: ruby-20
+    driver:
+      image: ruby:2.0-slim
+  - name: ruby-21
+    driver:
+      image: ruby:2.1-slim
+  - name: ruby-22
+    driver:
+      image: ruby:2.2-slim
+  - name: ruby-230
+    driver:
+      image: ruby:2.3.0-slim
+  - name: ruby-241
+    driver:
+      image: ruby:2.4.1-slim

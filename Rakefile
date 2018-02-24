@@ -6,6 +6,7 @@ require 'rubocop/rake_task'
 require 'yard'
 require 'yard/rake/yardoc_task'
 require 'English'
+require 'kitchen/rake_tasks'
 
 YARD::Rake::YardocTask.new do |t|
   OTHER_PATHS = %w().freeze
@@ -36,4 +37,10 @@ task :check_binstubs do
   end
 end
 
-task default: %i(spec make_bin_executable yard rubocop check_binstubs)
+Kitchen::RakeTasks.new
+
+desc 'Alias for kitchen:all'
+task integration: 'kitchen:all'
+
+task default: %i(make_bin_executable yard rubocop check_binstubs integration)
+task quick: %i(make_bin_executable yard rubocop check_binstubs)
