@@ -5,7 +5,6 @@ require 'date'
 require_relative 'lib/sensu-plugins-elasticsearch'
 
 # pvt_key = '~/.ssh/gem-private_key.pem'
-
 Gem::Specification.new do |s|
   s.authors                = ['Sensu Plugins and contributors']
   # s.cert_chain             = ['certs/sensu-plugins.pem']

@@ -134,11 +134,11 @@ module ElasticsearchQuery
   end
 
   def es_date_math_string(end_time)
-    if config[:minutes_previous] == 0 && \
-       config[:hours_previous] == 0 && \
-       config[:days_previous] == 0 && \
-       config[:weeks_previous] == 0 && \
-       config[:months_previous] == 0
+    if config[:minutes_previous].zero? && \
+       config[:hours_previous].zero? && \
+       config[:days_previous].zero? && \
+       config[:weeks_previous].zero? && \
+       config[:months_previous].zero?
       nil
     else
       es_math = "#{end_time.strftime '%Y-%m-%dT%H:%M:%S'}||"
