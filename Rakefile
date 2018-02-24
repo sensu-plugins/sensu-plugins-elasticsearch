@@ -43,3 +43,4 @@ desc 'Alias for kitchen:all'
 task integration: 'kitchen:all'
 
 task default: %i(make_bin_executable yard rubocop check_binstubs integration)
+task quick: %i(make_bin_executable yard rubocop check_binstubs)
