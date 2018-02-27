@@ -5,6 +5,10 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 ## [Unreleased]
 
+## [1.11.1] - 2018-02-27
+### Changed
+- this is a no-op release to test the CI pipeline's ability to publish gems
+
 ## [1.11.0] - 2018-02-23
 ### Added
 - bin/check-es-query-average.rb: added flag of '--headers' so that headers can be passed to the elasticsearch http client (@alexandrustaetu)
