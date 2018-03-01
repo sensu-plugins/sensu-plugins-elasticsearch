@@ -4,10 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+
+## [1.12.0] - 2018-03-01
 ### Added
-- check-es-indices-field-number.rb: check if the number of fields in index(es) is approaching limit (default to 1000 in ES)
+- check-es-indices-field-number.rb: check if the number of fields in index(es) is approaching limit (default to 1000 in ES) (@huynt1979)
 ### Changed
-- Address a couple of rubocop style violations.
+- Address a couple of rubocop style violations (@huynt1979)
 
 ## [1.11.1] - 2018-02-27
 ### Changed
@@ -234,7 +236,9 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.11.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.12.0...HEAD
+[1.12.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.11.1...1.12.0
+[1.11.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.11.0...1.11.1
 [1.11.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.10.0...1.11.0
 [1.10.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.9.0...1.10.0
 [1.9.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.8.1...1.9.0
