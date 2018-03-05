@@ -108,6 +108,8 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
 
   def get_indices_to_delete(starting_date, total_bytes_to_delete, indices_with_sizes)
     total_bytes_deleted = 0
+
+    # TODO: switch from `DateTime` to `Time` or `Date`
     curr_date = DateTime.now
 
     indices_to_delete = []
@@ -161,10 +163,10 @@ class ESCheckIndicesSizes < Sensu::Plugin::Check::CLI
     nodes_being_used = node_fs_stats['nodes'].values.select { |node| node['indices']['store']['size_in_bytes'] > 0 }
 
     # TODO: come back and cleanup all these rubocop disables with a little refactor
-    # rubocop:disable Style/SingleLineBlockParams,Metrics/LineLength
+    # rubocop:disable Metrics/LineLength
     used_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] - data['available_in_bytes'] }.flatten }.flatten.inject { |sum, x| sum + x }
     total_in_bytes = nodes_being_used.map { |node| node['fs']['data'].map { |data| data['total_in_bytes'] }.flatten }.flatten.inject { |sum, x| sum + x }
-    # rubocop:enable Style/SingleLineBlockParams,Metrics/LineLength
+    # rubocop:enable Metrics/LineLength
 
     if config[:maximum_megabytes] > 0
       target_bytes_used = config[:maximum_megabytes] * 1_000_000

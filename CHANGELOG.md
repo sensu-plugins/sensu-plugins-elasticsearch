@@ -5,6 +5,16 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 ## [Unreleased]
 
+### Security
+- updated rubocop dependency to `~> 0.51.0` per: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-8418. (@majormoses)
+
+### Breaking Changes
+- removed ruby `< 2.1` support @majormoses
+
+### Changes
+- added explicit dependency on `mixlib-shellout` to keep compatibility with ruby `2.1` (@majormoses)
+- appeased the cops and created TODOs (@majormoses)
+
 ## [1.12.0] - 2018-03-01
 ### Added
 - check-es-indices-field-number.rb: check if the number of fields in index(es) is approaching limit (default to 1000 in ES) (@huynt1979)

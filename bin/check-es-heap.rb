@@ -142,7 +142,7 @@ class ESHeap < Sensu::Plugin::Check::CLI
 
   def acquire_heap_data(node)
     return node['jvm']['mem']['heap_used_in_bytes'], node['jvm']['mem']['heap_max_in_bytes']
-  rescue
+  rescue StandardError
     warning 'Failed to obtain heap used in bytes'
   end
 
@@ -166,7 +166,7 @@ class ESHeap < Sensu::Plugin::Check::CLI
     status = { crit: '', warn: '', ok: '' }
 
     # Check all the nodes in the cluster, alert if any of the nodes have heap usage above thresholds
-    stats['nodes'].each do |_, node|
+    stats['nodes'].each_value do |node|
       heap_used, heap_max = acquire_heap_data(node)
       heap_usage, output = acquire_heap_usage(heap_used, heap_max, node['name'])
       if heap_usage >= config[:crit]
