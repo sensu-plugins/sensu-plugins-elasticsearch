@@ -144,8 +144,8 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
   end
 
   def acquire_health
-    health = get_es_resource('/_cluster/health').reject { |k, _v| %w(cluster_name timed_out).include?(k) }
-    health['status'] = %w(red yellow green).index(health['status'])
+    health = get_es_resource('/_cluster/health').reject { |k, _v| %w[cluster_name timed_out].include?(k) }
+    health['status'] = %w[red yellow green].index(health['status'])
     health
   end
 
@@ -191,7 +191,7 @@ class ESClusterMetrics < Sensu::Plugin::Metric::CLI::Graphite
     cluster_config = get_es_resource('/_cluster/settings')
     transient_settings = cluster_config['transient']
     if transient_settings.key?('cluster')
-      return %w(none new_primaries primaries all).index(transient_settings['cluster']['routing']['allocation']['enable'])
+      return %w[none new_primaries primaries all].index(transient_settings['cluster']['routing']['allocation']['enable'])
     else
       return nil
     end

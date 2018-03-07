@@ -44,3 +44,11 @@ Style/GuardClause:
 Metrics/ModuleLength:
   Exclude:
     - 'lib/sensu-plugins-elasticsearch/elasticsearch-query.rb'
+
+# TODO: come cleanup the code that uses this once we figure out what we want to use
+Lint/UriEscapeUnescape:
+  Enabled: false
+
+# TODO: switch from `DateTime` to `Time` or `Date`
+Style/DateTime:
+  Enabled: false

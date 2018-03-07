@@ -107,7 +107,7 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
     # which is the ES default
     begin
       settings[type]['cluster']['routing']['allocation']['enable'].downcase
-    rescue
+    rescue StandardError
       'all'
     end
   end
