@@ -5,6 +5,8 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 ## [Unreleased]
 
+## [2.0.0] - 2018-03-07
+
 ### Security
 - updated rubocop dependency to `~> 0.51.0` per: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-8418. (@majormoses)
 
@@ -246,7 +248,8 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.12.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.12.0...2.0.0
 [1.12.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.11.1...1.12.0
 [1.11.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.11.0...1.11.1
 [1.11.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/1.10.0...1.11.0
