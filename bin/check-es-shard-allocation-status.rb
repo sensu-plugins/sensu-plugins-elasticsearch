@@ -76,6 +76,10 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
          short: '-P PASS',
          long: '--password PASS'
 
+  option :cert_file,
+         description: 'Cert file to use',
+         long: '--cert-file CERT'
+
   def get_es_resource(resource)
     headers = {}
     if config[:user] && config[:password]
@@ -83,7 +87,16 @@ class ESShardAllocationStatus < Sensu::Plugin::Check::CLI
       headers = { 'Authorization' => auth }
     end
 
-    r = RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}#{resource}", timeout: config[:timeout], headers: headers)
+    r = if config[:cert_file]
+          RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}#{resource}",
+                                   ssl_ca_file: config[:cert_file].to_s,
+                                   timeout: config[:timeout],
+                                   headers: headers)
+        else
+          RestClient::Resource.new("#{config[:scheme]}://#{config[:server]}:#{config[:port]}#{resource}",
+                                   timeout: config[:timeout],
+                                   headers: headers)
+        end
     JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'

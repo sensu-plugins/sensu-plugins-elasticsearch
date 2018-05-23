@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+### Added
+- check-es-shard-allocation-status.rb, check-es-file-descriptors.rb, check-es-heap.rb: added `--cert-file` option which allows you to specify a ca-cert to be used to verify TLS (@vin01)
 
 ## [2.0.1] - 2018-03-27
 ### Security
