@@ -5,6 +5,9 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 ## [Unreleased]
 
+### Breaking Changes
+- removed ruby support for versions `< 2.3` (@majormoses)
+
 ## [2.1.0] - 2018-05-23
 ### Added
 - check-es-shard-allocation-status.rb, check-es-file-descriptors.rb, check-es-heap.rb: added `--cert-file` option which allows you to specify a ca-cert to be used to verify TLS (@vin01)
