@@ -9,8 +9,6 @@ before_install:
 install:
 - bundle install
 rvm:
-- 2.1
-- 2.2
 - 2.3.0
 - 2.4.1
 notifications:
