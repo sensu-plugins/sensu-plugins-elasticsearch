@@ -314,7 +314,9 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     end
 
     metrics.each do |k, v|
-      output([config[:scheme], k].join('.'), v, timestamp)
+      if v.is_a? Numeric
+        output([config[:scheme], k].join('.'), v, timestamp)
+      end
     end
     ok
   end
