@@ -264,7 +264,9 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     node['indices'].each do |type, index|
       index.each do |k, v|
         # #YELLOW
-        unless k =~ /(_time$)/ || v =~ /\d+/
+        if k.end_with? 'is_throttled'
+          metrics["indices.#{type}.#{k}"] = v ? 1 : 0
+        elsif !(k =~ /(_time$)/ || v =~ /\d+/)
           metrics["indices.#{type}.#{k}"] = v
         end
       end
@@ -306,8 +308,9 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
     if fs_stats
       node['fs'].each do |fs, fs_value|
         unless fs =~ /(timestamp|data)/
-          fs_value.each do |k, v|
-            metrics["fs.#{fs}.#{k}"] = v
+          metrics_fs = hash_to_dotted_path(fs_value, "#{fs}.")
+          metrics_fs.each do |k, v|
+            metrics["fs.#{k}"] = v
           end
         end
       end
@@ -319,5 +322,23 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       end
     end
     ok
+  end
+end
+
+def hash_to_dotted_path(hash, path = "")
+  hash.each_with_object({}) do |(k, v), ret|
+    key = path + k.to_s
+    if v.is_a? Hash
+      ret.merge! hash_to_dotted_path(v, key.to_s + ".")
+    elsif v.is_a? Array
+      v.each do |element|
+        if element['device_name']
+          key2 = key.to_s + "." + element['device_name']
+          ret.merge! hash_to_dotted_path(element, key2.to_s + ".")
+        end
+      end
+    else
+      ret[key] = v
+    end
   end
 end
