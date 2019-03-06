@@ -344,11 +344,11 @@ def hash_to_dotted_path(hash, path = '')
 end
 
 def true?(obj)
-  if obj.to_s == "true"
+  if obj.to_s == 'true'
     true
-  elsif obj.to_s == "false"
+  elsif obj.to_s == 'false'
     false
   else
-    "#{obj.to_s} is not a truthy value, please open an issue with this output so we can fix it"
+    "#{obj} is not a truthy value, please open an issue with this output so we can fix it"
   end
 end
