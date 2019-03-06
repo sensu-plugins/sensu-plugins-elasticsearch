@@ -334,7 +334,7 @@ def hash_to_dotted_path(hash, path = "")
       v.each do |element|
         if element['device_name']
           key2 = "{key}.#{element['device_name']}"
-          ret.merge! hash_to_dotted_path(element, key2.to_s + ".")
+          ret.merge! hash_to_dotted_path(element, "#{key2}.")
         end
       end
     else
