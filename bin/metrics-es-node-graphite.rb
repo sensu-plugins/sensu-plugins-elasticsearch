@@ -265,7 +265,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
       index.each do |k, v|
         # #YELLOW
         if k.end_with? 'is_throttled'
-          metrics["indices.#{type}.#{k}"] = v ? 1 : 0
+          metrics["indices.#{type}.#{k}"] = true?(v) ? 1 : 0
         elsif !(k =~ /(_time$)/ || v =~ /\d+/)
           metrics["indices.#{type}.#{k}"] = v
         end
@@ -325,7 +325,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
   end
 end
 
-def hash_to_dotted_path(hash, path = "")
+def hash_to_dotted_path(hash, path = '')
   hash.each_with_object({}) do |(k, v), ret|
     key = path + k.to_s
     if v.is_a? Hash
@@ -333,12 +333,22 @@ def hash_to_dotted_path(hash, path = "")
     elsif v.is_a? Array
       v.each do |element|
         if element['device_name']
-          key2 = "{key}.#{element['device_name']}"
+          key2 = "#{key}.#{element['device_name']}"
           ret.merge! hash_to_dotted_path(element, "#{key2}.")
         end
       end
     else
       ret[key] = v
     end
+  end
+end
+
+def true?(obj)
+  if obj.to_s == "true"
+    true
+  elsif obj.to_s == "false"
+    false
+  else
+    "#{obj.to_s} is not a truthy value, please open an issue with this output so we can fix it"
   end
 end
