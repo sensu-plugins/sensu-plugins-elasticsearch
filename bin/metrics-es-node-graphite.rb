@@ -329,7 +329,7 @@ def hash_to_dotted_path(hash, path = "")
   hash.each_with_object({}) do |(k, v), ret|
     key = path + k.to_s
     if v.is_a? Hash
-      ret.merge! hash_to_dotted_path(v, key.to_s + ".")
+      ret.merge! hash_to_dotted_path(v, "#{key}.")
     elsif v.is_a? Array
       v.each do |element|
         if element['device_name']
