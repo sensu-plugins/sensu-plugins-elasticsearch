@@ -38,7 +38,7 @@ deploy:
     rvm: 2.4.1
     repo: sensu-plugins/sensu-plugins-elasticsearch
 - provider: script
-  script: bonsai/ruby-runtime/travis-build-ruby-plugin-assets.sh sensu-plugins-elasticsearch-checks
+  script: bonsai/ruby-runtime/travis-build-ruby-plugin-assets.sh sensu-plugins-elasticsearch
   skip_cleanup: true
   on:
     tags: true
