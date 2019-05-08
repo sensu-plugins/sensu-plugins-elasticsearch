@@ -8,7 +8,7 @@ builds:
   filter:
   -  "entity.system.os == 'linux'"
   -  "entity.system.arch == 'amd64'"
-  -  "entity.system.platform == 'debian'"
+  -  "entity.system.platform_family == 'debian'"
 - platform: "centos"
   arch: "amd64"
   asset_filename: "#{repo}_#{version}_centos_linux_amd64.tar.gz"
@@ -16,7 +16,7 @@ builds:
   filter:
   -  "entity.system.os == 'linux'"
   -  "entity.system.arch == 'amd64'"
-  -  "entity.system.platform == 'rhel'"
+  -  "entity.system.platform_family == 'rhel'"
 - platform: "alpine"
   arch: "amd64"
   asset_filename: "#{repo}_#{version}_alpine_linux_amd64.tar.gz"
