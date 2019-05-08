@@ -1,6 +1,6 @@
 module SensuPluginsElasticsearch
   module Version
-    MAJOR = 3
+    MAJOR = 4
     MINOR = 0
     PATCH = 0
 
