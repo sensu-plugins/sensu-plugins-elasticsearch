@@ -20,13 +20,15 @@ notifications:
 
 before_script:
   - docker run --name sensu-elasticsearch-6 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -d docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.2
+  - bash -c "[ ! -d bonsai/ ] && git clone https://github.com/sensu/sensu-go-bonsai-asset.git bonsai || echo 'bonsai/ exists, skipping git clone'"
+
 script:
 - gem build sensu-plugins-elasticsearch.gemspec
 - gem install sensu-plugins-elasticsearch-*.gem
 - bundle exec rake quick
-- bundle exec rake kitchen:ruby-`echo $TRAVIS_RUBY_VERSION | sed -e "s/\.//g"`-debian-8
+#- bundle exec rake kitchen:ruby-`echo $TRAVIS_RUBY_VERSION | sed -e "s/\.//g"`-debian-8
 deploy:
-  provider: rubygems
+- provider: rubygems
   api_key:
     secure: lF7CO6Vfmd9+PR4vDdv5E4iL+NuOUacQR19DhBY+TNrz/BSD+ehAlaGMshbFICpZ6BtUKVj+lMlmjiKHEfcKrPuovO4AUE4wRQRiD/LSorBdgM06iJL6mGblrMiyCMfBs0FLkXVdrQRa5AHGY8Assw+JGS58Xrnh1pvttgP6Tyw=
   gem: sensu-plugins-elasticsearch
@@ -35,3 +37,11 @@ deploy:
     all_branches: true
     rvm: 2.4.1
     repo: sensu-plugins/sensu-plugins-elasticsearch
+- provider: script
+  script: bonsai/ruby-runtime/travis-build-ruby-plugin-assets.sh sensu-plugins-elasticsearch
+  skip_cleanup: true
+  on:
+    tags: true
+    all_branches: true
+    rvm: 2.4.1
+    
