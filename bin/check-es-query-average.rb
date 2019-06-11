@@ -149,6 +149,16 @@ class ESQueryAverage < Sensu::Plugin::Check::CLI
          required: false,
          default: true
 
+  option :aggr_type,
+         description: 'Elasticsearch query aggr type (avg)',
+         long: '--aggr_type',
+         default: 'avg'
+
+  option :aggr_name,
+         description: 'Elasticsearch query aggr name (average)',
+         long: '--aggr_name',
+         default: 'average'
+
   option :aggr_field,
          description: 'Elasticsearch query field to aggregate and average from',
          short: '-a FIELD',
@@ -257,28 +267,28 @@ class ESQueryAverage < Sensu::Plugin::Check::CLI
   def run
     response = client.search(build_request_options)
     if config[:invert]
-      if response['aggregations']['average']['value'] < config[:crit]
-        critical "Query average (#{response['aggregations']['average']['value']}) was below critical threshold. #{kibana_info}"
-      elsif response['aggregations']['average']['value'] < config[:warn]
-        warning "Query average (#{response['aggregations']['average']['value']}) was below warning threshold. #{kibana_info}"
+      if response['aggregations'][config[:aggr_name]]['value'] < config[:crit]
+        critical "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was below critical threshold. #{kibana_info}"
+      elsif response['aggregations'][config[:aggr_name]]['value'] < config[:warn]
+        warning "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was below warning threshold. #{kibana_info}"
       else
-        ok "Query average (#{response['aggregations']['average']['value']}) was ok"
+        ok "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was ok"
       end
-    elsif response['aggregations']['average']['value'] > config[:crit]
-      critical "Query average (#{response['aggregations']['average']['value']}) was above critical threshold. #{kibana_info}"
-    elsif response['aggregations']['average']['value'] > config[:warn]
-      warning "Query average (#{response['aggregations']['average']['value']}) was above warning threshold. #{kibana_info}"
+    elsif response['aggregations'][config[:aggr_name]]['value'] > config[:crit]
+      critical "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was above critical threshold. #{kibana_info}"
+    elsif response['aggregations'][config[:aggr_name]]['value'] > config[:warn]
+      warning "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was above warning threshold. #{kibana_info}"
     else
-      ok "Query average (#{response['aggregations']['average']['value']}) was ok"
+      ok "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was ok"
     end
   rescue Elasticsearch::Transport::Transport::Errors::NotFound
     if config[:invert]
-      if response['aggregations']['average']['value'] < config[:crit]
-        critical "Query average (#{response['aggregations']['average']['value']}) was below critical threshold. #{kibana_info}"
-      elsif response['aggregations']['average']['value'] < config[:warn]
-        warning "Query average (#{response['aggregations']['average']['value']}) was below warning threshold. #{kibana_info}"
+      if response['aggregations'][config[:aggr_name]]['value'] < config[:crit]
+        critical "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was below critical threshold. #{kibana_info}"
+      elsif response['aggregations'][config[:aggr_name]]['value'] < config[:warn]
+        warning "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was below warning threshold. #{kibana_info}"
       else
-        ok "Query average (#{response['aggregations']['average']['value']}) was ok"
+        ok "Query average (#{response['aggregations'][config[:aggr_name]]['value']}) was ok"
       end
     else
       ok 'No results found, average was below thresholds'

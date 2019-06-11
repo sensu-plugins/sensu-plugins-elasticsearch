@@ -100,7 +100,7 @@ module ElasticsearchQuery
           }
         },
         'aggregations' => {
-          'average' => { 'avg' => { 'field' => config[:aggr_field] } }
+          config[:aggr_name] => { config[:aggr_type] => { 'field' => config[:aggr_field] } }
         }
       }
     else
