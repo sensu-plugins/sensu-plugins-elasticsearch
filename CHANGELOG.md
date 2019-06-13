@@ -6,7 +6,7 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 ## [Unreleased]
 ### Changed
 - elasticsearch-query.rb: changed literal aggregation name and 'type' to config vars
-- check-es-query-average.rb: changed literal aggregation name and 'type' to use the new config vars
+- check-es-query-average.rb: changed literal aggregation name average and type avg to use the new config vars
 
 ## [4.0.0] - 2019-05-07
 ### Breaking Changes
