@@ -151,12 +151,12 @@ class ESQueryAverage < Sensu::Plugin::Check::CLI
 
   option :aggr_type,
          description: 'Elasticsearch query aggr type (avg)',
-         long: '--aggr_type',
+         long: '--aggr-type',
          default: 'avg'
 
   option :aggr_name,
          description: 'Elasticsearch query aggr name (average)',
-         long: '--aggr_name',
+         long: '--aggr-name',
          default: 'average'
 
   option :aggr_field,
