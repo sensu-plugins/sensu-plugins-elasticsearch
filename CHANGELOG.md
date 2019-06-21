@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+
+## [4.0.1] - 2019-06-21
 ### Fixed
 - Fix for JSON.parse in metrics checks commands that inheret from Sensu::Plugin::Metric::CLI::JSON:Class
 
@@ -269,7 +271,8 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.1...HEAD
+[4.0.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/3.0.0...4.0.0
 [3.0.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/2.1.0...3.0.0
 [2.1.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/2.0.1...2.1.0
