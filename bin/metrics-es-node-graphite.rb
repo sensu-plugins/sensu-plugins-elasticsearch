@@ -142,7 +142,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
                                    timeout: config[:timeout],
                                    headers: headers)
         end
-    JSON.parse(r.get)
+    ::JSON.parse(r.get)
   rescue Errno::ECONNREFUSED
     warning 'Connection refused'
   rescue RestClient::RequestTimeout
