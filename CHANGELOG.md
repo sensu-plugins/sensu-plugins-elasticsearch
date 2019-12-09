@@ -5,6 +5,9 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 ## [Unreleased]
 
+### Added
+- Updated asset build targets to support centos6
+
 ## [4.0.1] - 2019-06-21
 ### Fixed
 - Fix for JSON.parse in metrics checks commands that inheret from Sensu::Plugin::Metric::CLI::JSON:Class
