@@ -15,6 +15,7 @@
     - [Asset registration](#asset-registration)
     - [Asset definition](#asset-definition)
     - [Check definition](#check-definition)
+    - [Handler definition](#handler-definition)
   - [Sensu Core](#sensu-core)
     - [Check definition](#check-definition)
 - [Installation from source](#installation-from-source)
