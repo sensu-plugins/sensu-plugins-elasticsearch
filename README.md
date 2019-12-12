@@ -236,7 +236,7 @@ The Sensu assets packaged from this repository are built against the Sensu Ruby 
 
 ### Use this plugin with Sensu Go
 
-To use `handler-es-delete-indices.rb` with Sensu Go, you will need to use the event mapping command line option. S `handler-es-delete-indices.rb --help` for details. Read the [sensu-plugin README](https://github.com/sensu-plugins/sensu-plugin#sensu-go-enablement) for more information about the event mapping functionality.
+To use `handler-es-delete-indices.rb` with Sensu Go, you will need to use the event mapping command line option. See `handler-es-delete-indices.rb --help` for details. Read the [sensu-plugin README](https://github.com/sensu-plugins/sensu-plugin#sensu-go-enablement) for more information about the event mapping functionality.
 
 ## Testing
 
