@@ -234,7 +234,7 @@ Install and setup plugins on [Sensu Core](https://docs.sensu.io/sensu-core/lates
 
 The Sensu assets packaged from this repository are built against the Sensu Ruby runtime environment. When using these assets as part of a Sensu Go resource (check, mutator, or handler), make sure to include the corresponding [Sensu Ruby Runtime Asset](https://bonsai.sensu.io/assets/sensu/sensu-ruby-runtime) in the list of assets needed by the resource.
 
-### Event mapping
+### Use this plugin with Sensu Go
 
 To use `handler-es-delete-indices.rb` with Sensu Go, you will need to use the event mapping command line option. S `handler-es-delete-indices.rb --help` for details. Read the [sensu-plugin README](https://github.com/sensu-plugins/sensu-plugin#sensu-go-enablement) for more information about the event mapping functionality.
 
