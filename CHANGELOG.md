@@ -9,6 +9,10 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - Updated asset build targets to support centos6
 - Removed centos from bonsai asset definition
 
+## [4.1.0] 2020-01-09
+### Changed
+- Update rest-client requirement from `= 1.8.0` to `= 2.1.0` (@dependabot-preview)
+
 ## [4.0.1] - 2019-06-21
 ### Fixed
 - Fix for JSON.parse in metrics checks commands that inheret from Sensu::Plugin::Metric::CLI::JSON:Class
@@ -275,7 +279,8 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.1...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.1.0...HEAD
+[4.1.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.1...4.1.0
 [4.0.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/3.0.0...4.0.0
 [3.0.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/2.1.0...3.0.0
