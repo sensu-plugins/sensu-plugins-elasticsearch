@@ -5,6 +5,11 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 ## [Unreleased]
 
+### Added
+- Updated asset build targets to support centos6
+- Removed centos from bonsai asset definition
+- Updated bundler requirement from '~> 1.7' to '~> 2.1'
+
 ## [4.1.0] 2020-01-09
 ### Changed
 - Update rest-client requirement from `= 1.8.0` to `= 2.1.0` (@dependabot-preview)
