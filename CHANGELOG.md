@@ -5,6 +5,7 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 ## [Unreleased]
 
+## [4.2.0] 2020-05-11
 ### Added
 - Updated asset build targets to support centos6
 - Removed centos from bonsai asset definition
@@ -280,7 +281,8 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.1.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.2.0...HEAD
+[4.2.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.1.0...4.2.0
 [4.1.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.1...4.1.0
 [4.0.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/3.0.0...4.0.0
