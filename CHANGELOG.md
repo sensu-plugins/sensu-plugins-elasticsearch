@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+
+## [4.2.1] 2020-12-09
 ### Fixed
 - metrics-es-node-graphite.rb: request URL now constructed correctly when `--cert-file` flag is used
 
@@ -283,7 +285,8 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 - initial release
 
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.2.0...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.2.1...HEAD
+[4.2.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.2.0...4.2.1
 [4.2.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.1.0...4.2.0
 [4.1.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.1...4.1.0
 [4.0.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.0...4.0.1
