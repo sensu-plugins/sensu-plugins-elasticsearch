@@ -5,6 +5,10 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 ## [Unreleased]
 
+## [4.2.2] 2020-12-09
+### Changed
+- Replaced CentOS 6 in Bonsai with CentOS 8
+
 ## [4.2.1] 2020-12-09
 ### Fixed
 - metrics-es-node-graphite.rb: request URL now constructed correctly when `--cert-file` flag is used
@@ -286,6 +290,7 @@ This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins
 
 
 [Unreleased]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.2.1...HEAD
+[4.2.2]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.2.1...4.2.2
 [4.2.1]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.2.0...4.2.1
 [4.2.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.1.0...4.2.0
 [4.1.0]: https://github.com/sensu-plugins/sensu-plugins-elasticsearch/compare/4.0.1...4.1.0
