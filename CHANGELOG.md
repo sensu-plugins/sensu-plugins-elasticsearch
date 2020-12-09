@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed [here](https://github.com/sensu-plugins/community/blob/master/HOW_WE_CHANGELOG.md)
 
 ## [Unreleased]
+### Fixed
+- metrics-es-node-graphite.rb: request URL now constructed correctly when `--cert-file` flag is used
 
 ## [4.2.0] 2020-05-11
 ### Added

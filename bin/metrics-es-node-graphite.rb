@@ -133,7 +133,7 @@ class ESNodeGraphiteMetrics < Sensu::Plugin::Metric::CLI::Graphite
                end
 
     r = if config[:cert_file]
-          RestClient::Resource.new("#{protocol}://#{config[:host]}:#{config[:port]}#{resource}",
+          RestClient::Resource.new("#{protocol}://#{config[:server]}:#{config[:port]}#{resource}?pretty",
                                    ssl_ca_file: config[:cert_file].to_s,
                                    timeout: config[:timeout],
                                    headers: headers)
