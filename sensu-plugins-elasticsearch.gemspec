@@ -43,7 +43,7 @@ Gem::Specification.new do |s| # rubocop:disable Metrics/BlockLength
   s.add_development_dependency 'github-markup',             '~> 4.0'
   s.add_development_dependency 'kitchen-docker',            '~> 2.6'
   # locked to keep ruby 2.1 support, this is pulled in by test-kitchen
-  s.add_development_dependency 'mixlib-shellout',           ['< 2.3.0', '~> 2.2']
+  s.add_development_dependency 'mixlib-shellout',           '~> 2.2', '< 3.3.0'
   s.add_development_dependency 'pry',                       '~> 0.10'
   s.add_development_dependency 'rake',                      '~> 13.0'
   s.add_development_dependency 'redcarpet',                 '~> 3.2'
