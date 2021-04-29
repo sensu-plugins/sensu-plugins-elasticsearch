@@ -255,6 +255,8 @@ class ESQueryAverage < Sensu::Plugin::Check::CLI
   end
 
   def run
+    config[:aggr_name] = 'average'
+    config[:aggr_type] = 'avg'
     response = client.search(build_request_options)
     if config[:invert]
       if response['aggregations']['average']['value'] < config[:crit]
