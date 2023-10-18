@@ -35,7 +35,7 @@
 
 ## Installation
 
-[Installation and Setup](http://sensu-plugins.io/docs/installation_instructions.html)
+[Installation and Setup](https://docs.sensu.io/sensu-go/latest/plugins/install-plugins/)
 
 ## Notes
 When using `handler-es-delete-indices.rb` with Sensu Go, you will need to use the event mapping commandline option, see `handler-es-delete-indices.rb --help` for details. And please read [the sensu-plugin README](https://github.com/sensu-plugins/sensu-plugin#sensu-go-enablement) for more information on the event mapping functionality.
